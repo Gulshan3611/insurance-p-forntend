@@ -1,0 +1,15 @@
+<div class="main-wrapper">
+    <app-navbar></app-navbar>
+    <app-sidebar></app-sidebar>
+    <div class="app-content content" [ngClass]="{ hide: !!_sidebarService.IsSideBarShow === false }">
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper">
+            <div class="content-header row">
+            </div>
+            <div class="content-body">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

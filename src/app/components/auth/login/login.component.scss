@@ -1,0 +1,37 @@
+.app-content.content {
+    min-height: calc(100% - 4rem);
+    margin-left: 0 !important;
+  }
+  
+  .bg-authentication {
+    background-color: #eff2f7;
+  }
+  .bg-authentication .login-footer {
+    padding: 0rem 1.5rem 0.5rem;
+  }
+  .bg-authentication .login-footer .footer-btn .btn {
+    padding: 0.9rem 1.2rem !important;
+    margin: 1rem 1rem 1rem 0rem;
+  }
+  
+  .col-lg-6 .card.rounded-0 {
+      padding: 60px 0;
+  }
+  
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .bg-authentication {
+      width: 100%;
+    }
+  }
+.account-box  .form-control{
+  padding-right: 35px;
+}
+
+.passEye{
+  position: absolute;
+  top: 0%;
+  right: 0;
+  background: transparent;
+  border: 0;
+  min-height: 40px;
+}

@@ -1,1 +1,44 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Importing Bootstrap SCSS file. */
+// @import '~bootstrap/scss/bootstrap';
+@import "~ngx-toastr/toastr";
+// @import "~@ng-select/ng-select/themes/material.theme.css";
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+.app-content.content.hide {
+  margin-left: 80px !important;
+}
+
+.header-navbar.hide {
+  width: calc(100vw - (100vw - 100%) - calc(2.2rem * 2) - 80px);
+}
+.main-menu {
+  transition: all 0.2s ease-in-out;
+  &.hide {
+    .navbar-header {
+      width: 80px;
+
+      .nav.navbar-nav {
+        li {
+          &:first-child {
+            display: none;
+          }
+        }
+      }
+      .nav-item.nav-toggle {
+        padding: 0.35rem 1rem 0.3rem 0.5rem;
+      }
+    }
+    .navigation {
+        & > li {
+            & > a {
+                text-overflow: revert;
+                span {
+                    display: none;
+                }
+            }
+        }
+    }
+  }
+}
