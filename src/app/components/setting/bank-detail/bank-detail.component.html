@@ -1,0 +1,81 @@
+<form class="validate-form" (ngSubmit)="(f.form.valid)" #f="ngForm" novalidate>
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                <label for="account-name">Company Name</label>
+                <ng-select name="company" [(ngModel)]="bank.company" #company="ngModel" placeholder="Select Country" required>
+                    <ng-container> 
+                        <ng-option value="omnist">Omnist</ng-option>
+                        <ng-option value="infosys">Infosys</ng-option>
+                        <ng-option value="microsoft">Microsoft</ng-option>
+                        <ng-option value="google">Google</ng-option>
+                        <ng-option value="ibm">IBM</ng-option>
+                    </ng-container>
+                </ng-select>
+                <div *ngIf="company.invalid && showError" class="form-text text-danger">
+                    <small *ngIf="company.errors?.['required']">State is required </small>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                <label for="account-name">Bank Name</label>
+                <ng-select name="bankName" [(ngModel)]="bank.bankName" #bankName="ngModel" placeholder="Select Country" required>
+                    <ng-container> 
+                        <ng-option value="Bank of Baroda">Bank of Baroda</ng-option>
+                        <ng-option value="Bank of India">Bank of India</ng-option>
+                        <ng-option value="Indian Bank">Indian Bank</ng-option>
+                        <ng-option value="Punjab National Bank">Punjab National Bank</ng-option>
+                        <ng-option value="Yes Bank">Yes Bank</ng-option> 
+                        <ng-option value="ICICI Bank">ICICI Bank</ng-option> 
+                    </ng-container>
+                </ng-select>
+                <div *ngIf="bankName.invalid && showError" class="form-text text-danger">
+                    <small *ngIf="bankName.errors?.['required']">State is required </small>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                <label for="account-name">Bank Branch</label>
+                <input class="form-control" type="text" pattern="[a-zA-Z0-9/-_ ]*" name="bankBranch"
+                    [(ngModel)]="bank.bankBranch" #bankBranch="ngModel" required>
+
+                <div *ngIf="bankBranch.invalid && showError" class="form-text text-danger">
+                    <small *ngIf="bankBranch.errors?.['required']">Bank branch name is required </small>
+                    <small *ngIf="bankBranch.errors?.['pattern']"> Please enter valid bank branch</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                <label for="account-name">Bank IFSC</label>
+                <input class="form-control" type="text" pattern="^[A-Z]{4}0[A-Z0-9]{6}$" name="bankIfsc"
+                    [(ngModel)]="bank.bankIfsc" #bankIfsc="ngModel" required>
+
+                <div *ngIf="bankIfsc.invalid && showError" class="form-text text-danger">
+                    <small *ngIf="bankIfsc.errors?.['required']">Bank IFSC name is required </small>
+                    <small *ngIf="bankIfsc.errors?.['pattern']"> Please enter valid bank IFSC</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                <label for="account-name">Bank Account Number</label>
+                <input class="form-control" type="text" pattern="[0-9]{16,18}" name="bankAccountNumber" maxlength="18"
+                    [(ngModel)]="bank.bankAccountNumber" #bankAccountNumber="ngModel" required>
+
+                <div *ngIf="bankAccountNumber.invalid && showError" class="form-text text-danger">
+                    <small *ngIf="bankAccountNumber.errors?.['required']">Bank account number is required </small>
+                    <small *ngIf="bankAccountNumber.errors?.['pattern']"> Please enter valid bank account number</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary mr-1" (click)="onSubmit(f.form.valid)"
+                rippleEffect>{{loading?'Please wait
+                ...':'Save
+                changes'}}</button>
+        </div>
+    </div>
+</form>

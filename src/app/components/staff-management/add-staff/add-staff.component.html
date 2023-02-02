@@ -1,0 +1,275 @@
+<div class="content-body">
+    <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="row flex-grow">
+                <div class="col-12 stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Add New Staff</h4>
+                            <form class="forms-sample" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
+                                <div class="form-group row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Name*</label>
+                                            <input type="text" class="form-control" id="exampleInputName1"
+                                                placeholder="Enter Name" pattern="[a-zA-Z0-9 ]*" name="name"
+                                                [(ngModel)]="staffForm.name" #name="ngModel"
+                                                minlength="2" maxlength="60" required>
+                                            <span class="form-text text-danger" *ngIf="name.invalid && showError">
+                                                <span class="form-text text-danger"
+                                                    *ngIf="name.errors?.['required']">Name is
+                                                    required</span>
+                                                <span class="form-text text-danger"
+                                                    [hidden]="!name.errors?.['minlength']">
+                                                    Please enter name between 2 and 60.
+                                                </span>
+                                                <span class="form-text text-danger"
+                                                    [hidden]="!name.errors?.['pattern']">
+                                                    Please enter valid name.
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Phone*</label>
+                                            <input type="text"
+                                                pattern="^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$" maxlength="10"
+                                                class="form-control" id="exampleInputName1"
+                                                placeholder="Enter Phone Number" name="phone"
+                                                [(ngModel)]="staffForm.phone" #phone="ngModel"
+                                                required>
+                                            <span class="form-text text-danger" *ngIf="phone.invalid && showError">
+                                                <span class="form-text text-danger"
+                                                    *ngIf="phone.errors?.['required']">Phone
+                                                    Number
+                                                    is required</span>
+                                                <span class="form-text text-danger"
+                                                    [hidden]="!phone.errors?.['pattern']">Please
+                                                    enter
+                                                    valid
+                                                    phone number</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Email*</label>
+                                            <input type="text" class="form-control" id="exampleInputName1"
+                                                placeholder="Enter Email"
+                                                pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" maxlength="180"
+                                                name="email" [(ngModel)]="staffForm.email" #email="ngModel"
+                                                required>
+                                            <span class="form-text text-danger" *ngIf="email.invalid && showError">
+                                                <span class="form-text text-danger"
+                                                    *ngIf="email.errors?.['required']">Email
+                                                    is
+                                                    required</span>
+                                                <span class="form-text text-danger"
+                                                    [hidden]="!email.errors?.['pattern']">
+                                                    Invalid email address. Please enter your email address in format
+                                                    youname@example.com
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Password*</label>
+                                            <input type="text" class="form-control" id="exampleInputName1"
+                                                placeholder="Enter Password" name="password"
+                                                [(ngModel)]="staffForm.password" #password="ngModel"
+                                                required>
+                                            <span class="form-text text-danger"
+                                                *ngIf="password.invalid && showError">
+                                                <span class="form-text text-danger"
+                                                    *ngIf="password.errors?.['required']">Password is
+                                                    required</span>
+                                                <!-- <span class="form-text text-danger" [hidden]="!password.errors?.minlength">
+                                        Please enter password between 2 and 60.
+                                    </span>
+                                    <span class="form-text text-danger" [hidden]="!password.errors?.pattern">
+                                        Please enter valid password.
+                                    </span> -->
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Role*</label>
+                                            <select class="form-control" id="exampleInputName1" name="role"
+                                                [(ngModel)]="staffForm.role" #role="ngModel"
+                                                required>
+                                                <option value="" disabled>Select Role</option>
+                                                <option *ngFor="let role of roleList" [ngValue]="role.id">
+                                                    {{role?.name}}
+                                                </option>
+                                            </select>
+                                            <span class="form-text text-danger" *ngIf="role.invalid && showError">
+                                                <span class="form-text text-danger"
+                                                    *ngIf="role.errors?.['required']">Role is
+                                                    required</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Contact Person Name*</label>
+                                            <input type="text" class="form-control" id="exampleInputName1"
+                                                placeholder="Enter Name" pattern="[a-zA-Z0-9 ]*"
+                                                name="contactPersonName" [(ngModel)]="staffForm.contactPersonName"
+                                                #contactPersonName="ngModel"
+                                                minlength="2" maxlength="60" required>
+                                            <span class="form-text text-danger"
+                                                *ngIf="contactPersonName.invalid && showError">
+                                                <span class="form-text text-danger"
+                                                    *ngIf="contactPersonName.errors?.['required']">Contact Person Name is
+                                                    required</span>
+                                                <span class="form-text text-danger"
+                                                    [hidden]="!contactPersonName.errors?.['minlength']">
+                                                    Please enter contact person name between 2 and 60.
+                                                </span>
+                                                <span class="form-text text-danger"
+                                                    [hidden]="!contactPersonName.errors?.['pattern']">
+                                                    Please enter valid contact person name.
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Contact Person Number*</label>
+                                            <input type="text"
+                                                pattern="^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$" maxlength="10"
+                                                class="form-control" id="exampleInputName1"
+                                                placeholder="Enter Phone Number" name="contactPersonNumber"
+                                                [(ngModel)]="staffForm.contactPersonNumber"
+                                                #contactPersonNumber="ngModel"
+                                                required>
+                                            <span class="form-text text-danger"
+                                                *ngIf="contactPersonNumber.invalid && showError">
+                                                <span class="form-text text-danger"
+                                                    *ngIf="contactPersonNumber.errors?.['required']">Contact Person
+                                                    Number
+                                                    Number
+                                                    is required</span>
+                                                <span class="form-text text-danger"
+                                                    [hidden]="!contactPersonNumber.errors?.['pattern']">Please
+                                                    enter
+                                                    valid
+                                                    phone number</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Contact Person Email*</label>
+                                            <input type="text" class="form-control" id="exampleInputName1"
+                                                placeholder="Enter Email"
+                                                pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" maxlength="180"
+                                                name="contactPersonEmail" [(ngModel)]="staffForm.contactPersonEmail"
+                                                #contactPersonEmail="ngModel"
+                                                required>
+                                            <span class="form-text text-danger"
+                                                *ngIf="contactPersonEmail.invalid && showError">
+                                                <span class="form-text text-danger"
+                                                    *ngIf="contactPersonEmail.errors?.['required']">Contact Person Email
+                                                    is
+                                                    required</span>
+                                                <span class="form-text text-danger"
+                                                    [hidden]="!contactPersonEmail.errors?.['pattern']">
+                                                    Invalid contact person email address. Please enter your contact
+                                                    person email address in format
+                                                    youname@example.com
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="exampleInputName1" class="col-sm-2 col-form-label">Address</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"
+                                            (keydown.enter)="$event.preventDefault()" placeholder="Address"
+                                            name="address" #address="ngModel" [(ngModel)]="staffForm.address"
+                                            autocorrect="off" autocapitalize="off" spellcheck="off" type="text"
+                                            #search required>
+                                        <span class="form-text text-danger" *ngIf="address.invalid && showError">
+                                            <span class="form-text text-danger" *ngIf="address.errors?.['required']">Address
+                                                is
+                                                required</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="exampleInputName1" class="col-sm-2 col-form-label"
+                                        style="visibility: hidden;">Address</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="exampleInputName1"
+                                            placeholder="Country" name="country" #country="ngModel"
+                                            [(ngModel)]="staffForm.country" #fax="ngModel" required>
+                                        <span class="form-text text-danger" *ngIf="country.invalid && showError">
+                                            <span class="form-text text-danger" *ngIf="country.errors?.['required']">Country
+                                                is
+                                                required</span>
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="exampleInputName1"
+                                            placeholder="State" name="state" #state="ngModel"
+                                            [(ngModel)]="staffForm.state" #fax="ngModel" required>
+                                        <span class="form-text text-danger" *ngIf="state.invalid && showError">
+                                            <span class="form-text text-danger" *ngIf="state.errors?.['required']">State is
+                                                required</span>
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control" id="exampleInputName1"
+                                            placeholder="City" name="city" #city="ngModel"
+                                            [(ngModel)]="staffForm.city" #fax="ngModel" required>
+                                        <span class="form-text text-danger" *ngIf="city.invalid && showError">
+                                            <span class="form-text text-danger" *ngIf="city.errors?.['required']">City is
+                                                required</span>
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control" id="exampleInputName1"
+                                            placeholder="Zip" name="zipcode" #zipcode="ngModel"
+                                            [(ngModel)]="staffForm.zipcode" #fax="ngModel" required>
+                                        <span class="form-text text-danger" *ngIf="zipcode.invalid && showError">
+                                            <span class="form-text text-danger" *ngIf="zipcode.errors?.['required']">Zip code
+                                                is
+                                                required</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="exampleInputName1" class="col-sm-2 col-form-label">Status</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" id="exampleInputName1" name="status"
+                                            [(ngModel)]="staffForm.status" #status="ngModel"
+                                            required>
+                                            <option value="" disabled>Select Status</option>
+                                            <option value="1">Active</option>
+                                            <option value="0">In-Active</option>
+                                        </select>
+                                        <span class="form-text text-danger" *ngIf="status.invalid && showError">
+                                            <span class="form-text text-danger"
+                                                *ngIf="status.errors?.['required']">Status is
+                                                required</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary mr-2"
+                                    (click)="onSubmit(f.form.valid)">{{loading?'Please wait ...':'Submit'}}</button>
+                                <button class="btn btn-danger" [routerLink]="['/staff-management/list']"
+                                    routerLinkActive="router-link-active">Cancel</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

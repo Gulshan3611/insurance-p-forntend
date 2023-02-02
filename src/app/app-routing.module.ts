@@ -67,6 +67,17 @@ const routes: Routes = [
       },
     ]
   },
+  {
+    path: '',
+    component: FullComponent, 
+    // canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'setting',
+        loadChildren: () => import('./components/setting/setting.module').then(m => m.SettingModule)
+      },
+    ]
+  },
   { 
     path: '**', 
     component: PageNotFoundComponent 

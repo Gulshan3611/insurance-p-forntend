@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BasicAuthInterceptor, AuthGuard, ErrorInterceptor, TimeoutInterceptor, DEFAULT_TIMEOUT } from '../app/_helpers';
-import { AdminService, AuthService, SidebarService, updateHeaderService } from './_services';
+import { AdminService, AuthService, SidebarService, updateHeaderService, RoleService, StaffService } from './_services';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
@@ -67,10 +67,12 @@ import { ManageInvoiceComponent } from './components/manage-invoice/manage-invoi
     ToastrModule.forRoot(),
   ],
   providers: [
-    AdminService,
-    AuthService,
     SidebarService,
     updateHeaderService,
+    AdminService,
+    AuthService,
+    RoleService,
+    StaffService,
     // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },

@@ -70,7 +70,7 @@ body.vertical-layout.vertical-menu-modern.menu-expanded
 
 .main-menu {
   width: 260px;
-
+  
   &.hide {
     width: 75px !important;
     .navbar-brand {
@@ -93,11 +93,11 @@ body.vertical-layout.vertical-menu-modern.menu-expanded
   margin-right: 0.5rem;
 }
 
-.navigation li a {
-  // text-overflow: revert;
+// .navigation li a {
+//   text-overflow: revert;
 
-  // span{
-  //   text-overflow: ellipsis;
-  //   overflow: hidden;
-  // }
-}
+//   span{
+//     text-overflow: ellipsis;
+//     overflow: hidden;
+//   }
+// }
