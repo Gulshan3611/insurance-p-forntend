@@ -73,6 +73,28 @@ const routes: Routes = [
     // canActivate: [AuthGuard],
     children: [
       {
+        path: 'project-management',
+        loadChildren: () => import('./components/project-management/project-management.module').then(m => m.ProjectManagementModule)
+      },
+    ]
+  },
+  {
+    path: '',
+    component: FullComponent, 
+    // canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'client-management',
+        loadChildren: () => import('./components/client/client.module').then(m => m.ClientModule)
+      },
+    ]
+  },
+  {
+    path: '',
+    component: FullComponent, 
+    // canActivate: [AuthGuard],
+    children: [
+      {
         path: 'setting',
         loadChildren: () => import('./components/setting/setting.module').then(m => m.SettingModule)
       },

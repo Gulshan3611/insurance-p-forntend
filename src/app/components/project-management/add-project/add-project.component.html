@@ -1,0 +1,163 @@
+<div class="content-body">
+    <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="row flex-grow">
+                <div class="col-12 stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Add New Project</h4>
+                            <form class="forms-sample" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
+                                <div class="form-group row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Project Type</label>
+                                            <ng-select name="projectType" [(ngModel)]="addProject.projectType"
+                                                #projectType="ngModel" required>
+                                                <ng-container>
+                                                    <ng-option value="hourly"> Hourly </ng-option>
+                                                    <ng-option value="project_monthly"> Project on Monthly </ng-option>
+                                                    <ng-option value="resource_monthly"> Resource on Monthly </ng-option>
+                                                    <ng-option value="fixed"> Fixed </ng-option>
+                                                </ng-container>
+                                            </ng-select>
+
+                                            <!-- <input type="text" class="form-control"
+                                               pattern="[a-zA-Z0-9 ]*" name="name"
+                                                [(ngModel)]="addProject.name" #name="ngModel" minlength="2"
+                                                maxlength="60" required> -->
+
+                                            <span class="form-text text-danger small"
+                                                *ngIf="projectType.invalid && showError">
+                                                <span class="form-text text-danger small"
+                                                    *ngIf="projectType.errors?.['required']">Project type is
+                                                    required</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Project Name</label>
+                                            <input type="text" class="form-control"
+                                                pattern="[a-zA-Z0-9 ]*" name="projectName"
+                                                [(ngModel)]="addProject.projectName" #projectName="ngModel"
+                                                minlength="2" maxlength="60" required>
+                                            <span class="form-text text-danger small"
+                                                *ngIf="projectName.invalid && showError">
+                                                <span class="form-text text-danger small"
+                                                    *ngIf="projectName.errors?.['required']">Project name is
+                                                    required</span>
+                                                <span class="form-text text-danger small"
+                                                    [hidden]="!projectName.errors?.['minlength']">
+                                                    Please enter Project name between 2 and 60.
+                                                </span>
+                                                <span class="form-text text-danger small"
+                                                    [hidden]="!projectName.errors?.['pattern']">
+                                                    Please enter valid project name .
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Amount</label>
+                                            <input type="text" class="form-control"
+                                                pattern="^[0-9]*$" name="amount" [(ngModel)]="addProject.amount"
+                                                #amount="ngModel" minlength="2" maxlength="60" required>
+                                            <span class="form-text text-danger small" *ngIf="amount.invalid && showError">
+                                                <span class="form-text text-danger small"
+                                                    *ngIf="amount.errors?.['required']">Amount is
+                                                    required</span>
+                                                <span class="form-text text-danger small"
+                                                    [hidden]="!amount.errors?.['pattern']">
+                                                    Please enter valid amount.
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="account-name">Currency</label>
+                                            <ng-select name="currency" [(ngModel)]="addProject.currency"
+                                                #currency="ngModel" placeholder="Select Currency" required>
+                                                <ng-container>
+                                                    <ng-option value="Dollar">$ - Dollar</ng-option>
+                                                    <ng-option value="Euro">€ - Euro</ng-option>
+                                                    <ng-option value="Pound">£ - Pound</ng-option>
+                                                    <ng-option value="Yuan">¥ - Yuan</ng-option>
+                                                    <ng-option value="Rupee"> ₹ - Rupee</ng-option>
+                                                </ng-container>
+                                            </ng-select>
+                                            <div *ngIf="currency.invalid && showError" class="form-text text-danger small">
+                                                <small *ngIf="currency.errors?.['required']">Currency is required
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="account-name">Timeline </label>
+                                            <ng-select name="timeline" [(ngModel)]="addProject.timeline"
+                                                #timeline="ngModel" placeholder="Select timeline" required>
+                                                <ng-container>
+                                                    <ng-option value="weeks">Weeks</ng-option>
+                                                    <ng-option value="months">Months</ng-option>
+                                                    <ng-option value="year">Year</ng-option>
+                                                </ng-container>
+                                            </ng-select>
+                                            <div *ngIf="timeline.invalid && showError" class="form-text text-danger small">
+                                                <small *ngIf="timeline.errors?.['required']">Tmeline is required
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label> Delivery Date</label>
+                                            <ng2-flatpickr [config]="dateOptions" name="deliveryDate"
+                                                [(ngModel)]="addProject.deliveryDate" #deliveryDate="ngModel" required>
+                                            </ng2-flatpickr>
+                                            <span class="form-text text-danger small"
+                                                *ngIf="deliveryDate.invalid && showError">
+                                                <span class="form-text text-danger small"
+                                                    *ngIf="deliveryDate.errors?.['required']">Delivery date is
+                                                    required</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label> Project Percentage </label>
+                                            <input class="form-control" type="number" maxlength="3" (change)="percentageChange($event)"
+                                            min="0" max="100" pattern="^$|^([0-9]|[1-9][0-9]|[1][0][0])?" name="projectPercentage"
+                                                [(ngModel)]="addProject.projectPercentage" #projectPercentage="ngModel" 
+                                               required>
+                                            <span class="form-text text-danger small"
+                                                *ngIf="projectPercentage.invalid && showError">
+                                                <span class="form-text text-danger small"
+                                                    *ngIf="projectPercentage.errors?.['required']">Project percentage is
+                                                    required</span> 
+                                                <div [hidden]="!projectPercentage.errors?.['pattern']">
+                                                    Number should be between 0 and 100
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="progress progress-bar-primary progress-xl">
+                                            <div class="progress-bar progress-bar-striped" role="progressbar" 
+                                                style="width:{{percentageValue}}%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary mr-2"
+                                    (click)="onSubmit(f.form.valid)">{{loading?'Please wait ...':'Submit'}}</button>
+                                <button class="btn btn-danger" [routerLink]="['/project-management/list']"
+                                    routerLinkActive="router-link-active">Cancel</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

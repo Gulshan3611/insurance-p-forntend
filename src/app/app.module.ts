@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BasicAuthInterceptor, AuthGuard, ErrorInterceptor, TimeoutInterceptor, DEFAULT_TIMEOUT } from '../app/_helpers';
-import { AdminService, AuthService, SidebarService, updateHeaderService, RoleService, StaffService } from './_services';
+import { AdminService, AuthService, SidebarService, updateHeaderService, RoleService, StaffService, ProjectService } from './_services';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
@@ -13,6 +13,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { Ng2FlatpickrModule } from 'ng2-flatpickr';
+import { MomentModule } from 'ngx-moment';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -30,6 +32,7 @@ import { StaffManagementComponent } from './components/staff-management/staff-ma
 import { VendorManagementComponent } from './components/vendor-management/vendor-management.component';
 import { ProjectManagementComponent } from './components/project-management/project-management.component';
 import { ManageInvoiceComponent } from './components/manage-invoice/manage-invoice.component';  
+import { ClientComponent } from './components/client/client.component';
 
 
 @NgModule({
@@ -49,6 +52,7 @@ import { ManageInvoiceComponent } from './components/manage-invoice/manage-invoi
     VendorManagementComponent,
     ProjectManagementComponent,
     ManageInvoiceComponent,
+    ClientComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,7 +68,9 @@ import { ManageInvoiceComponent } from './components/manage-invoice/manage-invoi
     NgxSpinnerModule,
     NgxTrimDirectiveModule,
     NgSelectModule,
+    Ng2FlatpickrModule,
     ToastrModule.forRoot(),
+    MomentModule
   ],
   providers: [
     SidebarService,
@@ -73,6 +79,7 @@ import { ManageInvoiceComponent } from './components/manage-invoice/manage-invoi
     AuthService,
     RoleService,
     StaffService,
+    ProjectService,
     // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },

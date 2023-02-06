@@ -1,0 +1,31 @@
+.table-borderless{
+    border: 2px solid #F8F8F8;
+}
+.card-body.invoice-padding, .invoice-edit .invoice-padding, .invoice-add .invoice-padding {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+}
+.invoice-preview .table th:first-child, .invoice-preview .table td:first-child, .invoice-edit .table th:first-child, .invoice-edit .table td:first-child, .invoice-add .table th:first-child, .invoice-add .table td:first-child {
+    padding-left: 2.5rem;
+}
+.invoice-title{
+    margin-bottom: 3rem;
+}
+
+.table thead th {
+    background-color: #f3f2f7;
+    text-transform: uppercase;
+}
+.invoice-date-wrapper {
+    display: flex;
+    align-items: center;
+
+    .invoice-date-title{
+        width: 7rem;
+    }
+
+    .invoice-date{
+        margin-left: .5rem;
+        font-weight: 600;
+    }
+}

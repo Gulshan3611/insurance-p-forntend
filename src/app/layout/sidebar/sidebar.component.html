@@ -16,16 +16,22 @@
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
             <li class="nav-item">
-                <a href="#" routerLink='/role-management/list' [ngClass]="url == '/role-management/list' || url == '/role-management/add' || url.includes('/role-management/edit') || url.includes('/role-management/view') ? 'active-link' : ''"><i class="feather icon-settings"></i><span class="menu-title"> Roles & Permission</span></a>
+                <a href="#" routerLink='/role-management/list' [ngClass]="url == '/role-management/list' || url == '/role-management/add' || url.includes('/role-management/edit') || url.includes('/role-management/view') ? 'active-link' : ''"><i class="feather icon-shield"></i><span class="menu-title"> Roles & Permission</span></a>
             </li> 
             <li class="nav-item">
-                <a href="#" routerLink='/staff-management/list' [ngClass]="url == '/staff-management/list' || url == '/staff-management/add' || url.includes('/staff-management/edit') ? 'active-link' : ''"><i class="feather icon-users"></i><span class="menu-title"> Staff Management</span></a>
+                <a href="#" routerLink='/staff-management/list' [ngClass]="url == '/staff-management/list' || url == '/staff-management/add' || url.includes('/staff-management/edit') || url.includes('/staff-management/view')  ? 'active-link' : ''"><i class="feather icon-users"></i><span class="menu-title"> Staff Management</span></a>
+            </li> 
+            <!-- <li class="nav-item">
+                <a href="#" routerLink='/client-management/list' [ngClass]="url == '/client-management/list' || url == '/client-management/add' || url.includes('/client-management/edit') || url.includes('/client-management/view') ? 'active-link' : ''"><i class="feather icon-layers"></i><span class="menu-title"> Client Management</span></a>
+            </li>  -->
+            <li class="nav-item">
+                <a href="#" routerLink='/vendor-management/list' [ngClass]="url == '/vendor-management/list' || url == '/vendor-management/add' || url.includes('/vendor-management/edit') || url.includes('/vendor-management/view') ? 'active-link' : ''"><i class="feather icon-layers"></i><span class="menu-title"> Vendor Management</span></a>
             </li> 
             <li class="nav-item">
-                <a href="#" routerLink='/vendor-management/list' [ngClass]="url == '/vendor-management/list' || url == '/vendor-management/add' || url.includes('/vendor-management/edit') ? 'active-link' : ''"><i class="feather icon-user"></i><span class="menu-title"> Vendor Management</span></a>
+                <a href="#" routerLink='/project-management/list' [ngClass]="url == '/project-management/list' || url == '/project-management/add' || url.includes('/project-management/edit') || url.includes('/project-management/view')  ? 'active-link' : ''"><i class="feather icon-package"></i><span class="menu-title"> Project Management</span></a>
             </li> 
             <li class="nav-item">
-                <a href="#" routerLink='/invoice-management/list' [ngClass]="url == '/invoice-management/list' || url == '/invoice-management/add' || url.includes('/invoice-management/edit') ? 'active-link' : ''"><i class="feather icon-file-text"></i><span class="menu-title"> Invoice Management</span></a>
+                <a href="#" routerLink='/invoice-management/list' [ngClass]="url == '/invoice-management/list' || url == '/invoice-management/add' || url.includes('/invoice-management/edit') || url.includes('/invoice-management/preview')   ? 'active-link' : ''"><i class="feather icon-file-text"></i><span class="menu-title"> Invoice Management</span></a>
             </li> 
         </ul>
     </div>

@@ -1,0 +1,17 @@
+
+
+.btnBox{
+    max-width: 75px;
+    min-width: 75px;
+    display: flex;
+    margin-top: 23px;
+
+    .btn{
+        box-shadow: none;
+        transform: translateY(0px);
+    }
+
+    .btn-relief-info{
+        margin-right: 5px;
+    }
+}

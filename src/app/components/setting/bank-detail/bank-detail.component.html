@@ -12,7 +12,7 @@
                         <ng-option value="ibm">IBM</ng-option>
                     </ng-container>
                 </ng-select>
-                <div *ngIf="company.invalid && showError" class="form-text text-danger">
+                <div *ngIf="company.invalid && showError" class="form-text text-danger small">
                     <small *ngIf="company.errors?.['required']">State is required </small>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                         <ng-option value="ICICI Bank">ICICI Bank</ng-option> 
                     </ng-container>
                 </ng-select>
-                <div *ngIf="bankName.invalid && showError" class="form-text text-danger">
+                <div *ngIf="bankName.invalid && showError" class="form-text text-danger small">
                     <small *ngIf="bankName.errors?.['required']">State is required </small>
                 </div>
             </div>
@@ -41,36 +41,105 @@
                 <input class="form-control" type="text" pattern="[a-zA-Z0-9/-_ ]*" name="bankBranch"
                     [(ngModel)]="bank.bankBranch" #bankBranch="ngModel" required>
 
-                <div *ngIf="bankBranch.invalid && showError" class="form-text text-danger">
+                <div *ngIf="bankBranch.invalid && showError" class="form-text text-danger small">
                     <small *ngIf="bankBranch.errors?.['required']">Bank branch name is required </small>
                     <small *ngIf="bankBranch.errors?.['pattern']"> Please enter valid bank branch</small>
                 </div>
             </div>
         </div>
+
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                <label for="account-name">Account Number</label>
+                <input class="form-control" type="text" pattern="[0-9]{16,18}" name="accountNumber" maxlength="18"
+                    [(ngModel)]="bank.accountNumber" #accountNumber="ngModel" required>
+
+                <div *ngIf="accountNumber.invalid && showError" class="form-text text-danger small">
+                    <small *ngIf="accountNumber.errors?.['required']">account number is required </small>
+                    <small *ngIf="accountNumber.errors?.['pattern']"> Please enter valid account number</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                <label for="account-name">Beneficiary Name</label>
+                <input class="form-control" type="text" pattern="[a-zA-Z0-9/-_ ]*" name="beneficiaryName"
+                    [(ngModel)]="bank.beneficiaryName" #beneficiaryName="ngModel" required>
+
+                <div *ngIf="beneficiaryName.invalid && showError" class="form-text text-danger small">
+                    <small *ngIf="beneficiaryName.errors?.['required']">Beneficiary name is required </small>
+                    <small *ngIf="beneficiaryName.errors?.['pattern']"> Please enter valid beneficiary name</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                <label for="account-name">Account Type</label>
+                <ng-select name="accountType" [(ngModel)]="bank.accountType" #accountType="ngModel" placeholder="Select Country" required>
+                    <ng-container> 
+                        <ng-option value="saving">Saving</ng-option>
+                        <ng-option value="current">Current</ng-option>
+                    </ng-container>
+                </ng-select>
+                <div *ngIf="accountType.invalid && showError" class="form-text text-danger small">
+                    <small *ngIf="accountType.errors?.['required']">Account Type is required </small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                <label for="account-name">MICR Code</label>
+                <input class="form-control" type="text" pattern="[a-zA-Z0-9/-_ ]*" name="micrCode"
+                    [(ngModel)]="bank.micrCode" #micrCode="ngModel" required>
+
+                <div *ngIf="micrCode.invalid && showError" class="form-text text-danger small">
+                    <small *ngIf="micrCode.errors?.['required']">MICR code is required </small>
+                    <small *ngIf="micrCode.errors?.['pattern']"> Please enter valid MICR code</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                <label for="account-name">SWIFT Code</label>
+                <input class="form-control" type="text" pattern="[a-zA-Z0-9/-_ ]*" name="swiftCode"
+                    [(ngModel)]="bank.swiftCode" #swiftCode="ngModel" required>
+
+                <div *ngIf="swiftCode.invalid && showError" class="form-text text-danger small">
+                    <small *ngIf="swiftCode.errors?.['required']">SWIFT code is required </small>
+                    <small *ngIf="swiftCode.errors?.['pattern']"> Please enter valid SWIFT code</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                <label for="account-name">PayPal Account </label>
+                <input class="form-control" type="text" pattern="[a-zA-Z0-9]+[a-zA-Z0-9._]+@[a-zA-Z]+\.[a-zzA-Z.]{2,5}$" name="payPalAccount"
+                    [(ngModel)]="bank.payPalAccount" #payPalAccount="ngModel" required>
+
+                <div *ngIf="payPalAccount.invalid && showError" class="form-text text-danger small">
+                    <small *ngIf="payPalAccount.errors?.['required']">PayPal account code is required </small>
+                    <small *ngIf="payPalAccount.errors?.['pattern']"> Please enter valid PayPal account</small>
+                </div>
+            </div>
+        </div>
+        
         <div class="col-12 col-sm-6">
             <div class="form-group">
                 <label for="account-name">Bank IFSC</label>
                 <input class="form-control" type="text" pattern="^[A-Z]{4}0[A-Z0-9]{6}$" name="bankIfsc"
                     [(ngModel)]="bank.bankIfsc" #bankIfsc="ngModel" required>
 
-                <div *ngIf="bankIfsc.invalid && showError" class="form-text text-danger">
+                <div *ngIf="bankIfsc.invalid && showError" class="form-text text-danger small">
                     <small *ngIf="bankIfsc.errors?.['required']">Bank IFSC name is required </small>
                     <small *ngIf="bankIfsc.errors?.['pattern']"> Please enter valid bank IFSC</small>
                 </div>
             </div>
         </div>
-        <div class="col-12 col-sm-6">
-            <div class="form-group">
-                <label for="account-name">Bank Account Number</label>
-                <input class="form-control" type="text" pattern="[0-9]{16,18}" name="bankAccountNumber" maxlength="18"
-                    [(ngModel)]="bank.bankAccountNumber" #bankAccountNumber="ngModel" required>
 
-                <div *ngIf="bankAccountNumber.invalid && showError" class="form-text text-danger">
-                    <small *ngIf="bankAccountNumber.errors?.['required']">Bank account number is required </small>
-                    <small *ngIf="bankAccountNumber.errors?.['pattern']"> Please enter valid bank account number</small>
-                </div>
-            </div>
-        </div>
         <div class="col-12">
             <button type="submit" class="btn btn-primary mr-1" (click)="onSubmit(f.form.valid)"
                 rippleEffect>{{loading?'Please wait

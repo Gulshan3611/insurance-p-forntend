@@ -19,7 +19,7 @@
                                         [(ngModel)]="roleForm.name" #name="ngModel"
                                         [ngClass]="{ 'is-invalid': f.submitted && name.invalid && showError }"
                                         minlength="2" maxlength="60" required>
-                                    <span class="validation_error form-text text-danger"
+                                    <span class="validation_error form-text text-danger small"
                                         *ngIf="name.invalid && showError">
                                         <span class="validation_error form-text text-danger"
                                             *ngIf="name.errors?.['required']">Name is
