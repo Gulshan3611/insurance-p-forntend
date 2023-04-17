@@ -5,7 +5,10 @@
                 <div class="col-12 stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Add New Staff</h4>
+                            <h4 class="card-title">Add New Staff
+                                <a href="#" routerLink='/staff-management/list' routerLinkActive="router-link-active" type="button"
+                                class="btn btn-primary float-right">Back</a>
+                            </h4>
                             <form class="forms-sample" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
                                 <div class="form-group row">
                                     <div class="col-md-4">
@@ -57,7 +60,7 @@
                                             <input type="text" class="form-control" id="exampleInputName1"
                                                 placeholder="Enter Email"
                                                 pattern="[a-zA-Z0-9]+[a-zA-Z0-9._]+@[a-zA-Z]+\.[a-zzA-Z.]{2,5}$"
-                                                maxlength="180" name="email" [(ngModel)]="staffForm.email"
+                                                maxlength="50" name="email" [(ngModel)]="staffForm.email"
                                                 #email="ngModel" required>
                                             <span class="form-text text-danger small" *ngIf="email.invalid && showError">
                                                 <span class="form-text text-danger small"
@@ -98,10 +101,7 @@
                                                 placeholder="Select Country" required>
                                                 <ng-container>
                                                     <ng-option value="" disabled>Select Role</ng-option>
-                                                    <ng-option value="manager">Manager</ng-option>
-                                                    <ng-option value="hr">HR </ng-option>
-                                                    <ng-option value="project manager"> Project Manager </ng-option>
-                                                    <ng-option value="recruiting"> Recruiting </ng-option>
+                                                    <ng-option *ngFor="let item of roleList?.docs" [value]="item.id">{{item.name}} </ng-option>
                                                 </ng-container>
                                             </ng-select>
                                             <!-- <select class="form-control" id="exampleInputName1" name="role"
@@ -173,7 +173,7 @@
                                             <input type="text" class="form-control" id="exampleInputName1"
                                                 placeholder="Enter Email"
                                                 pattern="[a-zA-Z0-9]+[a-zA-Z0-9._]+@[a-zA-Z]+\.[a-zzA-Z.]{2,5}$"
-                                                maxlength="180" name="contactPersonEmail"
+                                                maxlength="180" name="contactPersonEmail" 
                                                 [(ngModel)]="staffForm.contactPersonEmail" #contactPersonEmail="ngModel"
                                                 required>
                                             <span class="form-text text-danger small"
@@ -570,7 +570,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="exampleInputName1" class="col-sm-2 col-form-label">Status</label>
+                                   <!-- <label for="exampleInputName1" class="col-sm-2 col-form-label">Status</label>-->
                                     <div class="col-sm-10">
                                         <!-- <select class="form-control" id="exampleInputName1" name="status"
                                     [(ngModel)]="staffForm.status" #status="ngModel" required>
@@ -579,7 +579,7 @@
                                     <option value="0">In-Active</option>
                                 </select> -->
 
-                                        <ng-select name="status" [(ngModel)]="staffForm.status" #status="ngModel"
+                                       <!-- <ng-select name="status" [(ngModel)]="staffForm.status" #status="ngModel"
                                             placeholder="Select Country" required>
                                             <ng-container>
                                                 <ng-option value="" disabled>Select Status</ng-option>
@@ -593,7 +593,7 @@
                                             <span class="form-text text-danger small"
                                                 *ngIf="status.errors?.['required']">Status is
                                                 required</span>
-                                        </span>
+                                        </span>-->
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary mr-2"

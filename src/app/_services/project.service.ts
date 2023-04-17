@@ -19,5 +19,30 @@ export class ProjectService {
         return body || {};
     }
 
-    
+    // get Project Lists
+    getProjectLists(request: any): Observable<any> {
+        return this.http.get(`${this.apiUrl}/project?page=1&sortBy=asc&limit=10&searchBy=` + request.searchBy, request).pipe(map(this.extractData));
+    }
+    // add project 
+    addVendor(request: any): Observable<any> {
+        return this.http.post(`${this.apiUrl}/project`, request).pipe(map(this.extractData));
+    }
+    // delete project 
+    deleteProject(request: any): Observable<any> {
+        return this.http.delete(`${this.apiUrl}/project/` + request).pipe(map(this.extractData));
+    }
+    // delete project 
+    activateDeactivateProjects(request: any): Observable<any> {
+        return this.http.post(`${this.apiUrl}/project/activateDeactivateProjects`, request).pipe(map(this.extractData));
+    }
+
+    // get project details
+    projectDetails(request: any): Observable<any> {
+        return this.http.get(`${this.apiUrl}/project/` + request).pipe(map(this.extractData));
+    }
+
+    // update project details
+    updateProjectDetails(request: any, id: any): Observable<any> {
+        return this.http.patch(`${this.apiUrl}/project/` + id, request).pipe(map(this.extractData));
+    }
 }

@@ -5,7 +5,10 @@
                 <div class="col-12 stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Edit Staff</h4>
+                            <h4 class="card-title">Edit Staff
+                                <a href="#" routerLink='/staff-management/list' routerLinkActive="router-link-active" type="button"
+                                class="btn btn-primary float-right">Back</a>
+                            </h4>
                             <form class="forms-sample" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
                                 <div class="form-group row">
                                     <div class="col-md-4">
@@ -72,7 +75,7 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                   <!-- <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputName1">Password*</label>
                                             <input type="text" class="form-control" id="exampleInputName1"
@@ -82,28 +85,29 @@
                                                 <span class="form-text text-danger small"
                                                     *ngIf="password.errors?.['required']">Password is
                                                     required</span>
-                                                <!-- <span class="form-text text-danger small" [hidden]="!password.errors?.minlength">
+                                                 <span class="form-text text-danger small" [hidden]="!password.errors?.minlength">
                                         Please enter password between 2 and 60.
                                     </span>
                                     <span class="form-text text-danger small" [hidden]="!password.errors?.pattern">
                                         Please enter valid password.
-                                    </span> -->
+                                    </span> 
                                             </span>
                                         </div>
-                                    </div>
+                                    </div>-->
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputName1">Role*</label>
-                                            <ng-select name="role" [(ngModel)]="staffForm.role" #role="ngModel"
-                                                placeholder="Select Country" required>
-                                                <ng-container>
-                                                    <ng-option value="" disabled>Select Role</ng-option>
-                                                    <ng-option value="manager">Manager</ng-option>
-                                                    <ng-option value="hr">HR </ng-option>
-                                                    <ng-option value="project manager"> Project Manager </ng-option>
-                                                    <ng-option value="recruiting"> Recruiting </ng-option>
+                                            <ng-select name="role" [(ngModel)]="staffForm.role.id" #role="ngModel" placeholder="select role" required>
+                                                <ng-container *ngIf="staffForm.role.id">
+                                                  <ng-option [value]="staffForm.role.id">{{staffForm.role.name}}</ng-option>
                                                 </ng-container>
-                                            </ng-select>
+                                                <ng-container *ngIf="!staffForm.role">
+                                                  <ng-option value="" disabled selected>Select Role</ng-option>
+                                                </ng-container>
+                                                <ng-container *ngFor="let item of roleList?.docs">
+                                                  <ng-option [value]="item.id">{{item.name}}</ng-option>
+                                                </ng-container>
+                                              </ng-select>
                                             <!-- <select class="form-control" id="exampleInputName1" name="role"
                                             [(ngModel)]="staffForm.role" #role="ngModel" required>
                                             <option value="" disabled>Select Role</option>
@@ -111,6 +115,7 @@
                                                     {{role?.name}}
                                                 </option>
                                         </select> -->
+
                                             <span class="form-text text-danger small" *ngIf="role.invalid && showError">
                                                 <span class="form-text text-danger small"
                                                     *ngIf="role.errors?.['required']">Role
@@ -548,20 +553,22 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                               <!-- <div class="form-group row">
                                     <label for="exampleInputName1" class="col-sm-2 col-form-label">Status</label>
                                     <div class="col-sm-10">
-                                        <!-- <select class="form-control" id="exampleInputName1" name="status"
+                                         <select class="form-control" id="exampleInputName1" name="status"
                                     [(ngModel)]="staffForm.status" #status="ngModel" required>
                                     <option value="" disabled>Select Status</option>
                                     <option value="1">Active</option>
                                     <option value="0">In-Active</option>
-                                </select> -->
+                                </select> 
 
                                         <ng-select name="status" [(ngModel)]="staffForm.status" #status="ngModel"
                                             placeholder="Select Country" required>
                                             <ng-container>
-                                                <ng-option value="" disabled>Select Status</ng-option>
+                                                <ng-option [value]="staffForm.status" selected>
+                                                     {{ staffForm.status == 1 ? 'Active' : 'Inactive' }} 
+                                                </ng-option>
                                                 <ng-option value="1">Active</ng-option>
                                                 <ng-option value="0">In-Active </ng-option>
                                             </ng-container>
@@ -574,7 +581,7 @@
                                                 required</span>
                                         </span>
                                     </div>
-                                </div>
+                                </div> -->
                                 <button type="submit" class="btn btn-primary mr-2"
                                     (click)="onSubmit(f.form.valid)">{{loading?'Please wait ...':'Submit'}}</button>
                                 <button class="btn btn-danger" [routerLink]="['/staff-management/list']"

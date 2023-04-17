@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { ProjectService, RoleService, AuthService } from '../../../_services';
+import { ProjectService, VendorService, AuthService } from '../../../_services';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
+import { NgxSpinnerService } from "ngx-spinner";
+
 
 @Component({
   selector: 'app-add-vendor',
@@ -20,11 +22,13 @@ export class AddVendorComponent implements OnInit {
 
   constructor(
     private _projectService: ProjectService,
-    private toastr: ToastrService,
+    private _toastrService: ToastrService,
     private _router: Router,
-    private _roleService: RoleService,
+    private _vendorService: VendorService,
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,  
+    private spinner: NgxSpinnerService
+
   ) { }
 
   ngOnInit(): void {
@@ -42,24 +46,27 @@ export class AddVendorComponent implements OnInit {
   onSubmit(valid: any): void {
     this.showError = true;
     this.submitted = true;
-    // console.log('checking---', valid, this.resource)
+    console.log('checking---', valid, this.addVendor)
     if (valid) {
       this.loading = true;
-      console.log(this.addVendor)
-      // this.staffForm.email = this.staffForm.email.toLocaleLowerCase();
-      // this._staffService
-      //   .addNewSubadmin(this.staffForm).subscribe(objS => {
-      //     if (objS.code == 200) {
-      //       this.loading = false;
-      //       this.toastr.success(objS.message)
-      //       this._router.navigate(['/staff/list']);
-      //     } else {
-      //       this.loading = false;
-      //       this.toastr.error(objS.message)
-      //     }
-      //   }, (err) => {
-      //     console.log(err);
-      //   })
+      console.log("hhhhhhhhhh",this.addVendor)
+      this._vendorService.addVendor(this.addVendor).subscribe(objS => {
+        console.log('print response====', objS)
+        this.loading = this.showError = false;
+        if (objS.code == 200) {
+          // this._authService.setDataAdmin(objS.data);
+          this.spinner.hide();
+          this._toastrService.success(objS.message);
+          // this._header.checkFunction(true);
+          this._router.navigate(['/vendor-management/list']);
+        } else {
+          this._toastrService.error(objS.message);
+          this.spinner.hide();
+        }
+      }, (err) => {
+        this.loading = this.showError = false;
+        console.log('err', err)
+      });
     }
   }
 

@@ -42,9 +42,10 @@ export class CompanyDetailComponent implements OnInit {
   }
 
   handleFileSelect(evt: any) {
+    
     var files = evt.target.files;
     if (files.length === 0)
-      return;
+    return;
     const fsize = files[0].size;
     const file = Math.round((fsize / 1024 / 1024));
     var mimeType = files[0].type;
@@ -56,7 +57,7 @@ export class CompanyDetailComponent implements OnInit {
     this.profile.file = files[0];
     reader.readAsDataURL(files[0]);
     reader.onload = (_event) => {
-      this.profile.image = reader.result;
+      this.profile.logo = reader.result;
     }
 
   }
@@ -91,31 +92,51 @@ export class CompanyDetailComponent implements OnInit {
       // call api
       this.profile.email = this.profile.email.toLocaleLowerCase();
       const formdata = new FormData();
-      if (this.profile.file) {
-        formdata.append('image', this.profile.file);
+      if (this.profile.logo) {
+        formdata.append('logo', this.profile.logo);
+      }
+      if (this.profile.icon) {
+        formdata.append('icon', this.profile.icon);
       }
       
-      formdata.append('name', this.profile.name.replace( /\s\s+/g, ' ' ));
+      // formdata.append('companyName', this.profile.companyName.replace( /\s\s+/g, ' ' ));
+      formdata.append('companyName', this.profile.companyName);
+      formdata.append('businessDomain', this.profile.businessDomain);
+      formdata.append('registrationNumber', this.profile.registrationNumber);
+      formdata.append('iecCode', this.profile.iecCode);
+      formdata.append('gstin', this.profile.gstin);
+      formdata.append('companyPan', this.profile.companyPan);
+      formdata.append('tanNumber', this.profile.tanNumber);
+      formdata.append('gstPercentage', this.profile.gstPercentage);
+      formdata.append('address1', this.profile.address1);
+      formdata.append('address2', this.profile.address2);
+      formdata.append('country', this.profile.country);
+      formdata.append('state', this.profile.state);
+      formdata.append('city', this.profile.city);
+      formdata.append('pinCode', this.profile.pinCode);
+      formdata.append('primaryPhone', this.profile.primaryPhone);
+      formdata.append('secondaryPhone', this.profile.secondaryPhone);
+      formdata.append('fax', this.profile.fax);
+      formdata.append('websiteUrl', this.profile.websiteUrl);
       formdata.append('email', this.profile.email);
-      formdata.append('phone', this.profile.phone);
 
-      // this._adminService.updateExpert(formdata).subscribe(objS => {
-      //   console.log('print response====', objS)
-      //   this.loading = this.showError = false;
-      //   if (objS.code == 200) {
-      //     this._authService.setDataAdmin(objS.data);
-      //     this.spinner.hide();
-      //     this.router.navigate(['/review/list']);
-      //     this._toastrService.success(objS.message);
-      //     this._header.checkFunction(true);
-      //   } else {
-      //     this._toastrService.error(objS.message);
-      //     this.spinner.hide();
-      //   }
-      // }, (err) => {
-      //   this.loading = this.showError = false;
-      //   console.log('err', err)
-      // });
+      this._adminService.updateOfiiceDetails(formdata).subscribe(objS => {
+        console.log('print response====', objS)
+        this.loading = this.showError = false;
+        if (objS.code == 200) {
+          this._authService.setDataAdmin(objS.data);
+          this.spinner.hide();
+          this.router.navigate(['/setting']);
+          this._toastrService.success(objS.message);
+          this._header.checkFunction(true);
+        } else {
+          this._toastrService.error(objS.message);
+          this.spinner.hide();
+        }
+      }, (err) => {
+        this.loading = this.showError = false;
+        console.log('err', err)
+      });
    
     }
   } 

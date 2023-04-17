@@ -23,12 +23,12 @@ export class ViewStaffComponent implements OnInit {
     role: "",
     type: "admin"
   };
+  reviewId: any = '';
   
   constructor(
     private _staffService: StaffService,
     private toastr: ToastrService,
     private _router: Router,
-    private _roleService: RoleService,
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
     // private mapsAPILoader: MapsAPILoader,
@@ -36,6 +36,23 @@ export class ViewStaffComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+    if (this.activatedRoute.snapshot.params['id']) {
+      this.reviewId = this.activatedRoute.snapshot.params['id'];
+      this.staffDetails_f(this.reviewId);      
+    }
+  }
+
+  staffDetails_f(id: any){
+    this._staffService.staffDetails(this.reviewId).subscribe((res) => {
+      if (res['data']) {
+        this.staffForm = res['data'];
+        console.log(res['data']);
+        
+      }
+    }, (err) => {
+      console.log('Error while Login', err);
+    })  
   }
 
 }

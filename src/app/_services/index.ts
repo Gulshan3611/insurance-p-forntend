@@ -5,3 +5,4 @@ export * from './admin.service';
 export * from './role.service';
 export * from './staff.service';
 export * from './project.service';
+export * from './vendor.service';

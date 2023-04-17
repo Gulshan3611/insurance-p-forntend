@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { ProjectService, RoleService, AuthService } from '../../../_services';
+import { VendorService, RoleService, AuthService } from '../../../_services';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -10,24 +10,50 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class ViewVendorComponent implements OnInit {
 
+  isShow: any = false;
+  isDisabled: any = false;
+  submitted = false;
+  public isButton: boolean = false;
   loading: boolean = false;
   showError: boolean = false;
   apiCalled: boolean = false;
-  submitted = false;
-  addVendor: any = { }; 
-
+  roleList: any = [];
+  // staffForm: any = {
+  //   status: "1",
+  //   role: "",
+  //   type: "admin"
+  // };
+  addVendor :any ;
+  reviewId: any = '';
+  
   constructor(
-    private _projectService: ProjectService,
+    private _vendorService:VendorService,
     private toastr: ToastrService,
     private _router: Router,
-    private _roleService: RoleService,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService,  
+    private authService: AuthService,
+    // private mapsAPILoader: MapsAPILoader,
+    private ngZone: NgZone
   ) { }
 
-  
-
   ngOnInit(): void {
+
+    if (this.activatedRoute.snapshot.params['id']) {
+      this.reviewId = this.activatedRoute.snapshot.params['id'];
+      this.vendorDetails_f(this.reviewId);      
+    }
+  }
+
+  vendorDetails_f(id: any){
+    this._vendorService.vendorDetails(this.reviewId).subscribe((res) => {
+      if (res['data']) {
+        this.addVendor = res['data'];
+        console.log(res['data']);
+        
+      }
+    }, (err) => {
+      console.log('Error while Login', err);
+    })  
   }
 
 

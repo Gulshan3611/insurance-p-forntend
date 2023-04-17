@@ -12,6 +12,7 @@ import { SidebarService } from '../../_services';
 export class NavbarComponent implements OnInit {
   
   userType: any = "";
+  refreshToken: any;
   header: any;
   profile: any = {};
   myForm: any;
@@ -27,6 +28,9 @@ export class NavbarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+     this.refreshToken = localStorage.getItem('go_d_r_a_t');
+    console.log(this.refreshToken.refresh);
+    
     // this._header.$isCalledService
     // .subscribe((data: any) => {
     //   console.log('print top nav bar--', data)
@@ -43,7 +47,8 @@ export class NavbarComponent implements OnInit {
     // this.profilePhoto = this.mediaUrl + '/media/preview?filename=' + this.profile.image;
   }
 
-  logout(){
+  logout(data: any) {
+    this._adminService.logOut(data.id);
     this._authService.adminLogout();
     this._router.navigate(['/auth/login']);
   }

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { RoleService, AuthService } from '../../../_services';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
+import { NgxSpinnerService } from "ngx-spinner";
++3
 
 
 @Component({
@@ -39,33 +41,36 @@ export class AddRoleComponent implements OnInit {
       edit: false,
       view: false,
       delete: false,
-    }, {
-      moduleName: "Vendor Management",
-      moduleId: "3",
-      selectedAll: false,
-      list: false,
-      add: false,
-      edit: false,
-      view: false,
-      delete: false,
-    }, {
-      moduleName: "Invoice Management",
-      moduleId: "4",
-      selectedAll: false,
-      list: false,
-      add: false,
-      edit: false,
-      view: false,
-      delete: false,
     }
+    // , {
+    //   moduleName: "Vendor Management",
+    //   moduleId: "3",
+    //   selectedAll: false,
+    //   list: false,
+    //   add: false,
+    //   edit: false,
+    //   view: false,
+    //   delete: false,
+    // }, {
+    //   moduleName: "Invoice Management",
+    //   moduleId: "4",
+    //   selectedAll: false,
+    //   list: false,
+    //   add: false,
+    //   edit: false,
+    //   view: false,
+    //   delete: false,
+    // }
   ];
 
   constructor(
     private _roleService: RoleService,
-    private toastr: ToastrService,
+    private _toastrService: ToastrService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     public authService: AuthService,
+    private spinner: NgxSpinnerService
+
   ) { }
 
   ngOnInit(): void { }
@@ -73,9 +78,38 @@ export class AddRoleComponent implements OnInit {
   onSubmit(valid: any): void {
     this.showError = true;
     this.submitted = true;
-    // console.log('checking---', valid, this.resource)
+    console.log('checking---', this.roleForm, valid, this.resource)
+
     if (valid) {
+      const convertedData = this.resource.map(item => ({
+        permissions: Object.keys(item).filter(key => key !== 'moduleName' && key !== 'moduleId'),
+        moduleName: item.moduleName,
+        moduleId: item.moduleId
+      }));
+      const result = { "name" : this.roleForm.name ,"resource": convertedData };
+      // console.log("result",result);
+      // return
       this.loading = true;
+      this.spinner.show();
+      // call api
+
+      this._roleService.addRole(result).subscribe(objS => {
+        console.log('print response====', objS)
+        this.loading = this.showError = false;
+        if (objS.code == 200) {
+          // this._authService.setDataAdmin(objS.data);
+          this.spinner.hide();
+          this._toastrService.success(objS.message);
+          // this._header.checkFunction(true);
+          this.router.navigate(['/role-management/list']);
+        } else {
+          this._toastrService.error(objS.message);
+          this.spinner.hide();
+        }
+      }, (err) => {
+        this.loading = this.showError = false;
+        console.log('err', err)
+      });
     }
   }
   selectAllList(index: any) {

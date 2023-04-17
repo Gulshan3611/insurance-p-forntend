@@ -36,6 +36,10 @@ export class AddProjectComponent implements OnInit {
       this.addProject.date = selectedDates.toString();
     },
   };
+  milestones: any[] = [{}];
+  milestoneAdded = false;
+  showDeleteButton = false;
+
 
   constructor(
     private _projectService: ProjectService,
@@ -54,6 +58,25 @@ export class AddProjectComponent implements OnInit {
     console.log(event.target.value)
     this.percentageValue = event.target.value;
   }
+
+  addMilestone() {
+    this.milestones.push({});
+    this.milestoneAdded = true;
+    console.log(this.milestones);
+  }
+  
+
+
+  onAddButtonClick() {
+    this.showDeleteButton = true;
+    // code to add fields here
+  }
+
+  onDeleteButtonClick() {
+    this.showDeleteButton = false;
+    // code to delete fields here
+  }
+  
 
   onSubmit(valid: any): void {
     this.showError = true;

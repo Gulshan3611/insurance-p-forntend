@@ -5,7 +5,10 @@
                 <div class="col-12 stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">View Vendor</h4>
+                            <h4 class="card-title">View Vendor
+                                <a href="#" routerLink='/vendor-management/list' routerLinkActive="router-link-active" type="button"
+                                class="btn btn-primary float-right">Back</a>
+                            </h4>
                             <form class="forms-sample" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
                                 <div class="form-group row">
                                     <div class="col-md-4">
@@ -30,10 +33,25 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputName1">Vendor Name</label>
-                                            <input type="text" class="form-control" id="exampleInputName1" name="vendorName"
-                                                [(ngModel)]="addVendor.vendorName" #vendorName="ngModel" disabled> 
+                                            <input type="text" class="form-control" id="exampleInputName1" name="name"
+                                                [(ngModel)]="addVendor.name" #name="ngModel" disabled> 
                                         </div>
                                     </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Vendor Phone</label>
+                                            <input type="text" class="form-control" id="exampleInputName1" name="phone"
+                                                [(ngModel)]="addVendor.phone" #phone="ngModel" disabled> 
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Vendor Email</label>
+                                            <input type="text" class="form-control" id="exampleInputName1" name="email"
+                                                [(ngModel)]="addVendor.email" #email="ngModel" disabled> 
+                                        </div>
+                                    </div>
+
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="account-name">Currency</label>
@@ -403,8 +421,8 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="account-name">Pincode</label>
-                                            <input class="form-control" type="text" name="pinCode" minlength="5" maxlength="7"
-                                                [(ngModel)]="addVendor.pinCode" #pinCode="ngModel" disabled>
+                                            <input class="form-control" type="text" name="zipcode" minlength="5" maxlength="7"
+                                                [(ngModel)]="addVendor.zipcode" #zipcode="ngModel" disabled>
                                         </div>
                                     </div>
                                 </div>

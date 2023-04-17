@@ -43,22 +43,22 @@ export class ForgotPasswordComponent implements OnInit {
     this.spinner.show()
     // call api
 
-    // this._adminAuthAPI.forgotPassword({email:this.myForm.email}).subscribe(objS => {
-    //   // console.log('print response====', objS)
-    //   this.loading = this.showError = false;
-    //   if (objS.code == 200) {
-    //     this._toastr.success(objS.message)
-    //     // navigate to dashboard
-    //     this._router.navigate(['/auth/login']);
-    //   }
-    //   else {
-    //     this.apiCalled = false
-    //     this.loading = false
-    //     this._toastr.error(objS.message)
-    //   }
-    // }, err => {
-    //   this._toastr.error(err?.error?.message)
-    // });
+    this._adminAuthAPI.forgotPassword({email:this.myForm.email}).subscribe(objS => {
+      // console.log('print response====', objS)
+      this.loading = this.showError = false;
+      if (objS.code == 200) {
+        this._toastr.success(objS.message)
+        // navigate to dashboard
+        this._router.navigate(['/auth/login']);
+      }
+      else {
+        this.apiCalled = false
+        this.loading = false
+        this._toastr.error(objS.message)
+      }
+    }, err => {
+      this._toastr.error(err?.error?.message)
+    });
   }
 }
 

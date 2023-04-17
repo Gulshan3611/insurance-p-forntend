@@ -80,10 +80,10 @@
                                             <div class="col-12 col-sm-6">
                                                 <div class="form-group">
                                                     <label for="account-e-mail">Email</label>
-                                                    <input type="email"
-                                                        pattern="[a-zA-Z0-9]+[a-zA-Z0-9._]+@[a-zA-Z]+\.[a-zzA-Z.]{2,5}$"
+                                                    <input type="text"
+                                                        pattern="^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                                                         class="form-control" placeholder="Email" name="email" [(ngModel)]="profile.email"
-                                                        #email="ngModel" required>
+                                                        #email="ngModel"  required>
                                                     <div *ngIf="email.invalid && showError" class="form-text text-danger small">
                                                         <small *ngIf="['email.errors?.required']">Email is required</small>
                                                         <small hidden="['!email.errors?.pattern']">

@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "dist/invoice-management-system",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

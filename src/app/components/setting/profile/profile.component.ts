@@ -64,7 +64,9 @@ export class ProfileComponent implements OnInit {
   onSubmit(valid: any) {
     this.showError = true;
     this.submitted = true;
-    // console.log('checking---', valid, this.profile)
+    console.log("this.showError",this.showError);
+    
+    console.log('checking---', valid, this.profile)
     if (valid) {
       this.loading = true;
       this.spinner.show();
@@ -72,30 +74,31 @@ export class ProfileComponent implements OnInit {
       this.profile.email = this.profile.email.toLocaleLowerCase();
       const formdata = new FormData();
       if (this.profile.file) {
-        formdata.append('image', this.profile.file);
+        formdata.append('profilePhoto', this.profile.file);
       }
       
       formdata.append('name', this.profile.name.replace( /\s\s+/g, ' ' ));
       formdata.append('email', this.profile.email);
       formdata.append('phone', this.profile.phone);
+      let id = this.profile.id
 
-      // this._adminService.updateExpert(formdata).subscribe(objS => {
-      //   console.log('print response====', objS)
-      //   this.loading = this.showError = false;
-      //   if (objS.code == 200) {
-      //     this._authService.setDataAdmin(objS.data);
-      //     this.spinner.hide();
-      //     this.router.navigate(['/review/list']);
-      //     this._toastrService.success(objS.message);
-      //     this._header.checkFunction(true);
-      //   } else {
-      //     this._toastrService.error(objS.message);
-      //     this.spinner.hide();
-      //   }
-      // }, (err) => {
-      //   this.loading = this.showError = false;
-      //   console.log('err', err)
-      // });
+      this._adminService.updateUserInfo(id,formdata).subscribe(objS => {
+        console.log('print response====', objS)
+        this.loading = this.showError = false;
+        if (objS.code == 200) {
+          this._authService.setDataAdmin(objS.data);
+          this.spinner.hide();
+          this.router.navigate(['/setting']);
+          this._toastrService.success(objS.message);
+          this._header.checkFunction(true);
+        } else {
+          this._toastrService.error(objS.message);
+          this.spinner.hide();
+        }
+      }, (err) => {
+        this.loading = this.showError = false;
+        console.log('err', err)
+      });
    
     }
   }

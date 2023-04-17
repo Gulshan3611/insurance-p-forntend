@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule,DatePipe } from '@angular/common';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
@@ -19,7 +19,7 @@ import { ViewStaffComponent } from './view-staff/view-staff.component';
     StaffListComponent,
     AddStaffComponent,
     EditStaffComponent,
-    ViewStaffComponent
+    ViewStaffComponent,
   ],
   imports: [
     CommonModule,
@@ -34,6 +34,7 @@ import { ViewStaffComponent } from './view-staff/view-staff.component';
     ReactiveFormsModule,
     NgxSpinnerModule,
     NgSelectModule
-  ]
+  ],
+  providers: [ DatePipe ],
 })
 export class StaffManagementModule { }

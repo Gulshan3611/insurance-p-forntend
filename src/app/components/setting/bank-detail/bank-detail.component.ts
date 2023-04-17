@@ -35,7 +35,21 @@ export class BankDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.bank = this._authService.getAdminData();
+    this._adminService.getBankDetails("642eadd807090c079ea0de99").subscribe(objS => {
+      console.log('print response====', objS)
+      this.loading = this.showError = false;
+      if (objS.code == 200) {
+        this.bank = objS.data
+      } else {
+        this._toastrService.error(objS.message);
+      }
+    }, (err) => {
+      this.loading = this.showError = false;
+      console.log('err', err)
+    });
+    // this.bank = this._adminService.getBankDetails("642eadd807090c079ea0de99");
+    // console.log(this.bank);
+    
     // if (this.profile && this.profile.image) {
     //   this.profile.image = this.mediaUrl + '/media/preview?filename=' + this.profile.image;
     // }
@@ -52,23 +66,23 @@ export class BankDetailComponent implements OnInit {
       this.spinner.show();
       // call api
       
-      // this._adminService.updateExpert(this.bank).subscribe(objS => {
-      //   console.log('print response====', objS)
-      //   this.loading = this.showError = false;
-      //   if (objS.code == 200) {
-      //     this._authService.setDataAdmin(objS.data);
-      //     this.spinner.hide();
-      //     this.router.navigate(['/review/list']);
-      //     this._toastrService.success(objS.message);
-      //     this._header.checkFunction(true);
-      //   } else {
-      //     this._toastrService.error(objS.message);
-      //     this.spinner.hide();
-      //   }
-      // }, (err) => {
-      //   this.loading = this.showError = false;
-      //   console.log('err', err)
-      // });
+      this._adminService.updateBankDetails(this.bank).subscribe(objS => {
+        console.log('print response====', objS)
+        this.loading = this.showError = false;
+        if (objS.code == 200) {
+          this._authService.setDataAdmin(objS.data);
+          this.spinner.hide();
+          this.router.navigate(['/setting/profile']);
+          this._toastrService.success("Bank Details Successfully Updated");
+          this._header.checkFunction(true);
+        } else {
+          this._toastrService.error(objS.message);
+          this.spinner.hide();
+        }
+      }, (err) => {
+        this.loading = this.showError = false;
+        console.log('err', err)
+      });
    
     }
   } 

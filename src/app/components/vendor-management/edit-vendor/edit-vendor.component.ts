@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { ProjectService, RoleService, AuthService } from '../../../_services';
+import { ProjectService, VendorService, AuthService } from '../../../_services';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -17,18 +17,22 @@ export class EditVendorComponent implements OnInit {
   addVendor: any = {}; 
   selectedVendor: any = '';
   selectedCurrency: any = '';
+  reviewId: any = '';
 
   constructor(
     private _projectService: ProjectService,
     private toastr: ToastrService,
     private _router: Router,
-    private _roleService: RoleService,
+    private _vendorService: VendorService,
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,  
   ) { }
 
   ngOnInit(): void {
-     
+    if (this.activatedRoute.snapshot.params['id']) {
+      this.reviewId = this.activatedRoute.snapshot.params['id'];
+      this.vendorDetails_f(this.reviewId);      
+    }
   }
 
   selectVendor(event: any) {
@@ -46,21 +50,32 @@ export class EditVendorComponent implements OnInit {
     if (valid) {
       this.loading = true;
       console.log(this.addVendor)
-      // this.staffForm.email = this.staffForm.email.toLocaleLowerCase();
-      // this._staffService
-      //   .addNewSubadmin(this.staffForm).subscribe(objS => {
-      //     if (objS.code == 200) {
-      //       this.loading = false;
-      //       this.toastr.success(objS.message)
-      //       this._router.navigate(['/staff/list']);
-      //     } else {
-      //       this.loading = false;
-      //       this.toastr.error(objS.message)
-      //     }
-      //   }, (err) => {
-      //     console.log(err);
-      //   })
+      this.addVendor.email = this.addVendor.email.toLocaleLowerCase();
+      this._vendorService
+      .updateVendorDetails(this.addVendor,this.reviewId).subscribe(objS => {
+        if (objS.code == 200) {
+          this.loading = false;
+          this.toastr.success(objS.message)
+          this._router.navigate(['/vendor-management/list']);
+        } else {
+          this.loading = false;
+          this.toastr.error(objS.message)
+        }
+      }, (err) => {
+        console.log(err);
+      })
     }
+  }
+
+  vendorDetails_f(id: any){
+    this._vendorService.vendorDetails(this.reviewId).subscribe((res) => {
+      if (res['data']) {
+        this.addVendor = res['data'];
+        console.log(this.addVendor); 
+      }
+    }, (err) => {
+      console.log('Error while Login', err);
+    })  
   }
 
 }

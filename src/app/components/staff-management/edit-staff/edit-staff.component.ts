@@ -20,17 +20,20 @@ export class EditStaffComponent implements OnInit {
   showError: boolean = false;
   apiCalled: boolean = false;
   staffForm: any = {
-    status: "1",
-    role: "",
-    type: "admin"
   };
+  requestData: any = {
+  };
+
   // latitude: number;
   // longitude: number;
   // @ViewChild('search')
   // public searchElementRef: ElementRef;
   // address: string;
   // private geoCoder;
+  reviewId: any = '';
   roleList: any = [];
+  page: any = 1;
+  limit: any = 10;
   constructor(
     private _staffService: StaffService,
     private toastr: ToastrService,
@@ -45,6 +48,11 @@ export class EditStaffComponent implements OnInit {
   ngOnInit(): void {
     // this.loadGoogleMap();
     // this.getRolesListFromApi();
+    if (this.activatedRoute.snapshot.params['id']) {
+      this.reviewId = this.activatedRoute.snapshot.params['id'];
+      this.staffDetails_f(this.reviewId);      
+    }
+    this.getRoleLists_f()
   }
   // loadGoogleMap() {
   //   this.mapsAPILoader.load().then(() => {
@@ -114,21 +122,68 @@ export class EditStaffComponent implements OnInit {
     // console.log('checking---', valid, this.resource)
     if (valid) {
       this.loading = true;
-      // this.staffForm.email = this.staffForm.email.toLocaleLowerCase();
-      // this._staffService
-      //   .addNewSubadmin(this.staffForm).subscribe(objS => {
-      //     if (objS.code == 200) {
-      //       this.loading = false;
-      //       this.toastr.success(objS.message)
-      //       this._router.navigate(['/staff/list']);
-      //     } else {
-      //       this.loading = false;
-      //       this.toastr.error(objS.message)
-      //     }
-      //   }, (err) => {
-      //     console.log(err);
-      //   })
+      this.requestData.email = this.staffForm.email.toLocaleLowerCase();
+      this.requestData.role = this.staffForm.role.id;
+      this.requestData.address = this.staffForm.address;
+      this.requestData.city = this.staffForm.city;
+      this.requestData.constactPersonEmail = this.staffForm.constactPersonEmail;
+      // this.requestData.contactPersonEmail = this.staffForm.contactPersonEmail;
+      this.requestData.contactPersonName = this.staffForm.contactPersonName;
+      this.requestData.contactPersonNumber = this.staffForm.contactPersonNumber;
+      this.requestData.country = this.staffForm.country;
+      this.requestData.email = this.staffForm.email;
+      this.requestData.name = this.staffForm.name;
+      this.requestData.phone = this.staffForm.phone;
+      this.requestData.state = this.staffForm.state;
+      this.requestData.zipcode = this.staffForm.zipcode;
+      this._staffService
+        .updateStaffDetails(this.requestData,this.reviewId).subscribe(objS => {
+          if (objS.code == 200) {
+            this.loading = false;
+            this.toastr.success(objS.message)
+            this._router.navigate(['/staff-management/list']);
+          } else {
+            this.loading = false;
+            this.toastr.error(objS.message)
+          }
+        }, (err) => {
+          console.log(err);
+        })
     }
+  }
+
+  getRoleLists_f(){
+    this.apiCalled = false;
+    this._roleService.getRoleLists({
+      page: this.page,
+      limit: this.limit,
+      searchBy: '',
+    }).subscribe(objS => {
+      console.log('print response====', objS)
+      this.loading = this.showError = false;
+      if (objS.code == 200) {
+        this.apiCalled = true;
+        this.roleList = objS.data
+        console.log("this.roleList",this.roleList);
+        
+      } else {
+        this.toastr.error(objS.message);
+      }
+    }, (err) => {
+      this.loading = this.showError = false;
+      console.log('err', err)
+    });
+  }
+
+  staffDetails_f(id: any){
+    this._staffService.staffDetails(this.reviewId).subscribe((res) => {
+      if (res['data']) {
+        this.staffForm = res['data'];
+        console.log(this.staffForm); 
+      }
+    }, (err) => {
+      console.log('Error while Login', err);
+    })  
   }
 
 }

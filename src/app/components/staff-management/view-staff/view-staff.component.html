@@ -1,4 +1,3 @@
-<p>view-staff works!</p>
 <div class="content-body">
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
@@ -6,7 +5,10 @@
                 <div class="col-12 stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">View Staff</h4>
+                            <h4 class="card-title">View Staff
+                                <a href="#" routerLink='/staff-management/list' routerLinkActive="router-link-active" type="button"
+                                class="btn btn-primary float-right">Back</a>
+                            </h4>
                             <form class="forms-sample" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
                                 <div class="form-group row">
                                     <div class="col-md-4">
@@ -38,25 +40,22 @@
                                                 #email="ngModel" disabled>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                   <!-- <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputName1">Password*</label>
                                             <input type="text" class="form-control" id="exampleInputName1"
                                                 placeholder="Enter Password" name="password"
                                                 [(ngModel)]="staffForm.password" #password="ngModel" disabled>
                                         </div>
-                                    </div>
+                                    </div>-->
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputName1">Role*</label>
-                                            <ng-select name="role" [(ngModel)]="staffForm.role" #role="ngModel"
-                                                placeholder="Select Country" disabled>
+                                            <ng-select name="role" [(ngModel)]="staffForm.role.name" #role="ngModel"
+                                                disabled>
                                                 <ng-container>
-                                                    <ng-option value="" disabled>Select Role</ng-option>
-                                                    <ng-option value="manager">Manager</ng-option>
-                                                    <ng-option value="hr">HR </ng-option>
-                                                    <ng-option value="project manager"> Project Manager </ng-option>
-                                                    <ng-option value="recruiting"> Recruiting </ng-option>
+                                                    <ng-option value="staffForm.role.name" selected>Select Role</ng-option>
+                                                  
                                                 </ng-container>
                                             </ng-select>
                                         </div>
@@ -88,7 +87,7 @@
                                                 placeholder="Enter Email"
                                                 pattern="[a-zA-Z0-9]+[a-zA-Z0-9._]+@[a-zA-Z]+\.[a-zzA-Z.]{2,5}$"
                                                 maxlength="180" name="contactPersonEmail"
-                                                [(ngModel)]="staffForm.contactPersonEmail" #contactPersonEmail="ngModel"
+                                                [(ngModel)]="staffForm.email" #contactPersonEmail="ngModel"
                                                 disabled>
                                         </div>
                                     </div>
@@ -440,15 +439,15 @@
                                             #fax="ngModel" disabled>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                               <!-- <div class="form-group row">
                                     <label for="exampleInputName1" class="col-sm-2 col-form-label">Status</label>
                                     <div class="col-sm-10">
-                                        <!-- <select class="form-control" id="exampleInputName1" name="status"
+                                         <select class="form-control" id="exampleInputName1" name="status"
                                     [(ngModel)]="staffForm.status" #status="ngModel" disabled>
                                     <option value="" disabled>Select Status</option>
                                     <option value="1">Active</option>
                                     <option value="0">In-Active</option>
-                                </select> -->
+                                </select> 
 
                                         <ng-select name="status" [(ngModel)]="staffForm.status" #status="ngModel"
                                             placeholder="Select Country" disabled>
@@ -459,7 +458,7 @@
                                             </ng-container>
                                         </ng-select>
                                     </div>
-                                </div>
+                                </div>-->
                             </form>
                         </div>
                     </div>

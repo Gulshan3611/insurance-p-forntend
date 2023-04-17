@@ -18,45 +18,49 @@ export class ViewRoleComponent implements OnInit {
   showError: boolean = false;
   apiCalled: boolean = false;
   roleForm: any = {};
+  reviewId: any = '';
+
+
 
   resource: any = [
-    {
-      moduleName: "Role And Permission",
-      moduleId: "1",
-      selectedAll: false,
-      list: false,
-      add: false,
-      edit: false,
-      view: false,
-      delete: false,
-    }, {
-      moduleName: "Staff Management",
-      moduleId: "2",
-      selectedAll: false,
-      list: false,
-      add: false,
-      edit: false,
-      view: false,
-      delete: false,
-    }, {
-      moduleName: "Vendor Management",
-      moduleId: "3",
-      selectedAll: false,
-      list: false,
-      add: false,
-      edit: false,
-      view: false,
-      delete: false,
-    }, {
-      moduleName: "Invoice Management",
-      moduleId: "4",
-      selectedAll: false,
-      list: false,
-      add: false,
-      edit: false,
-      view: false,
-      delete: false,
-    }
+    // {
+    //   moduleName: "Role And Permission",
+    //   moduleId: "1",
+    //   selectedAll: false,
+    //   list: false,
+    //   add: false,
+    //   edit: false,
+    //   view: false,
+    //   delete: false,
+    // }
+    // , {
+      // moduleName: "Staff Management",
+      // moduleId: "2",
+      // selectedAll: false,
+      // list: false,
+      // add: false,
+      // edit: false,
+      // view: false,
+      // delete: false,
+    // }, {
+    //   moduleName: "Vendor Management",
+    //   moduleId: "3",
+    //   selectedAll: false,
+    //   list: false,
+    //   add: false,
+    //   edit: false,
+    //   view: false,
+    //   delete: false,
+    // }, {
+    //   moduleName: "Invoice Management",
+    //   moduleId: "4",
+    //   selectedAll: false,
+    //   list: false,
+    //   add: false,
+    //   edit: false,
+    //   view: false,
+    //   delete: false,
+    // }
   ];
 
   constructor(
@@ -68,6 +72,10 @@ export class ViewRoleComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    if (this.activatedRoute.snapshot.params['id']) {
+      this.reviewId = this.activatedRoute.snapshot.params['id'];
+      this.roleDetails_f(this.reviewId);      
+    }
   }
 
   selectAllList(index: any) {
@@ -84,4 +92,26 @@ export class ViewRoleComponent implements OnInit {
       this.resource[index].selectedAll = false;
     }
   }
+    roleDetails_f(id: any){
+      this._roleService.roleDetails(this.reviewId).subscribe((res) => {
+        if (res['data']) {
+          this.roleForm = res['data'];
+          this.resource = res['data'].resource.map(item => ({
+            moduleName: item.moduleName,
+            moduleId: item.moduleId,
+            selectedAll: item.permissions.includes("selectedAll"),
+            list: item.permissions.includes("list"),
+            add: item.permissions.includes("add"),
+            edit: item.permissions.includes("edit"),
+            view: item.permissions.includes("view"),
+            delete: item.permissions.includes("delete")
+          }));
+          console.log(this.resource);
+          
+        }
+      }, (err) => {
+        console.log('Error while Login', err);
+      })  
+    }
+
 }

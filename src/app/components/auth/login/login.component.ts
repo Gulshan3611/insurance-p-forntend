@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     if (this._authService.isLoggedInAdmin()) {
       // navigate to dashboard
-      this._router.navigate(['/dashboard']);
+      this._router.navigate(['/setting']);
     }
   } 
 
@@ -45,32 +45,38 @@ export class LoginComponent implements OnInit {
     this.spinner.show()
     // call api
 
-    // this._adminAuthAPI.login(this.myForm).subscribe(objS => {
-    //   this.loading = this.showError = false;
-    //   if (objS.code == 200) {
-    //     this._authService.setDataAdmin(objS.data.admin);
-    //     this._authService.setTokenAdmin(JSON.stringify(objS.data.tokens));
-    //     if (objS.data.admin.type == 'superadmin') {
-    //       localStorage.setItem('userType', 'Admin')
-    //       this._router.navigate(['/dashboard']);
-    //     } else {
-    //       localStorage.setItem('userType', 'Expert')
-    //       this._router.navigate(['/review/list']);
-    //     }
-    //     this._toastr.success(objS.message)
-    //     // navigate to dashboard
-    //   }
-    //   else {
-    //     this.apiCalled = false
-    //     this.loading = false
-    //     this._toastr.error(objS.message)
-    //   }
+    this._adminAuthAPI.login(this.myForm).subscribe(objS => {
+      // console.log('print response====', objS)
+      this.loading = this.showError = false;
+      if (objS.code == 200) {
+        // store login session in browser
+        this._authService.setDataAdmin(objS.data.admin);
+        this._authService.setTokenAdmin(JSON.stringify(objS.data.tokens));
+        if (objS.data.admin.type == 'superadmin') {
+          this.spinner.hide()
+          localStorage.setItem('userType', 'Admin')
+          this._router.navigate(['/setting']);
+          // this._router.navigate(['/dashboard']);
+        } else {
+          this.spinner.hide()
+          localStorage.setItem('userType', 'Expert')
+          this._router.navigate(['/setting']);
+        }
+        this.spinner.hide()
+        this._toastr.success(objS.message)
+        // navigate to dashboard
+      }
+      else {
+        this.apiCalled = false
+        this.loading = false
+        this.spinner.hide()
+        this._toastr.error(objS.message)
+      }
 
-    // }, err => {
-    //   this._toastr.error(err?.error?.message)
-    // });
+    }, err => {
+      this._toastr.error(err?.error?.message)
+    });
   }
-
    /**
  * Toggle Password Text Type 
  */

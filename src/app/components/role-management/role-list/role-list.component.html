@@ -4,7 +4,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">
-                        <input type="text" class="form-control d-inline-block col-md-4" id="exampleInputEmail1"
+                        <input type="text" (keyup)="onKeyUp($event)" class="form-control d-inline-block col-md-4" id="exampleInputEmail1"
                             placeholder="Search by name">
                         <button type="button" routerLink="/role-management/add" routerLinkActive="router-link-active"
                             class="btn btn-primary ml-1 float-right" rippleEffect>Add New Role</button>
@@ -21,11 +21,12 @@
                             </thead>
                             <tbody>
                                 <!-- <tr *ngFor="let item of roleList.docs let i=index"> -->
-                                <tr>
-                                    <td>1</td>
-                                    <td> Manage Staff</td>
+                                <tr *ngFor="let item of roleList.docs let i=index">
+                                    <td>{{(page-1)*10+i+1}}</td>
+                                    <td>{{item?.name}}</td>
                                     <td>
-                                        <label class="badge badge-success">Active</label>
+                                        <label *ngIf="item?.status==1" class="badge badge-success">Active</label>
+                                        <label *ngIf="item?.status==0" class="badge badge-danger">Inactive</label> 
                                     </td>
 
                                     <td class="overflow-hidden">
@@ -36,72 +37,38 @@
                                                 <i class="feather icon-more-vertical"></i>
                                             </button>
                                             <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
-                                                <a ngbDropdownItem href="javascript:void(0);" routerLink="/role-management/view/343434"
+                                                <a ngbDropdownItem  routerLink="/role-management/view/{{item.id}}"
                                                     routerLinkActive="router-link-active">
                                                     <i class="feather icon-eye mr-50"></i><span>View</span>
                                                 </a>
-                                                <a ngbDropdownItem href="javascript:void(0);" routerLink="/role-management/edit/343434"
+                                                <a ngbDropdownItem  routerLink="/role-management/edit/{{item.id}}"
                                                     routerLinkActive="router-link-active">
                                                     <i class="feather icon-edit mr-50"></i><span>Edit</span>
                                                 </a>
-                                                <a ngbDropdownItem href="javascript:void(0);">
-                                                    <i class="feather icon-toggle-right mr-50"></i><span>Activate</span>
-                                                </a>
-                                                <a ngbDropdownItem href="javascript:void(0);">
-                                                    <i class="feather icon-toggle-left mr-50"></i> <span>Deactivate</span>
-                                                </a>
-                                                <a ngbDropdownItem href="javascript:void(0);">
-                                                    <i class="feather icon-trash mr-50"></i> <span>Delete</span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td> Project Manager</td>
-                                    <td>
-                                        <label class="badge badge-success">Active</label>
-                                    </td>
 
-                                    <td class="overflow-hidden">
-                                        <div container="body" ngbDropdown placement="bottom-right" class="d-inline-block">
-                                            <button type="button"
-                                                class="btn btn-flat-primary waves-effect waves-light"
-                                                id="dropdownBasic2" ngbDropdownToggle>
-                                                <i class="feather icon-more-vertical"></i>
-                                            </button>
-                                            <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
-                                                <a ngbDropdownItem href="javascript:void(0);" routerLink="/"
-                                                    routerLinkActive="router-link-active">
-                                                    <i class="feather icon-eye mr-50"></i><span>View</span>
-                                                </a>
-                                                <a ngbDropdownItem href="javascript:void(0);" routerLink="/"
-                                                    routerLinkActive="router-link-active">
-                                                    <i class="feather icon-edit mr-50"></i><span>Edit</span>
-                                                </a>
-                                                <a ngbDropdownItem href="javascript:void(0);">
+                                                <a *ngIf="item?.status!=1" type="button"  ngbDropdownItem (click)="activateDeactivateRoles_f(item,'active')">
                                                     <i class="feather icon-toggle-right mr-50"></i><span>Activate</span>
                                                 </a>
-                                                <a ngbDropdownItem href="javascript:void(0);">
+                                                <a *ngIf="item?.status!=0" type="button" ngbDropdownItem (click)="activateDeactivateRoles_f(item,'deactive')">
                                                     <i class="feather icon-toggle-left mr-50"></i> <span>Deactivate</span>
                                                 </a>
-                                                <a ngbDropdownItem href="javascript:void(0);">
+                                                <a type="button" (click)="deleteRole_f(item)" ngbDropdownItem >
                                                     <i class="feather icon-trash mr-50"></i> <span>Delete</span>
                                                 </a>
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
-                                <!-- <tr *ngIf="roleListLength.length==0 && apiCalled">
+                                
+                                <tr *ngIf="roleListLength.length==0 && apiCalled">
                     <td class="noData text-center" colspan="10">No Records found</td>
-                </tr> -->
+                </tr> 
                             </tbody>
                         </table>
                     </div>
-                    <!-- <ngb-pagination *ngIf="roleListLength.length!=0 && apiCalled" [collectionSize]="roleList.total"
+                     <ngb-pagination *ngIf="roleListLength.length!=0 && apiCalled" [collectionSize]="roleList.total"
             [(page)]="page" [maxSize]="10" [rotate]="true" [boundaryLinks]="true" (pageChange)="refreshList(page,'')">
-            </ngb-pagination> -->
+            </ngb-pagination> 
                 </div>
             </div>
         </div>

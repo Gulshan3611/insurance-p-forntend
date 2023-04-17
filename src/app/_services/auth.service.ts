@@ -75,5 +75,6 @@ export class AuthService {
     adminLogout() {
         localStorage.removeItem('go_d_r_a_t');
         localStorage.removeItem('go_d_r_a');
+        
     }
 }

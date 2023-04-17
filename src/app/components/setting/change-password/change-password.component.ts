@@ -42,20 +42,20 @@ export class ChangePasswordComponent implements OnInit {
         // this._toastrService.error('New password should not be same as old password.')
       } else if (this.myForm.password === this.myForm.confirmPassword) {
         console.log('check req====', this.myForm)
-        // this._expertService
-        //   .changePassword(this.myForm).subscribe(res => {
-        //     if (res.code == 200) {
-        //       this.loading = false;
-        //       this.myForm = {}
-        //       this.router.navigate(['/review/list']);
-        //       this._toastrService.success(res.message);
-        //     } else {
-        //       this._toastrService.error(res.message);
-        //       this.loading = false;
-        //     }
-        //   }, (err) => {
-        //     console.log(err);
-        //   })
+        this._adminService
+          .changePassword(this.myForm).subscribe(res => {
+            if (res.code == 200) {
+              this.loading = false;
+              this.myForm = {}
+              this.router.navigate(['/setting']);
+              this._toastrService.success(res.message);
+            } else {
+              this._toastrService.error(res.message);
+              this.loading = false;
+            }
+          }, (err) => {
+            console.log(err);
+          })
       } else {
         // this._toastrService.error('Confirm password should be same as new password');
       }
