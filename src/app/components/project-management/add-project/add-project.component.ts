@@ -53,12 +53,12 @@ export class AddProjectComponent implements OnInit {
   ngOnInit(): void {
      
   }
-
+  
   percentageChange(event: any) {
     console.log(event.target.value)
     this.percentageValue = event.target.value;
   }
-
+  
   addMilestone() {
     this.milestones.push({});
     this.milestoneAdded = true;
@@ -77,11 +77,12 @@ export class AddProjectComponent implements OnInit {
     // code to delete fields here
   }
   
-
+  
   onSubmit(valid: any): void {
     this.showError = true;
     this.submitted = true;
-    // console.log('checking---', valid, this.resource)
+    console.log('checking---', valid, this.addProject)
+    // let requestData 
     if (valid) {
       this.loading = true;
       // this.staffForm.email = this.staffForm.email.toLocaleLowerCase();

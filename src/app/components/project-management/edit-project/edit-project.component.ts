@@ -19,6 +19,8 @@ export class EditProjectComponent implements OnInit {
   addProject: any = {};
   currentDate: any = new Date();
   percentageValue: any = 40;
+  milestones: any[] = [{}];
+  milestoneAdded = false;
 
   dateOptions: FlatpickrOptions = {
     // locale: locale, // date-fns locale,
@@ -45,6 +47,14 @@ export class EditProjectComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,  
   ) { }
+
+  
+  addMilestone() {
+    this.milestones.push({});
+    this.milestoneAdded = true;
+    console.log(this.milestones);
+  }
+  
 
   ngOnInit(): void {
      this.addProject.projectPercentage = 40

@@ -18,6 +18,9 @@ export class ViewProjectComponent implements OnInit {
   submitted = false;
   addProject: any = {};
   currentDate: any = new Date();
+  milestones: any[] = [{}];
+  milestoneAdded = false;
+  percentageValue: any ;
 
   dateOptions: FlatpickrOptions = {
     // locale: locale, // date-fns locale,
@@ -44,6 +47,17 @@ export class ViewProjectComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,  
   ) { }
+
+  addMilestone() {
+    this.milestones.push({});
+    this.milestoneAdded = true;
+    console.log(this.milestones);
+  }
+
+  percentageChange(event: any) {
+    console.log(event.target.value)
+    this.percentageValue = event.target.value;
+  }
 
   ngOnInit(): void {
      
