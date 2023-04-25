@@ -42,13 +42,13 @@ export class RoleListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getRoleLists_f()
-    this.refreshToken = localStorage.getItem('go_d_r_a_t');
-    console.log("rrrrrrrrrrrrr",this.refreshToken.refresh.token);
+    // this.refreshToken = localStorage.getItem('go_d_r_a_t');
+    // console.log("rrrrrrrrrrrrr",this.refreshToken.refresh.token);
   }
 
   onKeyUp(event: any) {
     this.searchForm=event.target.value.trim().replace(/^\s+/, '');
-    console.log("ssssssssssss",this.searchForm);
+    // console.log("ssssssssssss",this.searchForm);
     this.getRoleLists_f()
   }
   getRoleLists_f(){
@@ -58,7 +58,7 @@ export class RoleListComponent implements OnInit {
       limit: this.limit,
       searchBy: this.searchForm,
     }).subscribe(objS => {
-      console.log('print response====', objS)
+      // console.log('print response====', objS)
       this.loading = this.showError = false;
       if (objS.code == 200) {
         this.apiCalled = true;

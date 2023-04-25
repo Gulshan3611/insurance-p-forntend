@@ -27,7 +27,6 @@ import { ViewRoleComponent } from './view-role/view-role.component';
     NgbModule,
     NgbPaginationModule, 
     NgbAlertModule,
-    NgbModule,
     NgbPaginationModule, 
     NgbAlertModule,
     FormsModule, 
