@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { ProjectService, RoleService, AuthService } from '../../../_services';
+import { ProjectService, VendorService, AuthService } from '../../../_services';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FlatpickrOptions } from 'ng2-flatpickr';
+import { NgxSpinnerService } from "ngx-spinner";
 // import locale from 'date-fns/locale/en-US';
 
 @Component({
@@ -16,9 +17,15 @@ export class AddProjectComponent implements OnInit {
   showError: boolean = false;
   apiCalled: boolean = false;
   submitted = false;
-  addProject: any = {};
+  addProject: any = {
+    projectType: 'RESOUCEONHOURLY'
+  };
+  vendorListLength: any = [];
+  vendorList: any = {}
   currentDate: any = new Date();
   percentageValue: any;
+  slectedProjectType = 'RESOUCEONHOURLY';
+  milestone: any;
 
   dateOptions: FlatpickrOptions = {
     // locale: locale, // date-fns locale,
@@ -36,35 +43,124 @@ export class AddProjectComponent implements OnInit {
       this.addProject.date = selectedDates.toString();
     },
   };
-  milestones: any[] = [{}];
+  milestones: any[] = [{
+    title: '',
+    month: '',
+    totalAmount: '',
+    discount: '',
+    decidedHours: '',
+    investedHours: '',
+    payableAmount: '',
+    milestoneName: '',
+    monthlyprice: '',
+    hourlyprice: '',
+    technology: '',
+    experience: '',
+    duration: '',
+    milestoneAmount: '',
+    timeline: '',
+    deliveryDate: '',
+    projectPercentage: '',
+    milestoneNumber: '',
+  }];
   milestoneAdded = false;
   showDeleteButton = false;
 
 
   constructor(
     private _projectService: ProjectService,
-    private toastr: ToastrService,
-    private _router: Router,
-    private _roleService: RoleService,
+    private _toastrService: ToastrService,
+    private router: Router,
+    private _vendorService: VendorService,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService,  
+    private authService: AuthService,
+    private spinner: NgxSpinnerService
+
   ) { }
 
   ngOnInit(): void {
-     
+    this.getVendorLists_f()
   }
-  
+  getVendorLists_f(){
+    this.apiCalled = false;
+    this._vendorService.getVendorLists({
+      page: 1,
+      limit: 100,
+      searchBy: '',
+    }).subscribe(objS => {
+      this.loading = this.showError = false;
+      if (objS?.docs?.length !=0) {
+        this.apiCalled = true;
+        this.vendorList = objS.docs
+        this.vendorListLength = objS.docs;
+        // console.log('print response====vendor',objS.docs.length, this.vendorList)
+      } else {
+        this.vendorList = []
+        this.vendorListLength = [];
+        // this._toastrService.error(objS.message);
+      }
+    }, (err) => {
+      this.loading = this.showError = false;
+      console.log('err', err)
+    });
+  }
+
   percentageChange(event: any) {
     console.log(event.target.value)
     this.percentageValue = event.target.value;
   }
-  
+  onProjectTypeChange(event: any) {
+    this.slectedProjectType = event;
+    console.log('Project type changed:', event);
+  }
+
   addMilestone() {
-    this.milestones.push({});
+    if (this.slectedProjectType == "PROJECTONMONTHLY") {
+      this.milestone = {
+        title: '',
+        month: '',
+        totalAmount: '',
+        discount: '',
+        decidedHours: '',
+        investedHours: '',
+        payableAmount: '',
+      };
+    }
+    if (this.slectedProjectType == "RESOURCEONMONTHLY") {
+      this.milestone = {
+        monthlyprice: '',
+        technology: '',
+        experience: '',
+        duration: '',
+      };
+    }
+    if (this.slectedProjectType == "RESOUCEONHOURLY") {
+      this.milestone = {
+        hourlyprice: '',
+        technology: '',
+        experience: '',
+        duration: '',
+      };
+    }
+    if (this.slectedProjectType == "FIXED") {
+      this.milestone = {
+        totalAmount: '',
+        milestoneName: '',
+        title: '',
+        month: '',
+        milestoneAmount: '',
+        timeline: '',
+        deliveryDate: '',
+        projectPercentage: '',
+        milestoneNumber: '',
+      };
+    }
+    this.milestones.push(this.milestone);
+    // this.milestones.push({});
     this.milestoneAdded = true;
     console.log(this.milestones);
   }
-  
+
 
 
   onAddButtonClick() {
@@ -76,29 +172,69 @@ export class AddProjectComponent implements OnInit {
     this.showDeleteButton = false;
     // code to delete fields here
   }
-  
-  
+
+
   onSubmit(valid: any): void {
     this.showError = true;
     this.submitted = true;
-    console.log('checking---', valid, this.addProject)
-    // let requestData 
+    console.log('checking---', valid, this.addProject, this.milestones)
+
+    const filteredData = this.milestones.map(obj => {
+      const newObj = {};
+      for (const [key, value] of Object.entries(obj)) {
+        if (value !== "" || !["milestoneAmount", "timeline", "deliveryDate", "projectPercentage",
+          "milestoneNumber", "title", "month", "totalAmount", "discount", "decidedHours",
+          "investedHours", "payableAmount", "milestoneName", "monthlyprice", "hourlyprice", "technology",
+          "experience", "duration"].includes(key)) {
+          newObj[key] = value;
+        }
+      }
+      return newObj;
+    });
+
+    let requestData = {
+      vendorId: "6427d0641d0a8742b02c7d3a",
+      projectType: this.addProject?.projectType,
+      projectName: this.addProject?.projectName,
+      totalHours: this.addProject?.totalHours,
+      monthlyCharge: this.addProject?.monthlyCharge,
+      currency: this.addProject?.currency,
+      contractDuration: this.addProject?.contractDuration,
+      projectMonthly:
+        filteredData
+
+    }
+    // const convertedData = this.milestones.map(item => ({
+    //   permissions: Object.keys(item).filter(key => key !== 'moduleName' && key !== 'moduleId'),
+    //   moduleName: item.moduleName,
+    //   moduleId: item.moduleId
+    // }));
     if (valid) {
       this.loading = true;
-      // this.staffForm.email = this.staffForm.email.toLocaleLowerCase();
-      // this._staffService
-      //   .addNewSubadmin(this.staffForm).subscribe(objS => {
-      //     if (objS.code == 200) {
-      //       this.loading = false;
-      //       this.toastr.success(objS.message)
-      //       this._router.navigate(['/staff/list']);
-      //     } else {
-      //       this.loading = false;
-      //       this.toastr.error(objS.message)
-      //     }
-      //   }, (err) => {
-      //     console.log(err);
-      //   })
+      // const result = { "name" : this.roleForm.name ,"resource": convertedData };
+      // console.log("result",result);
+      // return
+      this.loading = true;
+      this.spinner.show();
+      // call api
+
+      this._projectService.addProject(requestData).subscribe(objS => {
+        console.log('print response====', objS)
+        this.loading = this.showError = false;
+        if (objS.code == 200) {
+          // this._authService.setDataAdmin(objS.data);
+          this.spinner.hide();
+          this._toastrService.success(objS.message);
+          // this._header.checkFunction(true);
+          this.router.navigate(['/role-management/list']);
+        } else {
+          this._toastrService.error(objS.message);
+          this.spinner.hide();
+        }
+      }, (err) => {
+        this.loading = this.showError = false;
+        console.log('err', err)
+      });
     }
   }
 
