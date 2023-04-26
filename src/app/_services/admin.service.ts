@@ -61,6 +61,11 @@ export class AdminService {
     }
     
     // update Ofiice Details
+    getOfiiceDetails(request: any): Observable<any> {
+        return this.http.get(`${this.apiUrl}/company/` + request,).pipe(map(this.extractData));
+    }
+    
+    // update Ofiice Details
     updateOfiiceDetails(request: any): Observable<any> {
         return this.http.post(`${this.apiUrl}/company`,request).pipe(map(this.extractData));
     }

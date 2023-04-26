@@ -29,6 +29,7 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { ForgotPasswordComponent } from './components/auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/auth/reset-password/reset-password.component';
 import { RoleManagementComponent } from './components/role-management/role-management.component';
+import { ResourceManagementComponent } from './components/resource-management/resource-management.component';
 import { StaffManagementComponent } from './components/staff-management/staff-management.component';
 import { VendorManagementComponent } from './components/vendor-management/vendor-management.component';
 import { ProjectManagementComponent } from './components/project-management/project-management.component';
@@ -53,6 +54,7 @@ import { ClientComponent } from './components/client/client.component';
     ProjectManagementComponent,
     ManageInvoiceComponent,
     ClientComponent,
+    ResourceManagementComponent,
   ],
   imports: [
     BrowserModule,

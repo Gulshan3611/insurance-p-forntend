@@ -62,6 +62,17 @@ const routes: Routes = [
     // canActivate: [AuthGuard],
     children: [
       {
+        path: 'resource-management',
+        loadChildren: () => import('./components/resource-management/resource-management.module').then(m => m.ResourceManagementModule)
+      },
+    ]
+  },
+  {
+    path: '',
+    component: FullComponent, 
+    // canActivate: [AuthGuard],
+    children: [
+      {
         path: 'invoice-management',
         loadChildren: () => import('./components/manage-invoice/manage-invoice.module').then(m => m.ManageInvoiceModule)
       },

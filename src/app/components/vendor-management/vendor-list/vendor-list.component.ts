@@ -15,10 +15,10 @@ export class VendorListComponent implements OnInit {
 
   page: any = 1;
   vendorListLength: any = [];
+  vendorList: any = {}
   searchForm: any ;
   limit: any = 10;
   refreshToken: any;
-  vendorList: any = {}
   apiCalled: boolean = false;
   loading: boolean = false;
   showError: boolean = false;

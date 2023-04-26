@@ -173,17 +173,17 @@
                                             <input type="text" class="form-control" id="exampleInputName1"
                                                 placeholder="Enter Email"
                                                 pattern="[a-zA-Z0-9]+[a-zA-Z0-9._]+@[a-zA-Z]+\.[a-zzA-Z.]{2,5}$"
-                                                maxlength="180" name="contactPersonEmail" 
-                                                [(ngModel)]="staffForm.contactPersonEmail" #contactPersonEmail="ngModel"
+                                                maxlength="180" name="constactPersonEmail" 
+                                                [(ngModel)]="staffForm.constactPersonEmail" #constactPersonEmail="ngModel"
                                                 required>
                                             <span class="form-text text-danger small"
-                                                *ngIf="contactPersonEmail.invalid && showError">
+                                                *ngIf="constactPersonEmail.invalid && showError">
                                                 <span class="form-text text-danger small"
-                                                    *ngIf="contactPersonEmail.errors?.['required']">Contact Person Email
+                                                    *ngIf="constactPersonEmail.errors?.['required']">Contact Person Email
                                                     is
                                                     required</span>
                                                 <span class="form-text text-danger small"
-                                                    [hidden]="!contactPersonEmail.errors?.['pattern']">
+                                                    [hidden]="!constactPersonEmail.errors?.['pattern']">
                                                     Invalid contact person email address. Please enter your contact
                                                     person email address in format
                                                     youname@example.com

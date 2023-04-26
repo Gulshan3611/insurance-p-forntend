@@ -24,7 +24,7 @@ export class ProjectService {
         return this.http.get(`${this.apiUrl}/project?page=1&sortBy=asc&limit=10&searchBy=` + request.searchBy, request).pipe(map(this.extractData));
     }
     // add project 
-    addVendor(request: any): Observable<any> {
+    addProject(request: any): Observable<any> {
         return this.http.post(`${this.apiUrl}/project`, request).pipe(map(this.extractData));
     }
     // delete project 

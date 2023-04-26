@@ -19,7 +19,7 @@ export class AddStaffComponent implements OnInit {
   showError: boolean = false;
   apiCalled: boolean = false;
   staffForm: any = {
-    status: "1",
+    // status: "1",
     role: "",
     type: "admin"
   };
@@ -113,7 +113,7 @@ export class AddStaffComponent implements OnInit {
   onSubmit(valid: any): void {
     this.showError = true;
     this.submitted = true;
-    // console.log('checking---', valid, this.resource)
+    console.log('checking---', valid, this.staffForm)
     if (valid) {
       this.loading = true;
       this.staffForm.email = this.staffForm.email.toLocaleLowerCase();

@@ -57,6 +57,10 @@ export class ProfileComponent implements OnInit {
     reader.onload = (_event) => {
       this.profile.image = reader.result;
     }
+    if (mimeType.match(/image\/*/) == null) {
+      this._toastrService.info("Only images are supported.");
+      return;
+    }
 
   }
 
@@ -88,7 +92,7 @@ export class ProfileComponent implements OnInit {
         if (objS.code == 200) {
           this._authService.setDataAdmin(objS.data);
           this.spinner.hide();
-          this.router.navigate(['/setting']);
+          this.router.navigate(['/setting/profile']);
           this._toastrService.success(objS.message);
           this._header.checkFunction(true);
         } else {
