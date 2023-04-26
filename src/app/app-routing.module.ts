@@ -95,6 +95,17 @@ const routes: Routes = [
     // canActivate: [AuthGuard],
     children: [
       {
+        path: 'gst',
+        loadChildren: () => import('./components/gst/gst.module').then(m => m.GstModule)
+      },
+    ]
+  },
+  {
+    path: '',
+    component: FullComponent, 
+    // canActivate: [AuthGuard],
+    children: [
+      {
         path: 'setting',
         loadChildren: () => import('./components/setting/setting.module').then(m => m.SettingModule)
       },

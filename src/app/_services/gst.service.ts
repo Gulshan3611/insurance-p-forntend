@@ -33,7 +33,7 @@ export class GstService {
     }
     // delete gst 
     activateDeactivateGst(request: any): Observable<any> {
-        return this.http.post(`${this.apiUrl}/gst/activateDeactivateProjects`, request).pipe(map(this.extractData));
+        return this.http.post(`${this.apiUrl}/gst/activateDeactivateGsts`, request).pipe(map(this.extractData));
     }
 
     // get gst details
