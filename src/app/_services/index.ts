@@ -6,3 +6,4 @@ export * from './role.service';
 export * from './staff.service';
 export * from './project.service';
 export * from './vendor.service';
+export * from './resource.service';

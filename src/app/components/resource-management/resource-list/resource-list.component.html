@@ -23,9 +23,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- <tr *ngFor="let item of roleList.docs let i=index"> -->
-                                <tr *ngFor="let item of roleList.docs let i=index">
+                                <!-- <tr *ngFor="let item of resourceList.docs let i=index"> -->
+                                <tr *ngFor="let item of resourceList let i=index">
                                     <td>{{(page-1)*10+i+1}}</td>
+                                    <td>{{item?.name}}</td>
+                                    <td>{{item?.name}}</td>
+                                    <td>{{item?.name}}</td>
+                                    <td>{{item?.name}}</td>
                                     <td>{{item?.name}}</td>
                                     <td>
                                         <label *ngIf="item?.status==1" class="badge badge-success">Active</label>
@@ -49,13 +53,13 @@
                                                     <i class="feather icon-edit mr-50"></i><span>Edit</span>
                                                 </a>
 
-                                                <a *ngIf="item?.status!=1" type="button"  ngbDropdownItem (click)="activateDeactivateRoles_f(item,'active')">
+                                                <a *ngIf="item?.status!=1" type="button"  ngbDropdownItem (click)="activateDeactivateResources_f(item,'active')">
                                                     <i class="feather icon-toggle-right mr-50"></i><span>Activate</span>
                                                 </a>
-                                                <a *ngIf="item?.status!=0" type="button" ngbDropdownItem (click)="activateDeactivateRoles_f(item,'deactive')">
+                                                <a *ngIf="item?.status!=0" type="button" ngbDropdownItem (click)="activateDeactivateResources_f(item,'deactive')">
                                                     <i class="feather icon-toggle-left mr-50"></i> <span>Deactivate</span>
                                                 </a>
-                                                <a type="button" (click)="deleteRole_f(item)" ngbDropdownItem >
+                                                <a type="button" (click)="deleteResource_f(item)" ngbDropdownItem >
                                                     <i class="feather icon-trash mr-50"></i> <span>Delete</span>
                                                 </a>
                                             </div>
@@ -63,13 +67,13 @@
                                     </td>
                                 </tr>
                                 
-                                <tr *ngIf="roleListLength.length==0 && apiCalled">
+                                <tr *ngIf="resourceListLength.length==0 && apiCalled">
                     <td class="noData text-center" colspan="10">No Records found</td>
                 </tr> 
                             </tbody>
                         </table>
                     </div>
-                     <ngb-pagination *ngIf="roleListLength.length!=0 && apiCalled" [collectionSize]="roleList.total"
+                     <ngb-pagination *ngIf="resourceListLength.length!=0 && apiCalled" [collectionSize]="resourceList.total"
             [(page)]="page" [maxSize]="10" [rotate]="true" [boundaryLinks]="true" (pageChange)="refreshList(page,'')">
             </ngb-pagination> 
                 </div>
