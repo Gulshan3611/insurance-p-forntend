@@ -105,7 +105,7 @@
                                                   <ng-option value="" disabled selected>Select Role</ng-option>
                                                 </ng-container>
                                                 <ng-container *ngFor="let item of roleList?.docs">
-                                                  <ng-option [value]="item.id">{{item.name}}</ng-option>
+                                                    <ng-option *ngIf="item?.status == 1" [value]="item.id">{{item.name}} </ng-option>
                                                 </ng-container>
                                               </ng-select>
                                             <!-- <select class="form-control" id="exampleInputName1" name="role"

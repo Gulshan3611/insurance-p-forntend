@@ -20,8 +20,7 @@ export class AddStaffComponent implements OnInit {
   apiCalled: boolean = false;
   staffForm: any = {
     // status: "1",
-    role: "",
-    type: "admin"
+    type: "admin",
   };
   roleList: any = [];
   page: any = 1;
@@ -122,13 +121,15 @@ export class AddStaffComponent implements OnInit {
           if (objS.code == 200) {
             this.loading = false;
             this.toastr.success(objS.message)
-            // this._router.navigate(['/staff-management/list']);
+            this._router.navigate(['/staff-management/list']);
           } else {
             this.loading = false;
             this.toastr.error(objS.message)
           }
         }, (err) => {
+          this.loading = false;
           console.log(err);
+          this.toastr.error(err)
         })
     }
   }

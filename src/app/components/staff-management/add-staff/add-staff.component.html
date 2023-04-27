@@ -98,10 +98,9 @@
                                         <div class="form-group">
                                             <label for="exampleInputName1">Role*</label>
                                             <ng-select name="role" [(ngModel)]="staffForm.role" #role="ngModel"
-                                                placeholder="Select Country" required>
-                                                <ng-container>
-                                                    <ng-option value="" disabled>Select Role</ng-option>
-                                                    <ng-option *ngFor="let item of roleList?.docs" [value]="item.id">{{item.name}} </ng-option>
+                                                placeholder="Select Role" required>
+                                                <ng-container *ngFor="let item of roleList?.docs">
+                                                    <ng-option *ngIf="item?.status == 1" [value]="item.id">{{item.name}} </ng-option>
                                                 </ng-container>
                                             </ng-select>
                                             <!-- <select class="form-control" id="exampleInputName1" name="role"
@@ -174,7 +173,7 @@
                                                 placeholder="Enter Email"
                                                 pattern="[a-zA-Z0-9]+[a-zA-Z0-9._]+@[a-zA-Z]+\.[a-zzA-Z.]{2,5}$"
                                                 maxlength="180" name="constactPersonEmail" 
-                                                [(ngModel)]="staffForm.constactPersonEmail" #constactPersonEmail="ngModel"
+                                                [(ngModel)]="staffForm.contactPersonEmail" #constactPersonEmail="ngModel"
                                                 required>
                                             <span class="form-text text-danger small"
                                                 *ngIf="constactPersonEmail.invalid && showError">
@@ -496,7 +495,7 @@
                                             [(ngModel)]="staffForm.state" #fax="ngModel" required> -->
 
                                         <ng-select name="state" [(ngModel)]="staffForm.state" #state="ngModel"
-                                            placeholder="Select Country" required>
+                                            placeholder="Select State" required>
                                             <ng-container>
                                                 <ng-option value="Andaman and Nicobar Islands">Andaman and Nicobar
                                                     Islands

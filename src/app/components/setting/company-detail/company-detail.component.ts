@@ -65,6 +65,7 @@ export class CompanyDetailComponent implements OnInit {
     if (files.length === 0)
     
     return;
+
     const fsize = files[0].size;
     const file = Math.round((fsize / 1024 / 1024));
     var mimeType = files[0].type;
@@ -72,15 +73,16 @@ export class CompanyDetailComponent implements OnInit {
     // if (!(file <= 100)) {
     //   return this._toastrService.warning("File too Big, please select a file less than 100mb")
     // }
+    
+    if (mimeType.match(/image\/*/) == null) {
+      this._toastrService.info("Only images are supported.");
+      return;
+    }
     var reader = new FileReader();
     this.profile.file = files[0];
     reader.readAsDataURL(files[0]);
     reader.onload = (_event) => {
       this.profile.logo = reader.result;
-    }
-    if (mimeType.match(/image\/*/) == null) {
-      this._toastrService.info("Only images are supported.");
-      return;
     }
 
   }
@@ -96,16 +98,16 @@ export class CompanyDetailComponent implements OnInit {
     // if (!(file <= 100)) {
     //   return this._toastrService.warning("File too Big, please select a file less than 100mb")
     // }
+    
+    if (mimeType.match(/image\/*/) == null) {
+      this._toastrService.info("Only images are supported.");
+      return;
+    }
     var reader = new FileReader();
     this.profile.file = files[0];
     reader.readAsDataURL(files[0]);
     reader.onload = (_event) => {
       this.profile.icon = reader.result;
-    }
-    
-    if (mimeType.match(/image\/*/) == null) {
-      this._toastrService.info("Only images are supported.");
-      return;
     }
   }
 
