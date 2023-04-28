@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BasicAuthInterceptor, AuthGuard, ErrorInterceptor, TimeoutInterceptor, DEFAULT_TIMEOUT } from '../app/_helpers';
-import { AdminService, AuthService, SidebarService, updateHeaderService, RoleService,VendorService, StaffService, ProjectService,GstService } from './_services';
+import { AdminService, AuthService, SidebarService, updateHeaderService, RoleService,VendorService, StaffService, ProjectService,GstService, ResourceService } from './_services';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
@@ -85,6 +85,7 @@ import { ClientComponent } from './components/client/client.component';
     ProjectService,
     VendorService,
     GstService,
+    ResourceService,
     // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },

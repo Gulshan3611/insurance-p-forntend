@@ -73,7 +73,7 @@
                             </tbody>
                         </table>
                     </div>
-                     <div class="d-flex justify-content-center mt-5"> 
+                     <div class="d-flex justify-content-end"> 
                      <ngb-pagination *ngIf="staffListLength.length!=0 && apiCalled" [collectionSize]="staffList.total"
                 [(page)]="page" [maxSize]="10" [rotate]="true" [boundaryLinks]="true" (pageChange)="refreshList(page,'')">
               </ngb-pagination> 

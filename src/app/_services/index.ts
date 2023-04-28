@@ -8,3 +8,4 @@ export * from './staff.service';
 export * from './project.service';
 export * from './vendor.service';
 export * from './gst.service'
+export * from './resource.service';

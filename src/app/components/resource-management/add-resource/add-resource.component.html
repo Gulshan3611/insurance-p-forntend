@@ -15,7 +15,7 @@
                                     <div class="col-md-12">
                                         <div class="media">
                                             <a href="javascript:void(0);" class="mr-25">
-                                                <img src="{{addVendor.profilePhoto}}"
+                                                <img src="{{addResource.profilePhoto}}"
                                                     onerror="this.src='assets/images/portrait/small/not_ava.png'"
                                                     class="rounded mr-50" alt="profile image" height="76" width="80" />
                                             </a>
@@ -36,7 +36,7 @@
                                         <div class="form-group">
                                             <label for="exampleInputName1"> Name</label>
                                             <input type="text" class="form-control" id="exampleInputName1"
-                                                pattern="[a-zA-Z0-9 ]*" name="name" [(ngModel)]="addVendor.name"
+                                                pattern="[a-zA-Z0-9 ]*" name="name" [(ngModel)]="addResource.name"
                                                 #name="ngModel" maxlength="50" minlength="2" placeholder="Name"
                                                 required>
                                             <span class="form-text text-danger small"
@@ -65,7 +65,7 @@
                                             <label for="exampleInputName1"> Technology</label>
                                             <input type="text" class="form-control" id="exampleInputName1"
                                                 pattern="[a-zA-Z ]*" name="technology"
-                                                [(ngModel)]="addVendor.technology" #technology="ngModel" maxlength="50"
+                                                [(ngModel)]="addResource.technology" #technology="ngModel" maxlength="50"
                                                 minlength="2" placeholder="Technology" required>
                                             <span class="form-text text-danger small"
                                                 *ngIf="technology.invalid && (technology.dirty || technology.touched) || showError">
@@ -93,7 +93,7 @@
                                             <label for="exampleInputName1">Phone</label>
                                             <input type="text" class="form-control" id="exampleInputName1"
                                                 pattern="^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$"
-                                                name="phone" [(ngModel)]="addVendor.phone" #phone="ngModel"
+                                                name="phone" [(ngModel)]="addResource.phone" #phone="ngModel"
                                                 maxlength="10" placeholder="phone" required>
                                             <span class="form-text text-danger small"
                                                 *ngIf="phone.invalid && (phone.dirty || phone.touched) || showError">
@@ -115,7 +115,7 @@
                                             <label for="exampleInputName1">Email</label>
                                             <input type="text" class="form-control" id="exampleInputName1"
                                                 pattern="[a-zA-Z0-9]+[a-zA-Z0-9._]+@[a-zA-Z]+\.[a-zzA-Z.]{2,5}$"
-                                                maxlength="50" name="email" [(ngModel)]="addVendor.email"
+                                                maxlength="50" name="email" [(ngModel)]="addResource.email"
                                                 #email="ngModel" maxlength="50" placeholder="email" required>
                                             <span class="form-text text-danger small"
                                                 *ngIf="email.invalid && (email.dirty || email.touched) || showError">
@@ -137,7 +137,7 @@
                                             <label for="exampleInputName1"> Designation</label>
                                             <input type="text" class="form-control" id="exampleInputName1"
                                                 pattern="[a-zA-Z ]*" name="designation"
-                                                [(ngModel)]="addVendor.designation" #designation="ngModel"
+                                                [(ngModel)]="addResource.designation" #designation="ngModel"
                                                 maxlength="50" minlength="2" placeholder="Designation" required>
                                             <span class="form-text text-danger small"
                                                 *ngIf="designation.invalid && (designation.dirty || designation.touched) || showError">
@@ -164,8 +164,8 @@
                                         <div class="form-group">
                                             <label for="exampleInputName1"> Gender</label>
                                             <input type="text" class="form-control" id="exampleInputName1"
-                                                pattern="[a-zA-Z ]*" name="gender" [(ngModel)]="addVendor.gender"
-                                                #gender="ngModel" maxlength="50" minlength="5" placeholder="gender"
+                                                pattern="[a-zA-Z ]*" name="gender" [(ngModel)]="addResource.gender"
+                                                #gender="ngModel" maxlength="50" minlength="4" placeholder="gender"
                                                 required>
                                             <span class="form-text text-danger small"
                                                 *ngIf="gender.invalid && (gender.dirty || gender.touched) || showError">
@@ -175,7 +175,7 @@
                                                 </span>
                                                 <span class="form-text text-danger small"
                                                     *ngIf="gender.errors?.['minlength']">
-                                                    Gender must be at least 5 characters long.
+                                                    Gender must be at least 4 characters long.
                                                 </span>
                                                 <span class="form-text text-danger small"
                                                     *ngIf="gender.errors?.['maxlength']">
@@ -198,7 +198,7 @@
                                         <div class="form-group">
                                             <label for="account-name">Address </label>
                                             <textarea class="form-control" type="text" pattern="[a-zA-Z0-9/-_ ]*"
-                                                name="address" [(ngModel)]="addVendor.address" #address="ngModel"
+                                                name="address" [(ngModel)]="addResource.address" #address="ngModel"
                                                 minlength="2" maxlength="200" placeholder="Address"
                                                 required></textarea>
                                             <span class="form-text text-danger small"
@@ -235,7 +235,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="account-name">Country</label>
-                                            <ng-select name="country" [(ngModel)]="addVendor.country" #country="ngModel"
+                                            <ng-select name="country" [(ngModel)]="addResource.country" #country="ngModel"
                                                 placeholder="Select Country" required>
                                                 <ng-container>
                                                     <ng-option value="Afghanistan">Afghanistan</ng-option>
@@ -536,7 +536,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="account-name">State</label>
-                                            <ng-select name="state" [(ngModel)]="addVendor.state" #state="ngModel"
+                                            <ng-select name="state" [(ngModel)]="addResource.state" #state="ngModel"
                                                 placeholder="Select Country" required>
                                                 <ng-container>
                                                     <ng-option value="Andaman and Nicobar Islands">Andaman and Nicobar
@@ -608,7 +608,7 @@
                                         <div class="form-group">
                                             <label for="account-name">City</label>
                                             <input class="form-control" type="text" name="city"
-                                                [(ngModel)]="addVendor.city" #city="ngModel" placeholder="City"
+                                                [(ngModel)]="addResource.city" #city="ngModel" placeholder="City"
                                                 required minlength="2" maxlength="50">
                                                 <span class="form-text text-danger small"
                                                 *ngIf="city.invalid  && (city.dirty || city.touched) || showError">
@@ -640,7 +640,7 @@
                                             <label for="account-name">Pincode</label>
                                             <input class="form-control" type="text"
                                                 pattern="^[1-9]{1}[0-9]{2}\s{0,1}[0-9]{2,4}$" name="zipcode"
-                                                minlength="5" maxlength="7" [(ngModel)]="addVendor.zipcode"
+                                                minlength="5" maxlength="7" [(ngModel)]="addResource.zipcode"
                                                 #zipcode="ngModel" placeholder="Pincode" required>
 
                                             <div *ngIf="zipcode.invalid && showError"

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, NgZone, Output, EventEmitter 
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
-import { RoleService, AuthService, updateHeaderService } from "../../../_services";
+import { ResourceService, AuthService, updateHeaderService } from "../../../_services";
 import { environment } from '../../../../environments/environment';
 import { NgxSpinnerService } from "ngx-spinner";
 
@@ -14,11 +14,11 @@ import { NgxSpinnerService } from "ngx-spinner";
 export class ResourceListComponent implements OnInit {
 
   page: any = 1;
-  roleListLength: any = [];
+  resourceListLength: any = [];
   searchForm: any ;
   limit: any = 10;
   refreshToken: any;
-  roleList: any = {}
+  resourceList: any = {}
   apiCalled: boolean = false;
   loading: boolean = false;
   showError: boolean = false;
@@ -35,13 +35,13 @@ export class ResourceListComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private _authService: AuthService,
-    private _roleService:RoleService,
+    private _resourceService:ResourceService,
     private _header: updateHeaderService,
     private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
-    this.getRoleLists_f()
+    this.getResourceLists_f()
     this.refreshToken = localStorage.getItem('go_d_r_a_t');
     console.log("rrrrrrrrrrrrr",this.refreshToken.refresh.token);
   }
@@ -49,21 +49,21 @@ export class ResourceListComponent implements OnInit {
   onKeyUp(event: any) {
     this.searchForm=event.target.value.trim().replace(/^\s+/, '');
     console.log("ssssssssssss",this.searchForm);
-    this.getRoleLists_f()
+    this.getResourceLists_f()
   }
-  getRoleLists_f(){
+  getResourceLists_f(){
     this.apiCalled = false;
-    this._roleService.getRoleLists({
+    this._resourceService.getResourceLists({
       page: this.page,
       limit: this.limit,
       searchBy: this.searchForm,
     }).subscribe(objS => {
-      console.log('print response====', objS)
+      console.log('print response====', objS.docs)
       this.loading = this.showError = false;
       if (objS.code == 200) {
         this.apiCalled = true;
-        this.roleList = objS.data
-        this.roleListLength = objS.data.docs;
+        this.resourceList = objS.docs
+        this.resourceListLength = objS.data.docs;
       } else {
         this._toastrService.error(objS.message);
       }
@@ -74,13 +74,13 @@ export class ResourceListComponent implements OnInit {
   }
   refreshList(page: any, search: any) {
     this.page = page ? page : 1;
-    this.getRoleLists_f()
+    this.getResourceLists_f()
   }
 
-  deleteRole_f(request: any) {
+  deleteResource_f(request: any) {
     Swal.fire({
       title: 'Are you sure?',
-      text: "Do you want to delete this role?",
+      text: "Do you want to delete this resource?",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -89,9 +89,9 @@ export class ResourceListComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         console.log(request.id);
-        this._roleService.deleteRole(request.id).subscribe(objS => {
+        this._resourceService.deleteResource(request.id).subscribe(objS => {
           this.apiCalled = true;
-          this.getRoleLists_f()
+          this.getResourceLists_f()
           this._toastrService.success(objS.message);
         }, (err) => {
           console.log(err);
@@ -100,7 +100,7 @@ export class ResourceListComponent implements OnInit {
     })
     
   }
-  activateDeactivateRoles_f(request: any,status: string) {
+  activateDeactivateResources_f(request: any,status: string) {
    
     const requestData =
      {status: status,
@@ -110,9 +110,9 @@ export class ResourceListComponent implements OnInit {
     console.log(requestData);
       if (request) {
         console.log(request);
-        this._roleService.activateDeactivateRoles(requestData).subscribe(objS => {
+        this._resourceService.activateDeactivateResources(requestData).subscribe(objS => {
           this.apiCalled = true;
-          this.getRoleLists_f()
+          this.getResourceLists_f()
           this._toastrService.success(objS.message);
         }, (err) => {
           console.log(err);

@@ -16,7 +16,7 @@ export class VendorListComponent implements OnInit {
   page: any = 1;
   vendorListLength: any = [];
   vendorList: any = {}
-  searchForm: any ;
+  searchForm: any = '';
   limit: any = 10;
   refreshToken: any;
   apiCalled: boolean = false;
@@ -35,7 +35,7 @@ export class VendorListComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private _authService: AuthService,
-    private _vendorService:VendorService,
+    private _vendorService: VendorService,
     private _header: updateHeaderService,
     private spinner: NgxSpinnerService
   ) { }
@@ -47,11 +47,12 @@ export class VendorListComponent implements OnInit {
   }
 
   onKeyUp(event: any) {
-    this.searchForm=event.target.value.trim().replace(/^\s+/, '');
-    console.log("ssssssssssss",this.searchForm);
+    this.searchForm = event.target.value.trim().replace(/^\s+/, '');
+    console.log("ssssssssssss", this.searchForm);
     this.getVendorLists_f()
   }
-  getVendorLists_f(){
+
+  getVendorLists_f() {
     this.apiCalled = false;
     this._vendorService.getVendorLists({
       page: this.page,
@@ -59,11 +60,13 @@ export class VendorListComponent implements OnInit {
       searchBy: this.searchForm,
     }).subscribe(objS => {
       this.loading = this.showError = false;
-      if (objS?.docs?.length !=0) {
+      if (objS?.docs?.length != 0) {
         this.apiCalled = true;
-        this.vendorList = objS.docs
-        this.vendorListLength = objS.docs;
-        console.log('print response====vendor',objS.docs.length, this.vendorList)
+        this.vendorList = objS
+        this.vendorListLength = objS.docs.length;
+
+        // console.log(objS.docs)
+        console.log('print response====vendor', objS.docs.length, this.vendorList.total)
       } else {
         this.vendorList = []
         this.vendorListLength = [];
@@ -74,6 +77,7 @@ export class VendorListComponent implements OnInit {
       console.log('err', err)
     });
   }
+
   refreshList(page: any, search: any) {
     this.page = page ? page : 1;
     this.getVendorLists_f()
@@ -100,27 +104,28 @@ export class VendorListComponent implements OnInit {
         })
       }
     })
-    
+
   }
-  
-  activateDeactivateVendor_f(request: any,status: string) {
-   
+
+  activateDeactivateVendor_f(request: any, status: string) {
+
     const requestData =
-     {status: status,
-      ids:[request.id]   
+    {
+      status: status,
+      ids: [request.id]
     }
-    
+
     console.log(requestData);
-      if (request) {
-        console.log(request);
-        this._vendorService.activateDeactivateVendors(requestData).subscribe(objS => {
-          this.apiCalled = true;
-          this.getVendorLists_f()
-          this._toastrService.success(objS.message);
-        }, (err) => {
-          console.log(err);
-        })
-      }
+    if (request) {
+      console.log(request);
+      this._vendorService.activateDeactivateVendors(requestData).subscribe(objS => {
+        this.apiCalled = true;
+        this.getVendorLists_f()
+        this._toastrService.success(objS.message);
+      }, (err) => {
+        console.log(err);
+      })
     }
+  }
 
 }

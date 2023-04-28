@@ -15,7 +15,7 @@ export class RoleListComponent implements OnInit {
 
   page: any = 1;
   roleListLength: any = [];
-  searchForm: any ;
+  searchForm: any = '';
   limit: any = 10;
   refreshToken: any;
   roleList: any = {}

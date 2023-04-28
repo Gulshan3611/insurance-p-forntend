@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RoleService, AuthService ,ProjectService,VendorService} from '../../../_services';
+import { RoleService, AuthService ,ProjectService,ResourceService} from '../../../_services';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
@@ -17,15 +17,15 @@ export class AddResourceComponent implements OnInit {
   showError: boolean = false;
   apiCalled: boolean = false;
   submitted = false;
-  addVendor: any = {}; 
-  selectedVendor: any = '';
+  addResource: any = {}; 
+  selectedResource: any = '';
   selectedCurrency: any = '';
 
   constructor(
     private _projectService: ProjectService,
     private _toastrService: ToastrService,
     private _router: Router,
-    private _vendorService: VendorService,
+    private _resourceService:ResourceService,
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,  
     private spinner: NgxSpinnerService
@@ -43,10 +43,9 @@ export class AddResourceComponent implements OnInit {
     //   return this._toastrService.warning("File too Big, please select a file less than 100mb")
     // }
     var reader = new FileReader();
-    this.addVendor.file = files[0];
     reader.readAsDataURL(files[0]);
-    reader.onload = (_event) => {
-      this.addVendor.profilePhoto = reader.result;
+    reader.onload = (_event) => {      
+      this.addResource.profilePhoto = reader.result;
     }
 
   }
@@ -55,8 +54,8 @@ export class AddResourceComponent implements OnInit {
      
   }
 
-  selectVendor(event: any) {
-    this.selectedVendor = event;
+  selectResource(event: any) {
+    this.selectedResource = event;
   }
 
   selectCurrency(event: any) {
@@ -66,19 +65,19 @@ export class AddResourceComponent implements OnInit {
   onSubmit(valid: any): void {
     this.showError = true;
     this.submitted = true;
-    console.log('checking---', valid, this.addVendor)
+    console.log('checking---', valid, this.addResource)
     if (valid) {
       this.loading = true;
-      console.log("hhhhhhhhhh",this.addVendor)
-      this._vendorService.addVendor(this.addVendor).subscribe(objS => {
+      console.log("hhhhhhhhhh",this.addResource)
+      this._resourceService.addResource(this.addResource).subscribe(objS => {
         console.log('print response====', objS)
-        this.loading = this.showError = false;
+        this.loading = this.showError = false;89
         if (objS.code == 200) {
           // this._authService.setDataAdmin(objS.data);
           this.spinner.hide();
           this._toastrService.success(objS.message);
           // this._header.checkFunction(true);
-          this._router.navigate(['/vendor-management/list']);
+          this._router.navigate(['/Resource-management/list']);
         } else {
           this._toastrService.error(objS.message);
           this.spinner.hide();
