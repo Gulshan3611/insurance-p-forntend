@@ -144,7 +144,7 @@ export class AddInvoiceComponent implements OnInit {
   selectedDates(event: any){
     // moment.parseZone(event)
     console.log(moment.parseZone(event.target.value).add(15, 'days').format())
-    this.addInvoice.clientName = moment.parseZone(event.target.value).add(15, 'days').format('YYYY/MM/DD')
+    this.addInvoice.invoiceDueDate = moment.parseZone(event.target.value).add(15, 'days').format('YYYY/MM/DD')
   }
 
   onSubmit(valid: any): void {
@@ -153,6 +153,11 @@ export class AddInvoiceComponent implements OnInit {
     // console.log('checking---', valid, this.resource)
     if (valid) {
       this.loading = true;
+      console.log(this.addInvoice)
+      if(this.addInvoice.gst > 101 ) {
+        this.toastr.error('The percentage must be between 0 and 100');
+        return;
+      }
     }
   }
 

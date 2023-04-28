@@ -81,19 +81,21 @@ export class AddRoleComponent implements OnInit {
     console.log('checking---', this.roleForm, valid, this.resource)
 
     if (valid) {
-      const convertedData = this.resource.map(item => ({
-        permissions: Object.keys(item).filter(key => key !== 'moduleName' && key !== 'moduleId'),
-        moduleName: item.moduleName,
-        moduleId: item.moduleId
-      }));
-      const result = { "name" : this.roleForm.name ,"resource": convertedData };
-      // console.log("result",result);
-      // return
+      var updated_resource = [];
+      this.resource.forEach((res) => {
+        var resource_obj = { moduleName: res.moduleName, moduleId: res.moduleId, permissions: [] };
+        for (let key of Object.keys(res)) {
+          if (res[key] == true && key != 'moduleId') resource_obj.permissions.push(key);
+        }
+        updated_resource.push(resource_obj)
+      })
+      this.roleForm['resource'] = updated_resource;
+
       this.loading = true;
       this.spinner.show();
       // call api
 
-      this._roleService.addRole(result).subscribe(objS => {
+      this._roleService.addRole(this.roleForm).subscribe(objS => {
         console.log('print response====', objS)
         this.loading = this.showError = false;
         if (objS.code == 200) {

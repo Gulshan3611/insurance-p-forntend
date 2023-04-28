@@ -9,3 +9,4 @@ export * from './project.service';
 export * from './vendor.service';
 export * from './gst.service'
 export * from './resource.service';
+export * from './Invoice.service';
