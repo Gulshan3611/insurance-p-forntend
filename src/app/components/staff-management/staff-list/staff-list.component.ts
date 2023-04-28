@@ -16,7 +16,7 @@ export class StaffListComponent implements OnInit {
 
   page: any = 1;
   staffListLength: any = [];
-  searchForm: any;
+  searchForm: any = '';
   formattedDate: any;
   limit: any = 10;
   refreshToken: any;
@@ -103,22 +103,23 @@ export class StaffListComponent implements OnInit {
     })
 
   }
-  activateDeactivatestaff_f(request: any,status: string) {
+  activateDeactivatestaff_f(request: any, status: string) {
 
     const requestData =
-     {status: status,
-      ids:[request.id]   
+    {
+      status: status,
+      ids: [request.id]
     }
-      if (request) {
-        console.log(request);
-        this._staffService.activateDeactivateStaff(requestData).subscribe(objS => {
-          this.apiCalled = true;
-          this.getStaffLists_f()
-          this._toastrService.success(objS.message);
-        }, (err) => {
-          console.log(err);
-        })
-      }
+    if (request) {
+      console.log(request);
+      this._staffService.activateDeactivateStaff(requestData).subscribe(objS => {
+        this.apiCalled = true;
+        this.getStaffLists_f()
+        this._toastrService.success(objS.message);
+      }, (err) => {
+        console.log(err);
+      })
     }
+  }
 
 }

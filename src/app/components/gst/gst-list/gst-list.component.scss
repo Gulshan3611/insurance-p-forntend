@@ -1,0 +1,36 @@
+
+.dropdown-toggle::after{
+    display: none;
+}
+.btn-flat-primary:active, .btn-flat-primary:focus {
+    background-color: rgba(115, 103, 240, 0.1);
+    color: #7367F0 !important;
+}
+.dropdown-toggle{
+    font-size: 18px;
+    padding: 8px 15px !important;
+    
+
+    i{
+        margin: 0;
+    }
+}
+
+.dropdown-menu{
+    button{
+        width: 100%;
+        font-size: 14px;
+    }
+}
+
+.btn {
+    cursor: pointer;
+}
+
+.card .card-title {
+    margin-bottom: 1.53rem;
+}
+
+// .table-responsive {
+//     min-height: 300px;
+// }

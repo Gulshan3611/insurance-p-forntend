@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
         if (objS.data.admin.type == 'superadmin') {
           this.spinner.hide()
           localStorage.setItem('userType', 'Admin')
-          this._router.navigate(['/setting']);
+          this._router.navigate(['/role-management/list']);
           // this._router.navigate(['/dashboard']);
         } else {
           this.spinner.hide()

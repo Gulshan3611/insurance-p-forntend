@@ -77,19 +77,19 @@
                 <span class="form-text text-danger small"
                     *ngIf="businessDomain.invalid && (businessDomain.dirty || businessDomain.touched) || showError">
                     <span class="form-text text-danger small" *ngIf="businessDomain.errors?.['required']">
-                       Business Domain  is required.
+                        Business Domain is required.
                     </span>
                     <span class="form-text text-danger small" *ngIf="businessDomain.errors?.['minlength']">
                         Min 2 and max 200 characters are allowed.
                     </span>
                     <span class="form-text text-danger small" *ngIf="businessDomain.errors?.['maxlength']">
-                       Business Domain  cannot be more than 50 characters long.
+                        Business Domain cannot be more than 50 characters long.
                     </span>
                     <span class="form-text text-danger small" *ngIf="businessDomain.errors?.['pattern']">
-                        Please enter a valid Business Domain 
+                        Please enter a valid Business Domain
                     </span>
                 </span>
-<!-- 
+                <!-- 
                 <div *ngIf="businessDomain.invalid && showError" class="form-text text-danger small">
                     <small *ngIf="businessDomain.errors?.['required']">Business domain is required </small>
                     <small *ngIf="businessDomain.errors?.['pattern']"> Please enter valid business domain.</small>
@@ -101,7 +101,7 @@
             <div class="form-group">
                 <label for="account-name">Registration Number</label>
                 <input class="form-control" type="text" pattern="[a-zA-Z0-9/-_ ]*" name="registrationNumber"
-                    [(ngModel)]="profile.registrationNumber" #registrationNumber="ngModel" required>
+                    [(ngModel)]="profile.registrationNumber" #registrationNumber="ngModel" maxlength="16" required>
 
                 <div *ngIf="registrationNumber.invalid && showError" class="form-text text-danger small">
                     <small *ngIf="registrationNumber.errors?.['required']">Registration number is required </small>
@@ -115,7 +115,7 @@
             <div class="form-group">
                 <label for="account-name">IEC Code</label>
                 <input class="form-control" type="text" pattern="[a-zA-Z0-9/-_ ]*" name="iecCode"
-                    [(ngModel)]="profile.iecCode" #iecCode="ngModel">
+                    [(ngModel)]="profile.iecCode" #iecCode="ngModel" maxlength="10">
 
                 <div *ngIf="iecCode.invalid && showError" class="form-text text-danger small">
                     <!-- <small *ngIf="iecCode.errors?.['required']">Registration number is required </small> -->
@@ -128,7 +128,7 @@
             <div class="form-group">
                 <label for="account-name">GSTIN Number</label>
                 <input class="form-control" type="text" name="gstin" [(ngModel)]="profile.gstin" #gstin="ngModel"
-                    required>
+                    maxlength="15" required>
 
                 <div *ngIf="gstin.invalid && showError" class="form-text text-danger small">
                     <small *ngIf="gstin.errors?.['required']">GSTIN number is required </small>
@@ -160,7 +160,7 @@
             <div class="form-group">
                 <label for="account-name">Company PAN</label>
                 <input class="form-control" type="text" pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}$" name="companyPan"
-                    [(ngModel)]="profile.companyPan" #companyPan="ngModel" required>
+                    [(ngModel)]="profile.companyPan" #companyPan="ngModel" maxlength="10" required>
 
                 <div *ngIf="companyPan.invalid && showError" class="form-text text-danger small">
                     <small *ngIf="companyPan.errors?.['required']">Company PAN is required </small>
@@ -173,7 +173,7 @@
             <div class="form-group">
                 <label for="account-name">TAN Number</label>
                 <input class="form-control" type="text" pattern="[a-zA-Z0-9/-_ ]*" name="tanNumber"
-                    [(ngModel)]="profile.tanNumber" #tanNumber="ngModel">
+                    [(ngModel)]="profile.tanNumber" maxlength="10" #tanNumber="ngModel">
 
                 <div *ngIf="tanNumber.invalid && showError" class="form-text text-danger small">
                     <!-- <small *ngIf="tanNumber.errors?.['required']">TAN Number is required </small> -->
@@ -218,7 +218,8 @@
         <div class="col-12 col-sm-6">
             <div class="form-group">
                 <label for="account-name">Address 1</label>
-                <textarea class="form-control" type="text" pattern="[a-zA-Z0-9/-_ ]*" name="address1"
+                <!-- <textarea class="form-control" type="text" pattern="[a-zA-Z0-9/-_ ]*" name="address1" -->
+                    <textarea class="form-control" type="text" name="address1"
                     [(ngModel)]="profile.address1" #address1="ngModel" minlength="2" maxlength="200"
                     required></textarea>
 
@@ -226,22 +227,21 @@
                     <small *ngIf="address1.errors?.['required']">Address is required </small>
                     <small *ngIf="address1.errors?.['minlength']"> Please enter address between 2 and
                         200.</small>
-                    <small *ngIf="address1.errors?.['pattern']"> Please enter valid address.</small>
+                    <!-- <small *ngIf="address1.errors?.['pattern']"> Please enter valid address.</small> -->
                 </div>
             </div>
         </div>
         <div class="col-12 col-sm-6">
             <div class="form-group">
                 <label for="account-name">Address 2</label>
-                <textarea class="form-control" type="text" pattern="[a-zA-Z0-9/-_ ]*" name="address2"
-                    [(ngModel)]="profile.address2" #address2="ngModel" minlength="2" maxlength="200"
-                    required></textarea>
+                <textarea class="form-control" type="text" name="address2"
+                    [(ngModel)]="profile.address2" #address2="ngModel" minlength="2" maxlength="200"></textarea>
 
                 <div *ngIf="address2.invalid && showError" class="form-text text-danger small">
-                    <small *ngIf="address2.errors?.['required']">Address is required </small>
+                    <!-- <small *ngIf="address2.errors?.['required']">Address is required </small> -->
                     <small *ngIf="address2.errors?.['minlength']"> Please enter address between 2 and
                         200.</small>
-                    <small *ngIf="address2.errors?.['pattern']"> Please enter valid address.</small>
+                    <!-- <small *ngIf="address2.errors?.['pattern']"> Please enter valid address.</small> -->
                 </div>
             </div>
         </div>
@@ -502,7 +502,7 @@
         <div class="col-12 col-sm-6">
             <div class="form-group">
                 <label for="account-name">State</label>
-                <ng-select name="state" [(ngModel)]="profile.state" #state="ngModel" placeholder="Select Country"
+                <ng-select name="state" [(ngModel)]="profile.state" #state="ngModel" placeholder="Select State"
                     required>
                     <ng-container>
                         <ng-option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</ng-option>
@@ -642,8 +642,6 @@
     </div>
 </form>
 <div class="row">
-
-
     <div class="col-12">
         <button type="submit" class="btn btn-primary mr-1" (click)="onSubmit(f.form.valid)"
             rippleEffect>{{loading?'Please wait

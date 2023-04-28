@@ -6,8 +6,8 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Add New Staff
-                                <a href="#" routerLink='/staff-management/list' routerLinkActive="router-link-active" type="button"
-                                class="btn btn-primary float-right">Back</a>
+                                <a href="#" routerLink='/staff-management/list' routerLinkActive="router-link-active"
+                                    type="button" class="btn btn-primary float-right">Back</a>
                             </h4>
                             <form class="forms-sample" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
                                 <div class="form-group row">
@@ -41,7 +41,8 @@
                                                 maxlength="10" class="form-control" id="exampleInputName1"
                                                 placeholder="Enter Phone Number" name="phone"
                                                 [(ngModel)]="staffForm.phone" #phone="ngModel" required>
-                                            <span class="form-text text-danger small" *ngIf="phone.invalid && showError">
+                                            <span class="form-text text-danger small"
+                                                *ngIf="phone.invalid && showError">
                                                 <span class="form-text text-danger small"
                                                     *ngIf="phone.errors?.['required']">Phone
                                                     Number
@@ -62,7 +63,8 @@
                                                 pattern="[a-zA-Z0-9]+[a-zA-Z0-9._]+@[a-zA-Z]+\.[a-zzA-Z.]{2,5}$"
                                                 maxlength="50" name="email" [(ngModel)]="staffForm.email"
                                                 #email="ngModel" required>
-                                            <span class="form-text text-danger small" *ngIf="email.invalid && showError">
+                                            <span class="form-text text-danger small"
+                                                *ngIf="email.invalid && showError">
                                                 <span class="form-text text-danger small"
                                                     *ngIf="email.errors?.['required']">Email
                                                     is
@@ -81,7 +83,8 @@
                                             <input type="text" class="form-control" id="exampleInputName1"
                                                 placeholder="Enter Password" name="password"
                                                 [(ngModel)]="staffForm.password" #password="ngModel" required>
-                                            <span class="form-text text-danger small" *ngIf="password.invalid && showError">
+                                            <span class="form-text text-danger small"
+                                                *ngIf="password.invalid && showError">
                                                 <span class="form-text text-danger small"
                                                     *ngIf="password.errors?.['required']">Password is
                                                     required</span>
@@ -98,10 +101,10 @@
                                         <div class="form-group">
                                             <label for="exampleInputName1">Role*</label>
                                             <ng-select name="role" [(ngModel)]="staffForm.role" #role="ngModel"
-                                                placeholder="Select Country" required>
-                                                <ng-container>
-                                                    <ng-option value="" disabled>Select Role</ng-option>
-                                                    <ng-option *ngFor="let item of roleList?.docs" [value]="item.id">{{item.name}} </ng-option>
+                                                placeholder="Select Role" required>
+                                                <ng-container *ngFor="let item of roleList?.docs">
+                                                    <ng-option *ngIf="item?.status == 1" [value]="item.id">{{item.name}}
+                                                    </ng-option>
                                                 </ng-container>
                                             </ng-select>
                                             <!-- <select class="form-control" id="exampleInputName1" name="role"
@@ -157,7 +160,6 @@
                                                 <span class="form-text text-danger small"
                                                     *ngIf="contactPersonNumber.errors?.['required']">Contact Person
                                                     Number
-                                                    Number
                                                     is required</span>
                                                 <span class="form-text text-danger small"
                                                     [hidden]="!contactPersonNumber.errors?.['pattern']">Please
@@ -173,17 +175,18 @@
                                             <input type="text" class="form-control" id="exampleInputName1"
                                                 placeholder="Enter Email"
                                                 pattern="[a-zA-Z0-9]+[a-zA-Z0-9._]+@[a-zA-Z]+\.[a-zzA-Z.]{2,5}$"
-                                                maxlength="180" name="contactPersonEmail" 
-                                                [(ngModel)]="staffForm.contactPersonEmail" #contactPersonEmail="ngModel"
-                                                required>
+                                                maxlength="180" name="constactPersonEmail"
+                                                [(ngModel)]="staffForm.contactPersonEmail"
+                                                #constactPersonEmail="ngModel" required>
                                             <span class="form-text text-danger small"
-                                                *ngIf="contactPersonEmail.invalid && showError">
+                                                *ngIf="constactPersonEmail.invalid && showError">
                                                 <span class="form-text text-danger small"
-                                                    *ngIf="contactPersonEmail.errors?.['required']">Contact Person Email
+                                                    *ngIf="constactPersonEmail.errors?.['required']">Contact Person
+                                                    Email
                                                     is
                                                     required</span>
                                                 <span class="form-text text-danger small"
-                                                    [hidden]="!contactPersonEmail.errors?.['pattern']">
+                                                    [hidden]="!constactPersonEmail.errors?.['pattern']">
                                                     Invalid contact person email address. Please enter your contact
                                                     person email address in format
                                                     youname@example.com
@@ -199,7 +202,7 @@
                                         <input type="text" class="form-control"
                                             (keydown.enter)="$event.preventDefault()" placeholder="Address"
                                             name="address" #address="ngModel" [(ngModel)]="staffForm.address"
-                                            autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search
+                                            autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search maxlength="200"
                                             required>
                                         <span class="form-text text-danger small" *ngIf="address.invalid && showError">
                                             <span class="form-text text-danger small"
@@ -496,7 +499,7 @@
                                             [(ngModel)]="staffForm.state" #fax="ngModel" required> -->
 
                                         <ng-select name="state" [(ngModel)]="staffForm.state" #state="ngModel"
-                                            placeholder="Select Country" required>
+                                            placeholder="Select State" required>
                                             <ng-container>
                                                 <ng-option value="Andaman and Nicobar Islands">Andaman and Nicobar
                                                     Islands
@@ -542,7 +545,8 @@
                                         </ng-select>
 
                                         <span class="form-text text-danger small" *ngIf="state.invalid && showError">
-                                            <span class="form-text text-danger small" *ngIf="state.errors?.['required']">State
+                                            <span class="form-text text-danger small"
+                                                *ngIf="state.errors?.['required']">State
                                                 is
                                                 required</span>
                                         </span>
@@ -552,7 +556,8 @@
                                             placeholder="City" name="city" #city="ngModel" [(ngModel)]="staffForm.city"
                                             #fax="ngModel" required>
                                         <span class="form-text text-danger small" *ngIf="city.invalid && showError">
-                                            <span class="form-text text-danger small" *ngIf="city.errors?.['required']">City
+                                            <span class="form-text text-danger small"
+                                                *ngIf="city.errors?.['required']">City
                                                 is
                                                 required</span>
                                         </span>
@@ -560,9 +565,10 @@
                                     <div class="col-sm-2">
                                         <input type="text" class="form-control" id="exampleInputName1" placeholder="Zip"
                                             name="zipcode" #zipcode="ngModel" [(ngModel)]="staffForm.zipcode"
-                                            #fax="ngModel" required>
+                                            maxlength="6" required>
                                         <span class="form-text text-danger small" *ngIf="zipcode.invalid && showError">
-                                            <span class="form-text text-danger small" *ngIf="zipcode.errors?.['required']">Zip
+                                            <span class="form-text text-danger small"
+                                                *ngIf="zipcode.errors?.['required']">Zip
                                                 code
                                                 is
                                                 required</span>
@@ -570,7 +576,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                   <!-- <label for="exampleInputName1" class="col-sm-2 col-form-label">Status</label>-->
+                                    <!-- <label for="exampleInputName1" class="col-sm-2 col-form-label">Status</label>-->
                                     <div class="col-sm-10">
                                         <!-- <select class="form-control" id="exampleInputName1" name="status"
                                     [(ngModel)]="staffForm.status" #status="ngModel" required>
@@ -579,7 +585,7 @@
                                     <option value="0">In-Active</option>
                                 </select> -->
 
-                                       <!-- <ng-select name="status" [(ngModel)]="staffForm.status" #status="ngModel"
+                                        <!-- <ng-select name="status" [(ngModel)]="staffForm.status" #status="ngModel"
                                             placeholder="Select Country" required>
                                             <ng-container>
                                                 <ng-option value="" disabled>Select Status</ng-option>

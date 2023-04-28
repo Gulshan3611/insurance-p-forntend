@@ -34,6 +34,9 @@
                 <a href="#" routerLink='/invoice-management/list' [ngClass]="url == '/invoice-management/list' || url == '/invoice-management/add' || url.includes('/invoice-management/edit') || url.includes('/invoice-management/preview')   ? 'active-link' : ''"><i class="feather icon-file-text"></i><span class="menu-title"> Invoice Management</span></a>
             </li> 
             <li class="nav-item">
+                <a href="#" routerLink='/gst/list'  [ngClass]="url == '/gst/list' || url == '/gst/add' || url.includes('/gst/edit') || url.includes('/gst/preview')   ? 'active-link' : ''"><i class="feather icon-file-minus"></i><span class="menu-title"> Gst Management</span></a>
+            </li>
+            <li class="nav-item">
                 <a href="#" routerLink='/resource-management/list' [ngClass]="url == '/resource-management/list' || url == '/resource-management/add' || url.includes('/resource-management/edit') || url.includes('/resource-management/preview')   ? 'active-link' : ''"><i class="feather icon-file-text"></i><span class="menu-title">Resource Management</span></a>
             </li> 
         </ul>

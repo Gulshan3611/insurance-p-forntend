@@ -35,8 +35,18 @@ export class BankDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getBankDetail()
+    // this.bank = this._adminService.getBankDetails("642eadd807090c079ea0de99");
+    // console.log(this.bank);
+    
+    // if (this.profile && this.profile.image) {
+    //   this.profile.image = this.mediaUrl + '/media/preview?filename=' + this.profile.image;
+    // }
+  }
+
+  getBankDetail(){
     this._adminService.getBankDetails("642eadd807090c079ea0de99").subscribe(objS => {
-      console.log('print response====', objS)
+      // console.log('print response====', objS)
       this.loading = this.showError = false;
       if (objS.code == 200) {
         this.bank = objS.data
@@ -47,12 +57,6 @@ export class BankDetailComponent implements OnInit {
       this.loading = this.showError = false;
       console.log('err', err)
     });
-    // this.bank = this._adminService.getBankDetails("642eadd807090c079ea0de99");
-    // console.log(this.bank);
-    
-    // if (this.profile && this.profile.image) {
-    //   this.profile.image = this.mediaUrl + '/media/preview?filename=' + this.profile.image;
-    // }
   }
 
 
@@ -60,7 +64,7 @@ export class BankDetailComponent implements OnInit {
   onSubmit(valid: any) {
     this.showError = true;
     this.submitted = true;
-    // console.log('checking---', valid, this.profile)
+    console.log('checking---', valid, this.bank)
     if (valid) {
       this.loading = true;
       this.spinner.show();
@@ -70,11 +74,12 @@ export class BankDetailComponent implements OnInit {
         console.log('print response====', objS)
         this.loading = this.showError = false;
         if (objS.code == 200) {
-          this._authService.setDataAdmin(objS.data);
+          // this._authService.setDataAdmin(objS.data);
           this.spinner.hide();
           this.router.navigate(['/setting/profile']);
           this._toastrService.success("Bank Details Successfully Updated");
           this._header.checkFunction(true);
+          this.getBankDetail();
         } else {
           this._toastrService.error(objS.message);
           this.spinner.hide();

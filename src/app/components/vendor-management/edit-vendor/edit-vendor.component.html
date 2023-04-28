@@ -22,7 +22,7 @@
                                                 </ng-container>
                                             </ng-select>
                                             <div *ngIf="vendorType.invalid && showError" class="form-text text-danger small">
-                                                <small *ngIf="vendorType.errors?.['required']">Company type is required </small>
+                                                <small *ngIf="vendorType.errors?.['required']">Vendor type is required </small>
                                             </div>
                                         </div>
                                     </div>
@@ -116,11 +116,11 @@
                                                 </ng-container>
                                             </ng-select>
                                             <div *ngIf="currency.invalid && showError" class="form-text text-danger small">
-                                                <small *ngIf="currency.errors?.['required']">State is required </small>
+                                                <small *ngIf="currency.errors?.['required']">Currency is required </small>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4" *ngIf="selectedCurrency == 'Rupee'">
+                                    <!-- <div class="col-md-4" *ngIf="selectedCurrency == 'Rupee'">
                                         <div class="form-group">
                                             <label for="exampleInputName1">GST Number</label>
                                             <input type="text" class="form-control" id="exampleInputName1"
@@ -137,7 +137,7 @@
                                                 </span>
                                             </span>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="col-md-12">
                                         <div class="card-footer">
                                             Address
@@ -435,14 +435,14 @@
                                                 </ng-container>
                                             </ng-select>
                                             <div *ngIf="country.invalid && showError" class="form-text text-danger small">
-                                                <small *ngIf="country.errors?.['required']">State is required </small>
+                                                <small *ngIf="country.errors?.['required']">Country is required </small>
                                             </div>
                                         </div>
                                     </div> 
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="account-name">State</label>
-                                            <ng-select name="state" [(ngModel)]="addVendor.state" #state="ngModel" placeholder="Select Country" required>
+                                            <ng-select name="state" [(ngModel)]="addVendor.state" #state="ngModel" placeholder="Select State" required>
                                                 <ng-container> 
                                                     <ng-option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</ng-option>
                                                     <ng-option value="Andhra Pradesh">Andhra Pradesh</ng-option>
@@ -506,7 +506,7 @@
                                                 [(ngModel)]="addVendor.zipcode" #zipcode="ngModel" placeholder="Pincode" required>
                             
                                             <div *ngIf="zipcode.invalid && showError" class="form-text text-danger small">
-                                                <small *ngIf="zipcode.errors?.['required']">pincode is required </small>
+                                                <small *ngIf="zipcode.errors?.['required']">Pincode is required </small>
                                                 <small *ngIf="zipcode.errors?.['pattern']"> Please enter valid pincode.</small>
                                             </div>
                                         </div>

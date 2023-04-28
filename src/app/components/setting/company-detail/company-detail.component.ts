@@ -13,11 +13,12 @@ import { NgxSpinnerService } from "ngx-spinner";
 })
 export class CompanyDetailComponent implements OnInit {
   
-  profile: any = {}
+  profile: any = { address2: '', secondaryPhone: '' }
   loading: boolean = false;
   showError: boolean = false;
   submitted: boolean = false;
   mediaUrl = environment.apiUrl;
+  
 
   myForm: any = {};
   public passwordTextTypeOld = false;
@@ -39,13 +40,32 @@ export class CompanyDetailComponent implements OnInit {
     // if (this.profile && this.profile.image) {
     //   this.profile.image = this.mediaUrl + '/media/preview?filename=' + this.profile.image;
     // }
+    this.getOfficeDetail()
+  }
+
+
+  getOfficeDetail(){
+    this._adminService.getOfiiceDetails("642fae7607090c079ea0de9a").subscribe(objS => {
+      // console.log('print response====', objS)
+      this.loading = this.showError = false;
+      if (objS.code == 200) {
+        this.profile = objS.data
+      } else {
+        this._toastrService.error(objS.message);
+      }
+    }, (err) => {
+      this.loading = this.showError = false;
+      console.log('err', err)
+    });
   }
 
   handleFileSelect(evt: any) {
     
     var files = evt.target.files;
     if (files.length === 0)
+    
     return;
+
     const fsize = files[0].size;
     const file = Math.round((fsize / 1024 / 1024));
     var mimeType = files[0].type;
@@ -53,6 +73,11 @@ export class CompanyDetailComponent implements OnInit {
     // if (!(file <= 100)) {
     //   return this._toastrService.warning("File too Big, please select a file less than 100mb")
     // }
+    
+    if (mimeType.match(/image\/*/) == null) {
+      this._toastrService.info("Only images are supported.");
+      return;
+    }
     var reader = new FileReader();
     this.profile.file = files[0];
     reader.readAsDataURL(files[0]);
@@ -73,6 +98,11 @@ export class CompanyDetailComponent implements OnInit {
     // if (!(file <= 100)) {
     //   return this._toastrService.warning("File too Big, please select a file less than 100mb")
     // }
+    
+    if (mimeType.match(/image\/*/) == null) {
+      this._toastrService.info("Only images are supported.");
+      return;
+    }
     var reader = new FileReader();
     this.profile.file = files[0];
     reader.readAsDataURL(files[0]);
@@ -83,9 +113,9 @@ export class CompanyDetailComponent implements OnInit {
 
   // Company 
   onSubmit(valid: any) {
+    // console.log('checking---', valid, this.profile)
     this.showError = true;
     this.submitted = true;
-    // console.log('checking---', valid, this.profile)
     if (valid) {
       this.loading = true;
       this.spinner.show();
@@ -124,11 +154,12 @@ export class CompanyDetailComponent implements OnInit {
         console.log('print response====', objS)
         this.loading = this.showError = false;
         if (objS.code == 200) {
-          this._authService.setDataAdmin(objS.data);
+          // this._authService.setDataAdmin(objS.data);
           this.spinner.hide();
-          this.router.navigate(['/setting']);
+          // this.router.navigate(['/setting']);
           this._toastrService.success(objS.message);
           this._header.checkFunction(true);
+          this.getOfficeDetail()
         } else {
           this._toastrService.error(objS.message);
           this.spinner.hide();

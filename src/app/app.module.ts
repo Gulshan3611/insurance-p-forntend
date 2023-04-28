@@ -1,10 +1,11 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BasicAuthInterceptor, AuthGuard, ErrorInterceptor, TimeoutInterceptor, DEFAULT_TIMEOUT } from '../app/_helpers';
-import { AdminService, AuthService, SidebarService, updateHeaderService, RoleService,VendorService, StaffService, ProjectService, ResourceService } from './_services';
+import { AdminService, AuthService, SidebarService, updateHeaderService, RoleService,VendorService, StaffService, ProjectService,GstService, ResourceService } from './_services';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
@@ -34,8 +35,6 @@ import { VendorManagementComponent } from './components/vendor-management/vendor
 import { ProjectManagementComponent } from './components/project-management/project-management.component';
 import { ManageInvoiceComponent } from './components/manage-invoice/manage-invoice.component';  
 import { ClientComponent } from './components/client/client.component';
-
-
 
 @NgModule({
   declarations: [
@@ -73,7 +72,8 @@ import { ClientComponent } from './components/client/client.component';
     NgSelectModule,
     Ng2FlatpickrModule,
     ToastrModule.forRoot(),
-    MomentModule
+    MomentModule,
+    RouterModule
   ],
   providers: [
     SidebarService,
@@ -84,6 +84,7 @@ import { ClientComponent } from './components/client/client.component';
     StaffService,
     ProjectService,
     VendorService,
+    GstService,
     ResourceService,
     // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

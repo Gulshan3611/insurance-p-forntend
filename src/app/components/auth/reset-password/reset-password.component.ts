@@ -89,14 +89,14 @@ export class ResetPasswordComponent implements OnInit {
         password: this.resetForm.value.password,
       }
       this.spinner.show()
-      // this._adminAuthAPI.resetPassword(this.token, data).subscribe((res: any) => {
-      //   if (res.code == 200) {
-      //     this._toastr.success(res.message)
-      //     this._router.navigate(['/dashboard']);
-      //   } else {
-      //     this._toastr.error(res.message)
-      //   }
-      // })
+      this._adminAuthAPI.resetPassword(this.token, data).subscribe((res: any) => {
+        if (res.code == 200) {
+          this._toastr.success(res.message)
+          this._router.navigate(['/dashboard']);
+        } else {
+          this._toastr.error(res.message)
+        }
+      })
     }
   }
 }

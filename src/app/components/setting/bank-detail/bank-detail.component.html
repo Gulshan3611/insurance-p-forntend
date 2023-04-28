@@ -3,7 +3,7 @@
         <div class="col-12 col-sm-6">
             <div class="form-group">
                 <label for="account-name">Company Name</label>
-                <ng-select name="companyName" [(ngModel)]="bank.companyName" #companyName="ngModel" placeholder="Select Country" required>
+                <!-- <ng-select name="companyName" [(ngModel)]="bank.companyName" #companyName="ngModel" placeholder="Select Country" required>
                     <ng-container> 
                         <ng-option value="omnist">Omnist</ng-option>
                         <ng-option value="infosys">Infosys</ng-option>
@@ -11,9 +11,16 @@
                         <ng-option value="google">Google</ng-option>
                         <ng-option value="ibm">IBM</ng-option>
                     </ng-container>
-                </ng-select>
+                </ng-select> -->
+                <input class="form-control" type="text" pattern="[a-zA-Z0-9/-_ ]*" name="companyName"
+                    [(ngModel)]="bank.companyName" placeholder="companyName" #companyName="ngModel" minlength="2"
+                    maxlength="200" required>
+
                 <div *ngIf="companyName.invalid && showError" class="form-text text-danger small">
-                    <small *ngIf="companyName.errors?.['required']">State is required </small>
+                    <small *ngIf="['companyName.errors?.required']">Company Name is required </small>
+                    <small hidden="['!companyName.errors?.minlength']"> Please enter name between 2 and
+                        200.</small>
+                    <small hidden="!companyName.errors?.pattern"> Please enter valid company name.</small>
                 </div>
             </div>
         </div>
@@ -38,7 +45,7 @@
         <div class="col-12 col-sm-6">
             <div class="form-group">
                 <label for="account-name">Bank Branch</label>
-                <input class="form-control" type="text" pattern="^[a-zA-Z0-9\s&'()-]{1,20}$" name="branch"
+                <input class="form-control" type="text" pattern="[a-zA-Z0-9/-_ ]*" name="branch"
                     [(ngModel)]="bank.branch" #branch="ngModel" minlength="5" maxlength="25" required>
 
                 <div *ngIf="branch.invalid && showError" class="form-text text-danger small">
@@ -105,7 +112,7 @@
             <div class="form-group">
                 <label for="account-name">SWIFT Code</label>
                 <input class="form-control" type="text" pattern="[a-zA-Z0-9/-_ ]*" name="swiftCode"
-                    [(ngModel)]="bank.swiftCode" #swiftCode="ngModel" minlength="5" maxlength="25" required>
+                    [(ngModel)]="bank.swiftCode" #swiftCode="ngModel" minlength="5" maxlength="11" required>
 
                 <div *ngIf="swiftCode.invalid && showError" class="form-text text-danger small">
                     <small *ngIf="swiftCode.errors?.['required']">SWIFT code is required </small>
@@ -131,7 +138,7 @@
             <div class="form-group">
                 <label for="account-name">Bank IFSC</label>
                 <input class="form-control" type="text" pattern="^[A-Z]{4}0[A-Z0-9]{6}$" name="IFSC"
-                    [(ngModel)]="bank.IFSC" #IFSC="ngModel" required>
+                    [(ngModel)]="bank.IFSC" #IFSC="ngModel"  maxlength="12" required>
 
                 <div *ngIf="IFSC.invalid && showError" class="form-text text-danger small">
                     <small *ngIf="IFSC.errors?.['required']">Bank IFSC name is required </small>

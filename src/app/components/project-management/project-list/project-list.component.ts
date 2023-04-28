@@ -15,7 +15,7 @@ export class ProjectListComponent implements OnInit {
 
   page: any = 1;
   projectListLength: any = [];
-  searchForm: any ;
+  searchForm: any = '';
   limit: any = 10;
   refreshToken: any;
   projectList: any = {}
@@ -47,11 +47,11 @@ export class ProjectListComponent implements OnInit {
   }
 
   onKeyUp(event: any) {
-    this.searchForm=event.target.value.trim().replace(/^\s+/, '');
-    console.log("ssssssssssss",this.searchForm);
+    this.searchForm = event.target.value.trim().replace(/^\s+/, '');
+    // console.log("ssssssssssss", this.searchForm);
     this.getProjectLists_f()
   }
-  getProjectLists_f(){
+  getProjectLists_f() {
     this.apiCalled = false;
     this._projectService.getProjectLists({
       page: this.page,
@@ -59,11 +59,11 @@ export class ProjectListComponent implements OnInit {
       searchBy: this.searchForm,
     }).subscribe(objS => {
       this.loading = this.showError = false;
-      if (objS?.docs?.length !=0) {
+      if (objS?.docs?.length != 0) {
         this.apiCalled = true;
-        this.projectList = objS.docs
-        this.projectListLength = objS.docs;
-        console.log('print response====vendor',objS.docs.length, this.projectList)
+        this.projectList = objS;
+        this.projectListLength = objS.total;
+        // console.log('print response====vendor',objS.docs.length, this.projectList)
       } else {
         this.projectList = []
         this.projectListLength = [];
@@ -100,26 +100,27 @@ export class ProjectListComponent implements OnInit {
         })
       }
     })
-    
+
   }
-  
-  activateDeactivateProjects_f(request: any,status: string) {
-   
+
+  activateDeactivateProjects_f(request: any, status: string) {
+
     const requestData =
-     {status: status,
-      ids:[request.id]   
+    {
+      status: status,
+      ids: [request.id]
     }
-    
+
     console.log(requestData);
-      if (request) {
-        console.log(request);
-        this._projectService.activateDeactivateProjects(requestData).subscribe(objS => {
-          this.apiCalled = true;
-          this.getProjectLists_f()
-          this._toastrService.success(objS.message);
-        }, (err) => {
-          console.log(err);
-        })
-      }
+    if (request) {
+      console.log(request);
+      this._projectService.activateDeactivateProjects(requestData).subscribe(objS => {
+        this.apiCalled = true;
+        this.getProjectLists_f()
+        this._toastrService.success(objS.message);
+      }, (err) => {
+        console.log(err);
+      })
     }
+  }
 }

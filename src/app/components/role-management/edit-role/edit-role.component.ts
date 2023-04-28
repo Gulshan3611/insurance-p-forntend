@@ -90,7 +90,7 @@ export class EditRoleComponent implements OnInit {
       this.spinner.show();
       const permissions = Object.keys(this.resource[0]).filter(key => key !== "moduleName" && key !== "moduleId");
       const convertedResource = this.resource.reduce((acc, item) => ({
-        name: item.moduleName,
+        name: this.roleForm.name,
         resource : [{
           permissions: permissions.filter(permission => item[permission]),
         }],
@@ -113,6 +113,7 @@ export class EditRoleComponent implements OnInit {
       }, (err) => {
         this.loading = this.showError = false;
         console.log('err', err)
+        this._toastrService.error(err);
       });
 
     }

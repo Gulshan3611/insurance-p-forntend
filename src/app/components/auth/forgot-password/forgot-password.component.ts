@@ -50,11 +50,13 @@ export class ForgotPasswordComponent implements OnInit {
         this._toastr.success(objS.message)
         // navigate to dashboard
         this._router.navigate(['/auth/login']);
+        this.spinner.hide()
       }
       else {
         this.apiCalled = false
         this.loading = false
         this._toastr.error(objS.message)
+        this.spinner.hide()
       }
     }, err => {
       this._toastr.error(err?.error?.message)

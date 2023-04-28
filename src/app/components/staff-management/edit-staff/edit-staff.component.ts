@@ -127,7 +127,7 @@ export class EditStaffComponent implements OnInit {
       this.requestData.address = this.staffForm.address;
       this.requestData.city = this.staffForm.city;
       this.requestData.constactPersonEmail = this.staffForm.constactPersonEmail;
-      // this.requestData.contactPersonEmail = this.staffForm.contactPersonEmail;
+      this.requestData.contactPersonEmail = this.staffForm.contactPersonEmail;
       this.requestData.contactPersonName = this.staffForm.contactPersonName;
       this.requestData.contactPersonNumber = this.staffForm.contactPersonNumber;
       this.requestData.country = this.staffForm.country;
