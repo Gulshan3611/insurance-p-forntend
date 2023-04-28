@@ -18,7 +18,7 @@ export class ResourceListComponent implements OnInit {
   searchForm: any ;
   limit: any = 10;
   refreshToken: any;
-  resourceList: any = {}
+  resourceList: any = []
   apiCalled: boolean = false;
   loading: boolean = false;
   showError: boolean = false;
@@ -43,7 +43,7 @@ export class ResourceListComponent implements OnInit {
   ngOnInit(): void {
     this.getResourceLists_f()
     this.refreshToken = localStorage.getItem('go_d_r_a_t');
-    console.log("rrrrrrrrrrrrr",this.refreshToken.refresh.token);
+    console.log("rrrrrrrrrrrrr",this.refreshToken);
   }
 
   onKeyUp(event: any) {
@@ -60,10 +60,10 @@ export class ResourceListComponent implements OnInit {
     }).subscribe(objS => {
       console.log('print response====', objS.docs)
       this.loading = this.showError = false;
-      if (objS.code == 200) {
-        this.apiCalled = true;
+      if (objS.docs.length != 0) {
         this.resourceList = objS.docs
-        this.resourceListLength = objS.data.docs;
+        this.apiCalled = true;
+        this.resourceListLength = objS.docs;
       } else {
         this._toastrService.error(objS.message);
       }
