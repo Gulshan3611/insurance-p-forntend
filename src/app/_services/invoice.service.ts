@@ -18,6 +18,11 @@ export class InvoiceService {
         const body = res;
         return body || {};
     }
+    
+    // get Role Lists
+    getVendorLists(): Observable<any> {
+        return this.http.get(`${this.apiUrl}/vendor`).pipe(map(this.extractData));
+    }
 
     // get gst Lists
     getInvoiceList(request: any): Observable<any> {

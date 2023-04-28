@@ -4,8 +4,9 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">
-                        <input type="text" class="form-control d-inline-block col-md-4 mr-2" id="exampleInputEmail1"
-                            placeholder="Search by project name, technology and description">
+                        <input type="text" class="form-control d-inline-block col-md-4 mr-2" placeholder="Search"
+                        [(ngModel)]="searchForm.search" [ngModelOptions]="{standalone: true}"
+                        (ngModelChange)="refreshList(1,searchForm.search)">
                         <button rippleEffect [routerLink]="['/invoice-management/add']"
                             routerLinkActive="router-link-active"
                             class="btn btn-primary ml-1 mb-2 float-right">Add</button>
@@ -68,7 +69,8 @@
                                                     <i class="feather icon-toggle-right mr-50"></i><span>Activate</span>
                                                 </a>
                                                 <a ngbDropdownItem href="javascript:void(0)">
-                                                    <i class="feather icon-toggle-left mr-50"></i> <span>Deactivate</span>
+                                                    <i class="feather icon-toggle-left mr-50"></i>
+                                                    <span>Deactivate</span>
                                                 </a>
                                                 <a ngbDropdownItem href="javascript:void(0)">
                                                     <i class="feather icon-trash mr-50"></i> <span>Delete</span>

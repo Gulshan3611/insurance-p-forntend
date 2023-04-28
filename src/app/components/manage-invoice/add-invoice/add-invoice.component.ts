@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { ProjectService, RoleService, AuthService } from '../../../_services';
+import { ProjectService, InvoiceService, AuthService } from '../../../_services';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FlatpickrOptions } from 'ng2-flatpickr';
@@ -22,6 +22,9 @@ export class AddInvoiceComponent implements OnInit {
   percentageValue: any;
   gstCountry: any;
   milestone: any;
+  dueDateData: any;
+
+  venderList: any;
 
   addMilestone: any = [{
     milestoneName: "",
@@ -93,12 +96,33 @@ export class AddInvoiceComponent implements OnInit {
     private _projectService: ProjectService,
     private toastr: ToastrService,
     private _router: Router,
-    private _roleService: RoleService,
+    private _invoiceService: InvoiceService,
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
   ) { }
 
   ngOnInit(): void { 
+    this.getVendorListFromApi()
+    
+    const getRandomId = (min = 0, max = 500000) => {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      const num =  Math.floor(Math.random() * (max - min + 1)) + min;
+      return num.toString().padStart(10, "0")
+    };
+
+    this.addInvoice.InvoiceNumber = getRandomId();
+  }
+
+  getVendorListFromApi() {
+    this.apiCalled = false;
+    this._invoiceService.getVendorLists().subscribe(objS => {
+      this.apiCalled = true;
+        this.venderList = objS;
+        // console.log(this.venderList)
+    }, (err) => {
+      console.log(err);
+    })
   }
 
   add() {
@@ -143,8 +167,12 @@ export class AddInvoiceComponent implements OnInit {
 
   selectedDates(event: any){
     // moment.parseZone(event)
+    console.log(event.target.value)
     console.log(moment.parseZone(event.target.value).add(15, 'days').format())
-    this.addInvoice.invoiceDueDate = moment.parseZone(event.target.value).add(15, 'days').format('YYYY/MM/DD')
+    this.addInvoice.invoiceDueDate = moment.parseZone(event.target.value).add(15, 'days').format()
+    // 2023-04-26T18:30:00.000Z
+
+    this.dueDateData = moment.parseZone(event.target.value).add(15, 'days').format('YYYY-MM-DD')
   }
 
   onSubmit(valid: any): void {
@@ -154,7 +182,7 @@ export class AddInvoiceComponent implements OnInit {
     if (valid) {
       this.loading = true;
       console.log(this.addInvoice)
-      if(this.addInvoice.gst > 101 ) {
+      if(this.addInvoice.cgst > 101 ) {
         this.toastr.error('The percentage must be between 0 and 100');
         return;
       }
