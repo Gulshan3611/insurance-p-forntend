@@ -18,7 +18,7 @@ export class ResourceListComponent implements OnInit {
   searchForm: any = '';
   limit: any = 10;
   refreshToken: any;
-  resourceList: any = {}
+  resourceList: any = []
   apiCalled: boolean = false;
   loading: boolean = false;
   showError: boolean = false;

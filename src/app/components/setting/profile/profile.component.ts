@@ -51,15 +51,16 @@ export class ProfileComponent implements OnInit {
     // if (!(file <= 100)) {
     //   return this._toastrService.warning("File too Big, please select a file less than 100mb")
     // }
+    
+    if (mimeType.match(/image\/*/) == null) {
+      this._toastrService.info("Only images are supported.");
+      return;
+    }
     var reader = new FileReader();
     this.profile.file = files[0];
     reader.readAsDataURL(files[0]);
     reader.onload = (_event) => {
       this.profile.image = reader.result;
-    }
-    if (mimeType.match(/image\/*/) == null) {
-      this._toastrService.info("Only images are supported.");
-      return;
     }
 
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RoleService, AuthService } from '../../../_services';
+import { ResourceService, AuthService } from '../../../_services';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
@@ -20,8 +20,8 @@ export class EditResourceComponent implements OnInit {
   showError: boolean = false;
   apiCalled: boolean = false;
   roleForm: any = {};
-  addVendor: any = {};
-  reviewId: any = '';
+  addResource: any = {};
+  resourceId: any = '';
 
 
   resource: any = [
@@ -65,7 +65,7 @@ export class EditResourceComponent implements OnInit {
   ];
 
   constructor(
-    private _roleService: RoleService,
+    private _resourceService: ResourceService,
     private toastr: ToastrService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -77,10 +77,21 @@ export class EditResourceComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.activatedRoute.snapshot.params['id']) {
-      this.reviewId = this.activatedRoute.snapshot.params['id'];
-      this.roleDetails_f(this.reviewId);
+      this.resourceId = this.activatedRoute.snapshot.params['id'];
+      this.getResourceDetailFromApi(this.resourceId);
     }
   }
+
+  getResourceDetailFromApi(id: any){
+    this._resourceService.resourceDetails(this.resourceId).subscribe((res) => {
+      if (res['data']) {
+        this.addResource = res['data'];
+      }
+    }, (err) => {
+      console.log('Error while Login', err);
+    })
+  }
+
   handleFileSelect(evt: any) {
     var files = evt.target.files;
     if (files.length === 0)
@@ -92,11 +103,15 @@ export class EditResourceComponent implements OnInit {
     // if (!(file <= 100)) {
     //   return this._toastrService.warning("File too Big, please select a file less than 100mb")
     // }
+    if (mimeType.match(/image\/*/) == null) {
+      this._toastrService.info("Only images are supported.");
+      return;
+    }
     var reader = new FileReader();
-    this.addVendor.file = files[0];
+    this.addResource.file = files[0];
     reader.readAsDataURL(files[0]);
     reader.onload = (_event) => {
-      this.addVendor.profilePhoto = reader.result;
+      this.addResource.profilePhoto = reader.result;
     }
 
   }
@@ -108,23 +123,15 @@ export class EditResourceComponent implements OnInit {
     if (valid) {
       this.loading = true;
       this.spinner.show();
-      const permissions = Object.keys(this.resource[0]).filter(key => key !== "moduleName" && key !== "moduleId");
-      const convertedResource = this.resource.reduce((acc, item) => ({
-        name: item.moduleName,
-        resource : [{
-          permissions: permissions.filter(permission => item[permission]),
-        }],
-      }), {});
-      console.log("send",convertedResource);
       
-      this._roleService.updateRoleDetails(convertedResource, this.reviewId).subscribe(objS => {
+      this._resourceService.updateResourceDetails(this.addResource, this.resourceId).subscribe(objS => {
         this.loading = this.showError = false;
         if (objS.code == 200) {
           this._toastrService.success(objS.message);
           this.spinner.hide();
-          // this.router.navigate(['/review/list']);
+          this.router.navigate(['/resource-management/list']);
           this.loading = false;
-          this.roleDetails_f(this.reviewId);
+          this.getResourceDetailFromApi(this.resourceId);
         } else {
           this._toastrService.error(objS.message);
           this.loading = false;
@@ -137,40 +144,43 @@ export class EditResourceComponent implements OnInit {
 
     }
   }
-  selectAllList(index: any) {
-    this.resource[index].list = this.resource[index].selectedAll;
-    this.resource[index].add = this.resource[index].selectedAll;
-    this.resource[index].edit = this.resource[index].selectedAll;
-    this.resource[index].delete = this.resource[index].selectedAll;
-    this.resource[index].view = this.resource[index].selectedAll;
-  }
-  checkIfAllValues(index: any) {
-    if (this.resource[index].list && this.resource[index].add && this.resource[index].edit && this.resource[index].delete && this.resource[index].view) {
-      this.resource[index].selectedAll = true;
-    } else {
-      this.resource[index].selectedAll = false;
-    }
-  }
-  roleDetails_f(id: any) {
-    this._roleService.roleDetails(this.reviewId).subscribe((res) => {
-      if (res['data']) {
-        this.roleForm = res['data'];
-        this.resource = res['data'].resource.map(item => ({
-          moduleName: item.moduleName,
-          moduleId: item.moduleId,
-          selectedAll: item.permissions.includes("selectedAll"),
-          list: item.permissions.includes("list"),
-          add: item.permissions.includes("add"),
-          edit: item.permissions.includes("edit"),
-          view: item.permissions.includes("view"),
-          delete: item.permissions.includes("delete")
-        }));
-        console.log("get",this.resource);
-        console.log("5555",res['data']);
 
-      }
-    }, (err) => {
-      console.log('Error while Login', err);
-    })
-  }
+  // selectAllList(index: any) {
+  //   this.resource[index].list = this.resource[index].selectedAll;
+  //   this.resource[index].add = this.resource[index].selectedAll;
+  //   this.resource[index].edit = this.resource[index].selectedAll;
+  //   this.resource[index].delete = this.resource[index].selectedAll;
+  //   this.resource[index].view = this.resource[index].selectedAll;
+  // }
+
+  // checkIfAllValues(index: any) {
+  //   if (this.resource[index].list && this.resource[index].add && this.resource[index].edit && this.resource[index].delete && this.resource[index].view) {
+  //     this.resource[index].selectedAll = true;
+  //   } else {
+  //     this.resource[index].selectedAll = false;
+  //   }
+  // }
+
+  // roleDetails_f(id: any) {
+  //   this._roleService.roleDetails(this.resourceId).subscribe((res) => {
+  //     if (res['data']) {
+  //       this.roleForm = res['data'];
+  //       this.resource = res['data'].resource.map(item => ({
+  //         moduleName: item.moduleName,
+  //         moduleId: item.moduleId,
+  //         selectedAll: item.permissions.includes("selectedAll"),
+  //         list: item.permissions.includes("list"),
+  //         add: item.permissions.includes("add"),
+  //         edit: item.permissions.includes("edit"),
+  //         view: item.permissions.includes("view"),
+  //         delete: item.permissions.includes("delete")
+  //       }));
+  //       console.log("get",this.resource);
+  //       console.log("5555",res['data']);
+
+  //     }
+  //   }, (err) => {
+  //     console.log('Error while Login', err);
+  //   })
+  // }
 }

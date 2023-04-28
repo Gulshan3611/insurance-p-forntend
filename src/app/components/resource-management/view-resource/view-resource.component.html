@@ -5,7 +5,7 @@
                 <div class="col-12 stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">View Resource
+                            <h4 class="card-title">Edit Resource
                                 <a href="#" routerLink='/resource-management/list' routerLinkActive="router-link-active"
                                     type="button" class="btn btn-primary float-right">Back</a>
                             </h4>
@@ -15,177 +15,54 @@
                                     <div class="col-md-12">
                                         <div class="media">
                                             <a href="javascript:void(0);" class="mr-25">
-                                                <img src="{{addVendor.profilePhoto}}"
+                                                <img src="{{addResource.profilePhoto}}"
                                                     onerror="this.src='assets/images/portrait/small/not_ava.png'"
                                                     class="rounded mr-50" alt="profile image" height="76" width="80" />
                                             </a>
-
-                                            <div class="media-body mt-75 ml-1">
-                                                <button (click)="profilePhoto.click()" for="account-upload"
-                                                    class="btn btn-sm btn-primary mb-75 mr-75" rippleEffect>
-                                                    Upload
-                                                </button>
-                                                <input type="file" #profilePhoto id="account-upload"
-                                                   hidden accept="image/*" />
-                                                <p>profile Photo <small>(Allowed JPG or PNG)</small></p>
-                                            </div>
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="exampleInputName1"> Name</label>
-                                            <input type="text" class="form-control" id="exampleInputName1"
-                                                pattern="[a-zA-Z0-9 ]*" name="name" [(ngModel)]="addVendor.name"
-                                                #name="ngModel" maxlength="50" minlength="2" placeholder="Name"
-                                                disabled required>
-                                            <span class="form-text text-danger small"
-                                                *ngIf="name.invalid && (name.dirty || name.touched)">
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="name.errors?.['required']">
-                                                    Name is required.
-                                                </span>
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="name.errors?.['minlength']">
-                                                    Name must be at least 2 characters long.
-                                                </span>
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="name.errors?.['maxlength']">
-                                                    Name cannot be more than 50 characters long.
-                                                </span>
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="name.errors?.['pattern']">
-                                                    Please enter a valid Name
-                                                </span>
-                                            </span>
+                                            <label> Name</label>
+                                            <input type="text" class="form-control"
+                                               name="name" [(ngModel)]="addResource.name"
+                                                #name="ngModel" disabled> 
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="exampleInputName1"> Technology</label>
-                                            <input type="text" class="form-control" id="exampleInputName1"
-                                                pattern="[a-zA-Z ]*" name="technology"
-                                                [(ngModel)]="addVendor.technology" #technology="ngModel" maxlength="50"
-                                                minlength="2" placeholder="Technology" disabled required>
-                                            <span class="form-text text-danger small"
-                                                *ngIf="technology.invalid && (technology.dirty || technology.touched)">
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="technology.errors?.['required']">
-                                                    Technology is required.
-                                                </span>
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="technology.errors?.['minlength']">
-                                                    Technology must be at least 2 characters long.
-                                                </span>
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="technology.errors?.['maxlength']">
-                                                    Technology cannot be more than 60 characters long.
-                                                </span>
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="technology.errors?.['pattern']">
-                                                    Please enter a valid Technology
-                                                </span>
-                                            </span>
+                                            <label> Technology</label>
+                                            <input type="text" class="form-control" name="technology"
+                                            [(ngModel)]="addResource.technology" #technology="ngModel" disabled>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="exampleInputName1">Phone</label>
-                                            <input type="text" class="form-control" id="exampleInputName1"
-                                                pattern="^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$"
-                                                name="phone" [(ngModel)]="addVendor.phone" #phone="ngModel"
-                                                maxlength="10" placeholder="phone" disabled required>
-                                            <span class="form-text text-danger small"
-                                                *ngIf="phone.invalid && (phone.dirty || phone.touched)">
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="phone.errors?.['required']">
-                                                    Phone is required.
-                                                </span>
-
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="phone.errors?.['pattern']">
-                                                    Please enter a valid Phone
-                                                </span>
-                                            </span>
-
+                                            <label>Phone</label>
+                                            <input type="text" class="form-control" name="phone" 
+                                            [(ngModel)]="addResource.phone" #phone="ngModel" disabled>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="exampleInputName1">Email</label>
-                                            <input type="text" class="form-control" id="exampleInputName1"
-                                                pattern="[a-zA-Z0-9]+[a-zA-Z0-9._]+@[a-zA-Z]+\.[a-zzA-Z.]{2,5}$"
-                                                maxlength="50" name="email" [(ngModel)]="addVendor.email"
-                                                #email="ngModel" maxlength="50" placeholder="email" disabled required>
-                                            <span class="form-text text-danger small"
-                                                *ngIf="email.invalid && (email.dirty || email.touched)">
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="email.errors?.['required']">
-                                                    Email is required.
-                                                </span>
-
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="email.errors?.['pattern']">
-                                                    Please enter a valid Email
-                                                </span>
-                                            </span>
-
+                                            <label>Email</label>
+                                            <input type="text" class="form-control" name="email" 
+                                            [(ngModel)]="addResource.email" #email="ngModel" disabled>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="exampleInputName1"> Designation</label>
-                                            <input type="text" class="form-control" id="exampleInputName1"
-                                                pattern="[a-zA-Z ]*" name="designation"
-                                                [(ngModel)]="addVendor.designation" #designation="ngModel"
-                                                maxlength="50" minlength="2" placeholder="Designation" disabled required>
-                                            <span class="form-text text-danger small"
-                                                *ngIf="designation.invalid && (designation.dirty || designation.touched)">
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="designation.errors?.['required']">
-                                                    Designation is required.
-                                                </span>
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="designation.errors?.['minlength']">
-                                                    Designation must be at least 2 characters long.
-                                                </span>
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="designation.errors?.['maxlength']">
-                                                    Designation cannot be more than 60 characters long.
-                                                </span>
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="designation.errors?.['pattern']">
-                                                    Please enter a valid Designation
-                                                </span>
-                                            </span>
+                                            <label> Designation</label>
+                                            <input type="text" class="form-control" name="designation"
+                                                [(ngModel)]="addResource.designation" #designation="ngModel" disabled>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="exampleInputName1"> Gender</label>
-                                            <input type="text" class="form-control" id="exampleInputName1"
-                                                pattern="[a-zA-Z ]*" name="gender" [(ngModel)]="addVendor.gender"
-                                                #gender="ngModel" maxlength="50" minlength="5" placeholder="gender"
-                                                disabled required>
-                                            <span class="form-text text-danger small"
-                                                *ngIf="gender.invalid && (gender.dirty || gender.touched)">
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="gender.errors?.['required']">
-                                                    Gender is required.
-                                                </span>
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="gender.errors?.['minlength']">
-                                                    Gender must be at least 5 characters long.
-                                                </span>
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="gender.errors?.['maxlength']">
-                                                    Gender cannot be more than 60 characters long.
-                                                </span>
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="gender.errors?.['pattern']">
-                                                    Please enter a valid Gender
-                                                </span>
-                                            </span>
+                                            <label> Gender</label>
+                                            <input type="text" class="form-control" name="gender" 
+                                            [(ngModel)]="addResource.gender" #gender="ngModel" disabled>
                                         </div>
                                     </div>
 
@@ -197,46 +74,15 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="account-name">Address </label>
-                                            <textarea class="form-control" type="text" pattern="[a-zA-Z0-9/-_ ]*"
-                                                name="address" [(ngModel)]="addVendor.address" #address="ngModel"
-                                                minlength="2" maxlength="200" placeholder="Address"
-                                                disabled required></textarea>
-                                            <span class="form-text text-danger small"
-                                                *ngIf="address.invalid  && (address.dirty || address.touched)">
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="address.errors?.['required']">
-                                                    address is required.
-                                                </span>
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="address.errors?.['minlength']">
-                                                    address must be at least 2 characters long.
-                                                </span>
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="address.errors?.['maxlength']">
-                                                    address cannot be more than 200 characters long.
-                                                </span>
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="address.errors?.['pattern']">
-                                                    Please enter a valid address
-                                                </span>
-                                            </span>
-
-                                            <!-- <div *ngIf="address.invalid && showError"
-                                                class="form-text text-danger small">
-                                                <small *ngIf="address.errors?.['required']">Address is required </small>
-                                                <small *ngIf="address.errors?.['minlength']"> Please enter address
-                                                    between 2 and
-                                                    200.</small>
-                                                <small *ngIf="address.errors?.['pattern']"> Please enter valid
-                                                    address.</small>
-                                            </div> -->
+                                            <textarea class="form-control" type="text" name="address" 
+                                            [(ngModel)]="addResource.address" #address="ngModel" disabled></textarea>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="account-name">Country</label>
-                                            <ng-select name="country" [(ngModel)]="addVendor.country" #country="ngModel"
-                                                placeholder="Select Country" disabled required>
+                                            <ng-select name="country" [(ngModel)]="addResource.country" #country="ngModel"
+                                                placeholder="Select Country" disabled>
                                                 <ng-container>
                                                     <ng-option value="Afghanistan">Afghanistan</ng-option>
                                                     <ng-option value="Albania">Albania</ng-option>
@@ -508,36 +354,13 @@
                                                     <ng-option value="Zimbabwe">Zimbabwe</ng-option>
                                                 </ng-container>
                                             </ng-select>
-                                            <span class="form-text text-danger small"
-                                                *ngIf="country.invalid  && (country.dirty || country.touched)">
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="country.errors?.['required']">
-                                                    Country is required.
-                                                </span>
-                                                <!-- <span class="form-text text-danger small"
-                                                    *ngIf="country.errors?.['minlength']">
-                                                    Country must be at least 2 characters long.
-                                                </span>
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="country.errors?.['maxlength']">
-                                                    Country cannot be more than 200 characters long.
-                                                </span> -->
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="country.errors?.['pattern']">
-                                                    Please enter a valid Country
-                                                </span>
-                                            </span>
-                                            <!-- <div *ngIf="country.invalid && showError"
-                                                class="form-text text-danger small">
-                                                <small *ngIf="country.errors?.['required']">State is required </small>
-                                            </div> -->
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="account-name">State</label>
-                                            <ng-select name="state" [(ngModel)]="addVendor.state" #state="ngModel"
-                                                placeholder="Select Country" disabled required>
+                                            <ng-select name="state" [(ngModel)]="addResource.state" #state="ngModel"
+                                                placeholder="Select State" disabled>
                                                 <ng-container>
                                                     <ng-option value="Andaman and Nicobar Islands">Andaman and Nicobar
                                                         Islands</ng-option>
@@ -580,65 +403,16 @@
                                                     <ng-option value="West Bengal">West Bengal</ng-option>
                                                 </ng-container>
                                             </ng-select>
-                                            <span class="form-text text-danger small"
-                                                *ngIf="state.invalid  && (state.dirty || state.touched)">
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="state.errors?.['required']">
-                                                    State is required.
-                                                </span>
-                                                <!-- <span class="form-text text-danger small"
-                                                    *ngIf="state.errors?.['minlength']">
-                                                    State must be at least 2 characters long.
-                                                </span>
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="state.errors?.['maxlength']">
-                                                    State cannot be more than 200 characters long.
-                                                </span> -->
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="state.errors?.['pattern']">
-                                                    Please enter a valid State
-                                                </span>
-                                            </span>
-                                            <!-- <div *ngIf="state.invalid && showError" class="form-text text-danger small">
-                                                <small *ngIf="state.errors?.['required']">State is required </small>
-                                            </div> -->
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="account-name">City</label>
-                                            <input class="form-control" type="text" name="city"
-                                                [(ngModel)]="addVendor.city" #city="ngModel" placeholder="City"
-                                                disabled required minlength="2" maxlength="50">
-                                                <span class="form-text text-danger small"
-                                                *ngIf="city.invalid  && (city.dirty || city.touched)">
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="city.errors?.['required']">
-                                                    City is required.
-                                                </span>
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="city.errors?.['minlength']">
-                                                    City must be at least 2 characters long.
-                                                </span>
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="city.errors?.['maxlength']">
-                                                    City cannot be more than 50 characters long.
-                                                </span>
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="city.errors?.['pattern']">
-                                                    Please enter a valid City
-                                                </span>
-                                            </span>
-
-                                            <!-- <div *ngIf="city.invalid && showError" class="form-text text-danger small">
-                                                <small *ngIf="city.errors?.['required']">City is required </small>
-                                            </div> -->
+                                            <input class="form-control" type="text" [(ngModel)]="addResource.city" 
+                                            #city="ngModel" placeholder="City" name="city" disabled >
                                         </div>
                                     </div>
-                                    
                                 </div>
-
-                                
                             </form>
                         </div>
                     </div>

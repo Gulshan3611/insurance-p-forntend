@@ -34,7 +34,7 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="exampleInputName1"> Name</label>
+                                            <label> Name</label>
                                             <input type="text" class="form-control" id="exampleInputName1"
                                                 pattern="[a-zA-Z0-9 ]*" name="name" [(ngModel)]="addResource.name"
                                                 #name="ngModel" maxlength="50" minlength="2" placeholder="Name"
@@ -62,7 +62,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="exampleInputName1"> Technology</label>
+                                            <label> Technology</label>
                                             <input type="text" class="form-control" id="exampleInputName1"
                                                 pattern="[a-zA-Z ]*" name="technology"
                                                 [(ngModel)]="addResource.technology" #technology="ngModel" maxlength="50"
@@ -90,7 +90,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="exampleInputName1">Phone</label>
+                                            <label>Phone</label>
                                             <input type="text" class="form-control" id="exampleInputName1"
                                                 pattern="^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$"
                                                 name="phone" [(ngModel)]="addResource.phone" #phone="ngModel"
@@ -112,7 +112,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="exampleInputName1">Email</label>
+                                            <label>Email</label>
                                             <input type="text" class="form-control" id="exampleInputName1"
                                                 pattern="[a-zA-Z0-9]+[a-zA-Z0-9._]+@[a-zA-Z]+\.[a-zzA-Z.]{2,5}$"
                                                 maxlength="50" name="email" [(ngModel)]="addResource.email"
@@ -134,7 +134,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="exampleInputName1"> Designation</label>
+                                            <label> Designation</label>
                                             <input type="text" class="form-control" id="exampleInputName1"
                                                 pattern="[a-zA-Z ]*" name="designation"
                                                 [(ngModel)]="addResource.designation" #designation="ngModel"
@@ -162,10 +162,10 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="exampleInputName1"> Gender</label>
+                                            <label> Gender</label>
                                             <input type="text" class="form-control" id="exampleInputName1"
                                                 pattern="[a-zA-Z ]*" name="gender" [(ngModel)]="addResource.gender"
-                                                #gender="ngModel" maxlength="50" minlength="4" placeholder="gender"
+                                                #gender="ngModel" maxlength="20" placeholder="gender"
                                                 required>
                                             <span class="form-text text-danger small"
                                                 *ngIf="gender.invalid && (gender.dirty || gender.touched) || showError">
@@ -173,13 +173,13 @@
                                                     *ngIf="gender.errors?.['required']">
                                                     Gender is required.
                                                 </span>
-                                                <span class="form-text text-danger small"
+                                                <!-- <span class="form-text text-danger small"
                                                     *ngIf="gender.errors?.['minlength']">
                                                     Gender must be at least 4 characters long.
-                                                </span>
+                                                </span> -->
                                                 <span class="form-text text-danger small"
                                                     *ngIf="gender.errors?.['maxlength']">
-                                                    Gender cannot be more than 60 characters long.
+                                                    Gender cannot be more than 20 characters long.
                                                 </span>
                                                 <span class="form-text text-danger small"
                                                     *ngIf="gender.errors?.['pattern']">
@@ -197,7 +197,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="account-name">Address </label>
-                                            <textarea class="form-control" type="text" pattern="[a-zA-Z0-9/-_ ]*"
+                                            <textarea class="form-control" type="text" pattern="[a-zA-Z0-9/-_!@#$%&*()=+ ]*"
                                                 name="address" [(ngModel)]="addResource.address" #address="ngModel"
                                                 minlength="2" maxlength="200" placeholder="Address"
                                                 required></textarea>
@@ -537,7 +537,7 @@
                                         <div class="form-group">
                                             <label for="account-name">State</label>
                                             <ng-select name="state" [(ngModel)]="addResource.state" #state="ngModel"
-                                                placeholder="Select Country" required>
+                                                placeholder="Select State" required>
                                                 <ng-container>
                                                     <ng-option value="Andaman and Nicobar Islands">Andaman and Nicobar
                                                         Islands</ng-option>
@@ -655,7 +655,7 @@
 
                                 <button type="submit" class="btn btn-primary mr-2"
                                     (click)="onSubmit(f.form.valid)">{{loading?'Please wait ...':'Submit'}}</button>
-                                <button class="btn btn-danger" [routerLink]="['/vendor-management/list']"
+                                <button class="btn btn-danger" [routerLink]="['/resource-management/list']"
                                     routerLinkActive="router-link-active">Cancel</button>
                             </form>
                         </div>

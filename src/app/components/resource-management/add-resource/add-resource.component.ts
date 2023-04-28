@@ -42,6 +42,10 @@ export class AddResourceComponent implements OnInit {
     // if (!(file <= 100)) {
     //   return this._toastrService.warning("File too Big, please select a file less than 100mb")
     // }
+    if (mimeType.match(/image\/*/) == null) {
+      this._toastrService.info("Only images are supported.");
+      return;
+    }
     var reader = new FileReader();
     reader.readAsDataURL(files[0]);
     reader.onload = (_event) => {      
@@ -68,7 +72,7 @@ export class AddResourceComponent implements OnInit {
     console.log('checking---', valid, this.addResource)
     if (valid) {
       this.loading = true;
-      console.log("hhhhhhhhhh",this.addResource)
+      // console.log("hhhhhhhhhh",this.addResource)
       this._resourceService.addResource(this.addResource).subscribe(objS => {
         console.log('print response====', objS)
         this.loading = this.showError = false;89
@@ -77,7 +81,7 @@ export class AddResourceComponent implements OnInit {
           this.spinner.hide();
           this._toastrService.success(objS.message);
           // this._header.checkFunction(true);
-          this._router.navigate(['/Resource-management/list']);
+          this._router.navigate(['/resource-management/list']);
         } else {
           this._toastrService.error(objS.message);
           this.spinner.hide();
