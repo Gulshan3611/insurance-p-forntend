@@ -15,7 +15,7 @@ export class ResourceListComponent implements OnInit {
 
   page: any = 1;
   resourceListLength: any = [];
-  searchForm: any ;
+  searchForm: any = '';
   limit: any = 10;
   refreshToken: any;
   resourceList: any = {}
@@ -35,43 +35,41 @@ export class ResourceListComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private _authService: AuthService,
-    private _resourceService:ResourceService,
+    private _resourceService: ResourceService,
     private _header: updateHeaderService,
     private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
     this.getResourceLists_f()
-    this.refreshToken = localStorage.getItem('go_d_r_a_t');
-    console.log("rrrrrrrrrrrrr",this.refreshToken.refresh.token);
+    // this.refreshToken = localStorage.getItem('go_d_r_a_t');
+    // console.log("rrrrrrrrrrrrr", this.refreshToken.refresh.token);
   }
 
   onKeyUp(event: any) {
-    this.searchForm=event.target.value.trim().replace(/^\s+/, '');
-    console.log("ssssssssssss",this.searchForm);
+    this.searchForm = event.target.value.trim().replace(/^\s+/, '');
+    // console.log("ssssssssssss",this.searchForm);
     this.getResourceLists_f()
   }
-  getResourceLists_f(){
+
+  getResourceLists_f() {
     this.apiCalled = false;
     this._resourceService.getResourceLists({
       page: this.page,
       limit: this.limit,
       searchBy: this.searchForm,
     }).subscribe(objS => {
-      console.log('print response====', objS.docs)
       this.loading = this.showError = false;
-      if (objS.code == 200) {
-        this.apiCalled = true;
-        this.resourceList = objS.docs
-        this.resourceListLength = objS.data.docs;
-      } else {
-        this._toastrService.error(objS.message);
-      }
+      this.apiCalled = true;
+      this.resourceList = objS.docs
+      this.resourceListLength = objS.total;
+      console.log('print response====', this.resourceListLength)
     }, (err) => {
       this.loading = this.showError = false;
       console.log('err', err)
     });
   }
+
   refreshList(page: any, search: any) {
     this.page = page ? page : 1;
     this.getResourceLists_f()
@@ -98,28 +96,29 @@ export class ResourceListComponent implements OnInit {
         })
       }
     })
-    
+
   }
-  activateDeactivateResources_f(request: any,status: string) {
-   
+
+  activateDeactivateResources_f(request: any, status: string) {
     const requestData =
-     {status: status,
-      ids:[request.id]   
+    {
+      status: status,
+      ids: [request.id]
     }
-    
+
     console.log(requestData);
-      if (request) {
-        console.log(request);
-        this._resourceService.activateDeactivateResources(requestData).subscribe(objS => {
-          this.apiCalled = true;
-          this.getResourceLists_f()
-          this._toastrService.success(objS.message);
-        }, (err) => {
-          console.log(err);
-        })
-      }
+    if (request) {
+      console.log(request);
+      this._resourceService.activateDeactivateResources(requestData).subscribe(objS => {
+        this.apiCalled = true;
+        this.getResourceLists_f()
+        this._toastrService.success(objS.message);
+      }, (err) => {
+        console.log(err);
+      })
     }
-    
-  
+  }
+
+
 
 }
