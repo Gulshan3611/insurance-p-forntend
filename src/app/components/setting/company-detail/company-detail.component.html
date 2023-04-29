@@ -630,10 +630,10 @@
                 <label for="account-e-mail">Email Address</label>
                 <input type="email" pattern="[a-zA-Z0-9]+[a-zA-Z0-9._]+@[a-zA-Z]+\.[a-zzA-Z.]{2,5}$"
                     class="form-control" placeholder="Email" name="email" [(ngModel)]="profile.email" #email="ngModel"
-                    required (blur)="showError = true" (keyup)="showError = true">
+                    required (blur)="showError = true">
                 <div *ngIf="email.invalid && showError" class="form-text text-danger small">
                     <small *ngIf="email.errors?.['required']">email is required</small>
-                    <small hidden="!email.errors?.['pattern']">
+                    <small *ngIf="email.errors?.['pattern']">
                         Invalid email address. Please enter your email address in format
                         youname@example.com</small>
                 </div>

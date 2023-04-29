@@ -17,7 +17,7 @@ export class AddResourceComponent implements OnInit {
   showError: boolean = false;
   apiCalled: boolean = false;
   submitted = false;
-  addResource: any = {}; 
+  addResource: any = {gender: ''}; 
   selectedResource: any = '';
   selectedCurrency: any = '';
 

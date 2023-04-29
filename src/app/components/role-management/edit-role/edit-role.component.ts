@@ -21,46 +21,72 @@ export class EditRoleComponent implements OnInit {
   apiCalled: boolean = false;
   roleForm: any = {};
   reviewId: any = '';
-
-
+  
   resource: any = [
-    // {
-    //   moduleName: "Role And Permission",
-    //   moduleId: "1",
-    //   selectedAll: false,
-    //   list: false,
-    //   add: false,
-    //   edit: false,
-    //   view: false,
-    //   delete: false,
-    // }, {
-    //   moduleName: "Staff Management",
-    //   moduleId: "2",
-    //   selectedAll: false,
-    //   list: false,
-    //   add: false,
-    //   edit: false,
-    //   view: false,
-    //   delete: false,
-    // }, {
-    //   moduleName: "Vendor Management",
-    //   moduleId: "3",
-    //   selectedAll: false,
-    //   list: false,
-    //   add: false,
-    //   edit: false,
-    //   view: false,
-    //   delete: false,
-    // }, {
-    //   moduleName: "Invoice Management",
-    //   moduleId: "4",
-    //   selectedAll: false,
-    //   list: false,
-    //   add: false,
-    //   edit: false,
-    //   view: false,
-    //   delete: false,
-    // }
+    {
+      moduleName: "Role And Permission",
+      moduleId: "1",
+      selectedAll: false,
+      list: false,
+      add: false,
+      edit: false,
+      view: false,
+      delete: false,
+    }, {
+      moduleName: "Staff Management",
+      moduleId: "2",
+      selectedAll: false,
+      list: false,
+      add: false,
+      edit: false,
+      view: false,
+      delete: false,
+    }, {
+      moduleName: "Vendor Management",
+      moduleId: "3",
+      selectedAll: false,
+      list: false,
+      add: false,
+      edit: false,
+      view: false,
+      delete: false,
+    }, {
+      moduleName: "Project Management",
+      moduleId: "4",
+      selectedAll: false,
+      list: false,
+      add: false,
+      edit: false,
+      view: false,
+      delete: false,
+    }, {
+      moduleName: "Invoice Management",
+      moduleId: "5",
+      selectedAll: false,
+      list: false,
+      add: false,
+      edit: false,
+      view: false,
+      delete: false,
+    }, {
+      moduleName: "Gst Management",
+      moduleId: "6",
+      selectedAll: false,
+      list: false,
+      add: false,
+      edit: false,
+      view: false,
+      delete: false,
+    }, {
+      moduleName: "Resource Management",
+      moduleId: "7",
+      selectedAll: false,
+      list: false,
+      add: false,
+      edit: false,
+      view: false,
+      delete: false,
+    }
   ];
 
   constructor(
@@ -88,21 +114,22 @@ export class EditRoleComponent implements OnInit {
     if (valid) {
       this.loading = true;
       this.spinner.show();
-      const permissions = Object.keys(this.resource[0]).filter(key => key !== "moduleName" && key !== "moduleId");
-      const convertedResource = this.resource.reduce((acc, item) => ({
-        name: this.roleForm.name,
-        resource : [{
-          permissions: permissions.filter(permission => item[permission]),
-        }],
-      }), {});
-      console.log("send",convertedResource);
-      
-      this._roleService.updateRoleDetails(convertedResource, this.reviewId).subscribe(objS => {
+      var updated_resource = [];
+      this.resource.forEach((res) => {
+        var resource_obj = { moduleName: res.moduleName, moduleId: res.moduleId, permissions: [] };
+        for (let key of Object.keys(res)) {
+          if (res[key] == true && key != 'moduleId') resource_obj.permissions.push(key);
+        }
+        updated_resource.push(resource_obj)
+      })
+      this.roleForm['resource'] = updated_resource;
+
+      this._roleService.updateRoleDetails(this.roleForm, this.reviewId).subscribe(objS => {
         this.loading = this.showError = false;
         if (objS.code == 200) {
           this._toastrService.success(objS.message);
           this.spinner.hide();
-          // this.router.navigate(['/review/list']);
+          this.router.navigate(['/role-management/list']);
           this.loading = false;
           this.roleDetails_f(this.reviewId);
         } else {
@@ -147,7 +174,7 @@ export class EditRoleComponent implements OnInit {
           delete: item.permissions.includes("delete")
         }));
         console.log("get",this.resource);
-        console.log("5555",res['data']);
+        // console.log("5555",res['data']);
 
       }
     }, (err) => {

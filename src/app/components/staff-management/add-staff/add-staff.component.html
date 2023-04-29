@@ -15,7 +15,7 @@
                                         <div class="form-group">
                                             <label for="exampleInputName1">Name*</label>
                                             <input type="text" class="form-control" id="exampleInputName1"
-                                                placeholder="Enter Name" pattern="[a-zA-Z0-9 ]*" name="name"
+                                                placeholder="Enter Name" pattern="[a-zA-Z ]*" name="name"
                                                 [(ngModel)]="staffForm.name" #name="ngModel" minlength="2"
                                                 maxlength="60" required>
                                             <span class="form-text text-danger small" *ngIf="name.invalid && showError">
@@ -126,7 +126,7 @@
                                         <div class="form-group">
                                             <label for="exampleInputName1">Contact Person Name*</label>
                                             <input type="text" class="form-control" id="exampleInputName1"
-                                                placeholder="Enter Name" pattern="[a-zA-Z0-9 ]*"
+                                                placeholder="Enter Name" pattern="[a-zA-Z ]*"
                                                 name="contactPersonName" [(ngModel)]="staffForm.contactPersonName"
                                                 #contactPersonName="ngModel" minlength="2" maxlength="60" required>
                                             <span class="form-text text-danger small"
@@ -554,7 +554,7 @@
                                     <div class="col-sm-2">
                                         <input type="text" class="form-control" id="exampleInputName1"
                                             placeholder="City" name="city" #city="ngModel" [(ngModel)]="staffForm.city"
-                                            #fax="ngModel" required>
+                                            #fax="ngModel" maxlength="100" required>
                                         <span class="form-text text-danger small" *ngIf="city.invalid && showError">
                                             <span class="form-text text-danger small"
                                                 *ngIf="city.errors?.['required']">City

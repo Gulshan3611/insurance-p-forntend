@@ -18,6 +18,15 @@ export class InvoiceService {
         const body = res;
         return body || {};
     }
+
+    // get Project Lists
+    getProjectLists(request: any): Observable<any> {
+        return this.http.get(`${this.apiUrl}/project?vendorId=` + request.vendorId, request).pipe(map(this.extractData));
+    }
+
+    getProjectDetail(request: any): Observable<any> {
+        return this.http.get(`${this.apiUrl}/project/` + request, request).pipe(map(this.extractData));
+    }
     
     // get Role Lists
     getVendorLists(): Observable<any> {

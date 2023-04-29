@@ -46,7 +46,10 @@ export class StaffListComponent implements OnInit {
   ngOnInit(): void {
     this.getStaffLists_f()
     this.refreshToken = localStorage.getItem('go_d_r_a_t');
-    console.log("rrrrrrrrrrrrr", this.refreshToken.refresh.token);
+  }
+
+  checkpermission(value: any, type: any) {
+    return this._authService.checkAccess(value, type)
   }
 
   onKeyUp(event: any) {

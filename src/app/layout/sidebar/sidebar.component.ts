@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SidebarService } from "../../_services";
+import { SidebarService,AuthService } from "../../_services";
 import { ActivatedRoute, Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
 
 @Component({
@@ -12,12 +12,14 @@ export class SidebarComponent implements OnInit {
   public pathname: any;
   url: any;
   currentRoute: string;
+  profile: any;
 
 
   constructor(
     public _sidebarService: SidebarService,
     private route: ActivatedRoute,
     private router: Router,
+    private _authService: AuthService
     ) { 
       
     this.currentRoute = "";
@@ -31,11 +33,28 @@ export class SidebarComponent implements OnInit {
     }
 
   ngOnInit(): void { 
+    this.profile = this._authService.getAdminData();
   }
 
   // status: boolean = false;
   menuBtn(){
     this._sidebarService.IsSideBarShow = !this._sidebarService.IsSideBarShow; 
   }
+  
+  checkAccess(moduleId: any, type: any) {
+    console.log(moduleId, type)
+    var data = this._authService.getAdminData().role;
+    var loginDetails =  this._authService.getAdminData();
+    // console.log('data-----===>>122==', data)
+    if (data && loginDetails.type != 'superadmin') {
+        for (let i = 0; i < data.resource.length; i++) {
+            if (data.resource[i].moduleId == moduleId) {
+                return data.resource[i].permissions.includes(type) ? true : false
+            }
+        }
+    } else {
+        return true;
+    }
+}
 
 }

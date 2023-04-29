@@ -11,9 +11,9 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Client Name</label>
-                                            <ng-select name="clientName" [(ngModel)]="addInvoice.clientName"
+                                            <ng-select name="clientName" [(ngModel)]="addInvoice.clientName" (change)="getProject($event)"
                                                 #clientName="ngModel" placeholder="Select Vendor" required>
-                                                <ng-container *ngFor="let item of venderList?.docs">
+                                                <ng-container *ngFor="let item of venderList?.docs" >
                                                     <ng-option value="{{item?.id}}" *ngIf="item?.status == 1"> {{item?.name}} </ng-option>
                                                 </ng-container>
                                             </ng-select>
@@ -31,9 +31,9 @@
                                         <div class="form-group">
                                             <label>Project Name</label>
                                             <ng-select name="projectName" [(ngModel)]="addInvoice.projectName"
-                                                #projectName="ngModel" placeholder="Select Project" required>
-                                                <ng-container>
-                                                    <ng-option value="smart_attendance"> Smart Attendance </ng-option>
+                                                #projectName="ngModel" placeholder="Select Project" (change)="projectDetail($event)" required>
+                                                <ng-container *ngFor="let item of projectList?.docs">
+                                                    <ng-option value="{{item?.id}}"> {{item?.projectName}} </ng-option>
                                                 </ng-container>
                                             </ng-select>
 
@@ -59,7 +59,7 @@
                                         <div class="form-group">
                                             <label> Invoice Date</label>
                                             <ng2-flatpickr [config]="invoiceDate" name="invoiceDate" (change)="selectedDates($event)"
-                                                [(ngModel)]="addInvoice.invoiceDate" #invoiceDate="ngModel" required>
+                                                [(ngModel)]="addInvoice.invoiceDate" #invoiceDate="ngModel" placeholder="{{invoiceDateData}}" required>
                                             </ng2-flatpickr>
                                             <span class="form-text text-danger small"
                                                 *ngIf="invoiceDate.invalid && showError">
@@ -93,8 +93,9 @@
                                                 #addItem="ngModel" (change)="selectItem($event)" required>
                                                 <ng-container>
                                                     <ng-option value="hourly"> Hourly </ng-option>
-                                                    <ng-option value="project_monthly"> Project on Monthly </ng-option>
-                                                    <ng-option value="resource_monthly"> Resource on Monthly</ng-option>
+                                                    <ng-option value="projectOnMonthly"> Project on Monthly </ng-option>
+                                                    <ng-option value="resourceOnMonthly"> Resource on Monthly</ng-option>
+                                                    <!-- <ng-option value="resourceOnHourly"> Resource on Hourly</ng-option> -->
                                                     <ng-option value="fixed"> Fixed </ng-option>
                                                 </ng-container>
                                             </ng-select>
@@ -108,7 +109,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-12" *ngIf="milestone == 'fixed'">
+                                    <div class="col-md-12" *ngIf="milestone == 'FIXED'">
                                         <div class="d-flex align-items-start pt-2 mb-2 border border-primary rounded" *ngFor="let item of addMilestone; let i = index">
                                             <div class="row w-100 m-0">
                                                 <div class="col-md-4">
@@ -138,8 +139,8 @@
                                                         <fieldset>
                                                             <div class="input-group">
                                                                 <input type="text" class="form-control" pattern="^[0-9]*$"
-                                                                    name="paymentPercentage{{i}}" [(ngModel)]="item.paymentPercentage"
-                                                                    #paymentPercentage="ngModel" maxlength="60" required>
+                                                                    name="projectPercentage{{i}}" [(ngModel)]="item.projectPercentage"
+                                                                    #projectPercentage="ngModel" maxlength="60" required>
                                                                 <div class="input-group-append">
                                                                     <span class="input-group-text"
                                                                         id="basic-addon1">%</span>
@@ -147,9 +148,9 @@
                                                             </div>
                                                         </fieldset>
                                                         <span class="form-text text-danger small"
-                                                            *ngIf="paymentPercentage.invalid && showError">
+                                                            *ngIf="projectPercentage.invalid && showError">
                                                             <span class="form-text text-danger small"
-                                                                *ngIf="paymentPercentage.errors?.['required']">Payment
+                                                                *ngIf="projectPercentage.errors?.['required']">Payment
                                                                 percentage name is
                                                                 required</span>
                                                             <span class="form-text text-danger small"
@@ -165,18 +166,18 @@
                                                         <label>Project Amount</label>
                                                         <div class="input-group">
                                                             <input type="text" class="form-control" pattern="^[0-9]*$"
-                                                                name="project_amount{{i}}"
-                                                                [(ngModel)]="item.project_amount"
-                                                                #project_amount="ngModel" maxlength="8" required>
+                                                                name="milestoneAmount{{i}}"
+                                                                [(ngModel)]="item.milestoneAmount"
+                                                                #milestoneAmount="ngModel" maxlength="8" required>
                                                         </div>
                                                         <span class="form-text text-danger small"
-                                                            *ngIf="project_amount.invalid && showError">
+                                                            *ngIf="milestoneAmount.invalid && showError">
                                                             <span class="form-text text-danger small"
-                                                                *ngIf="project_amount.errors?.['required']">Payment
+                                                                *ngIf="milestoneAmount.errors?.['required']">Payment
                                                                 percentage name is
                                                                 required</span>
                                                             <span class="form-text text-danger small"
-                                                                [hidden]="!project_amount.errors?.['pattern']">
+                                                                [hidden]="!milestoneAmount.errors?.['pattern']">
                                                                 Please enter valid payment percentage.
                                                             </span>
                                                         </span>

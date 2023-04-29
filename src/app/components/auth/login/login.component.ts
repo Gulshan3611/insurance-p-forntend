@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
         } else {
           this.spinner.hide()
           localStorage.setItem('userType', 'Expert')
-          this._router.navigate(['/setting']);
+          this._router.navigate(['/role-management/list']);
         }
         this.spinner.hide()
         this._toastr.success(objS.message)

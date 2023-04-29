@@ -162,11 +162,19 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="exampleInputName1"> Gender</label>
-                                            <input type="text" class="form-control" id="exampleInputName1"
+                                            <label> Gender</label>
+                                            <!-- <input type="text" class="form-control" id="exampleInputName1"
                                                 pattern="[a-zA-Z ]*" name="gender" [(ngModel)]="addResource.gender"
                                                 #gender="ngModel" maxlength="20" placeholder="gender"
-                                                required>
+                                                required> -->
+                                                
+                                                <select class="custom-select" name="gender" [(ngModel)]="addResource.gender"
+                                                #gender="ngModel" placeholder="gender" required>
+                                                    <option value="">Select</option>
+                                                    <option value="Male">Male</option>
+                                                    <option value="Female">Female</option>
+                                                    <option value="Other">Other</option>
+                                                </select>
                                             <span class="form-text text-danger small"
                                                 *ngIf="gender.invalid && (gender.dirty || gender.touched) || showError">
                                                 <span class="form-text text-danger small"
@@ -177,14 +185,14 @@
                                                     *ngIf="gender.errors?.['minlength']">
                                                     Gender must be at least 4 characters long.
                                                 </span> -->
-                                                <span class="form-text text-danger small"
+                                                <!-- <span class="form-text text-danger small"
                                                     *ngIf="gender.errors?.['maxlength']">
                                                     Gender cannot be more than 20 characters long.
                                                 </span>
                                                 <span class="form-text text-danger small"
                                                     *ngIf="gender.errors?.['pattern']">
                                                     Please enter a valid Gender
-                                                </span>
+                                                </span> -->
                                             </span>
                                         </div>
                                     </div>

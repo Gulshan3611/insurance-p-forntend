@@ -17,19 +17,24 @@ export class AddInvoiceComponent implements OnInit {
   showError: boolean = false;
   apiCalled: boolean = false;
   submitted = false;
-  addInvoice: any = {};
+  addInvoice: any = { fixed: [] };
   currentDate: any = new Date();
   percentageValue: any;
   gstCountry: any;
   milestone: any;
+  invoiceDateData: any;
   dueDateData: any;
 
   venderList: any;
+  projectList: any;
+  projectData: any;
+
+  vendorId: any = '';
 
   addMilestone: any = [{
     milestoneName: "",
     paymentPercentage: "",
-    project_amount: '',
+    milestoneAmount: '',
     payable_amount: ''
   }];
 
@@ -101,13 +106,13 @@ export class AddInvoiceComponent implements OnInit {
     private authService: AuthService,
   ) { }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.getVendorListFromApi()
-    
+
     const getRandomId = (min = 0, max = 500000) => {
       min = Math.ceil(min);
       max = Math.floor(max);
-      const num =  Math.floor(Math.random() * (max - min + 1)) + min;
+      const num = Math.floor(Math.random() * (max - min + 1)) + min;
       return num.toString().padStart(10, "0")
     };
 
@@ -118,8 +123,44 @@ export class AddInvoiceComponent implements OnInit {
     this.apiCalled = false;
     this._invoiceService.getVendorLists().subscribe(objS => {
       this.apiCalled = true;
-        this.venderList = objS;
-        // console.log(this.venderList)
+      this.venderList = objS;
+      // console.log(this.venderList)
+    }, (err) => {
+      console.log(err);
+    })
+  }
+
+  getProject(event) {
+    console.log(event)
+    this.vendorId = event
+    this.apiCalled = false;
+    this._invoiceService.getProjectLists({
+      vendorId: this.vendorId,
+    }).subscribe(objS => {
+      this.apiCalled = true;
+      this.projectList = objS;
+      console.log(this.projectList)
+    }, (err) => {
+      console.log(err);
+    })
+  }
+
+  projectDetail(event) {
+    console.log(event)
+    this.apiCalled = false;
+    this._invoiceService.getProjectDetail(event).subscribe(objS => {
+      this.apiCalled = true;
+      this.projectData = objS.data;
+      console.log(this.projectData)
+
+      this.invoiceDateData = moment.parseZone(this.projectData?.createdAt).format('YYYY-MM-DD');
+      this.dueDateData = moment.parseZone(this.invoiceDateData).add(15, 'days').format('YYYY-MM-DD')
+      if (this.projectData.projectType === 'FIXED') {
+        this.addInvoice.addItem = 'FIXED';
+        this.milestone = 'FIXED'
+        this.addMilestone = this.projectData.fixed;
+      }
+
     }, (err) => {
       console.log(err);
     })
@@ -128,8 +169,8 @@ export class AddInvoiceComponent implements OnInit {
   add() {
     this.addMilestone.push({
       milestoneName: "",
-      paymentPercentage: "",
-      project_amount: "",
+      projectPercentage: "",
+      milestoneAmount: "",
       payable_amount: ""
     });
   }
@@ -165,7 +206,7 @@ export class AddInvoiceComponent implements OnInit {
     // console.log(event)
   }
 
-  selectedDates(event: any){
+  selectedDates(event: any) {
     // moment.parseZone(event)
     console.log(event.target.value)
     console.log(moment.parseZone(event.target.value).add(15, 'days').format())
@@ -181,8 +222,11 @@ export class AddInvoiceComponent implements OnInit {
     // console.log('checking---', valid, this.resource)
     if (valid) {
       this.loading = true;
+
+      this.addInvoice.fixed = this.addMilestone;
       console.log(this.addInvoice)
-      if(this.addInvoice.cgst > 101 ) {
+
+      if (this.addInvoice.cgst > 101) {
         this.toastr.error('The percentage must be between 0 and 100');
         return;
       }
