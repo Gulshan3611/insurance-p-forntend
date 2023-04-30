@@ -17,7 +17,7 @@ export class AddInvoiceComponent implements OnInit {
   showError: boolean = false;
   apiCalled: boolean = false;
   submitted = false;
-  addInvoice: any = { fixed: [] };
+  addInvoice: any = { fixed: [], cgst: '', icgst: '', sgst: '' };
   currentDate: any = new Date();
   percentageValue: any;
   gstCountry: any;
@@ -30,6 +30,14 @@ export class AddInvoiceComponent implements OnInit {
   projectData: any;
 
   vendorId: any = '';
+  totalAmount: any = 0;
+  cgstPer: any = 0;
+  sgstPer: any = 0;
+  icgstPer: any = 0;
+  percentage: any = 0;
+
+  percentageBox: boolean = false;
+
 
   addMilestone: any = [{
     milestoneName: "",
@@ -99,11 +107,11 @@ export class AddInvoiceComponent implements OnInit {
 
   constructor(
     private _projectService: ProjectService,
-    private toastr: ToastrService,
+    private _toastrService: ToastrService,
     private _router: Router,
     private _invoiceService: InvoiceService,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService,
+    private _authService: AuthService,
   ) { }
 
   ngOnInit(): void {
@@ -119,6 +127,10 @@ export class AddInvoiceComponent implements OnInit {
     this.addInvoice.InvoiceNumber = getRandomId();
   }
 
+  checkpermission(value: any, type: any) {
+    return this._authService.checkAccess(value, type)
+  }
+
   getVendorListFromApi() {
     this.apiCalled = false;
     this._invoiceService.getVendorLists().subscribe(objS => {
@@ -132,23 +144,43 @@ export class AddInvoiceComponent implements OnInit {
 
   getProject(event) {
     console.log(event)
-    this.vendorId = event
+    this.clearProjectDetail()
+    // this.clearProjecList()
+    this.projectListApi(event)
+  }
+
+  projectListApi(id){
     this.apiCalled = false;
     this._invoiceService.getProjectLists({
-      vendorId: this.vendorId,
+      vendorId: id,
     }).subscribe(objS => {
       this.apiCalled = true;
       this.projectList = objS;
-      console.log(this.projectList)
+      // console.log(this.projectList)
     }, (err) => {
       console.log(err);
     })
   }
 
+  clearProjectDetail() {
+    this.projectData = '';
+    this.invoiceDateData = '';
+    this.dueDateData = ''
+    this.addInvoice.projectType = '';
+    this.milestone = ''
+    this.addMilestone = '';
+    this.vendorId = '';
+  }
+
   projectDetail(event) {
     console.log(event)
+    this.clearProjectDetail()
+    this.projectDetailApi(event);
+  }
+
+  projectDetailApi(id) {
     this.apiCalled = false;
-    this._invoiceService.getProjectDetail(event).subscribe(objS => {
+    this._invoiceService.getProjectDetail(id).subscribe(objS => {
       this.apiCalled = true;
       this.projectData = objS.data;
       console.log(this.projectData)
@@ -156,14 +188,20 @@ export class AddInvoiceComponent implements OnInit {
       this.invoiceDateData = moment.parseZone(this.projectData?.createdAt).format('YYYY-MM-DD');
       this.dueDateData = moment.parseZone(this.invoiceDateData).add(15, 'days').format('YYYY-MM-DD')
       if (this.projectData.projectType === 'FIXED') {
-        this.addInvoice.addItem = 'FIXED';
+        this.addInvoice.projectType = 'FIXED';
         this.milestone = 'FIXED'
         this.addMilestone = this.projectData.fixed;
+        for (let i = 0; i < this.projectData.fixed.length; i++) {
+          this.totalAmount = this.totalAmount + this.projectData.fixed[i].milestoneAmount;
+        }
+        this.addInvoice.total_payable_amount = this.totalAmount;
+        this.percentageBox =true;
       }
 
     }, (err) => {
       console.log(err);
     })
+
   }
 
   add() {
@@ -203,7 +241,7 @@ export class AddInvoiceComponent implements OnInit {
 
   selectItem(event: any) {
     this.milestone = event;
-    // console.log(event)
+    // console.log('------------',event)
   }
 
   selectedDates(event: any) {
@@ -216,6 +254,41 @@ export class AddInvoiceComponent implements OnInit {
     this.dueDateData = moment.parseZone(event.target.value).add(15, 'days').format('YYYY-MM-DD')
   }
 
+  selectcgst(event){
+    this.cgstPer = event.target.value;
+    this.percentage = (Number(this.icgstPer) + Number(this.cgstPer) + Number(this.sgstPer))
+    if(this.totalAmount !== 0) {
+      var percentage = (this.percentage*this.totalAmount)/100;
+      this.addInvoice.total_payable_amount =  this.totalAmount - percentage;
+      console.log(percentage)
+    } else {
+      this.addInvoice.total_payable_amount = 0;
+    }
+  }
+  
+  selectIcgst(event){
+    this.icgstPer = event.target.value;
+    this.percentage = (Number(this.icgstPer) + Number(this.cgstPer) + Number(this.sgstPer))
+    if(this.totalAmount !== 0) {
+      var percentage = (this.percentage*this.totalAmount)/100;
+      this.addInvoice.total_payable_amount =  this.totalAmount - percentage;
+    } else {
+      this.addInvoice.total_payable_amount = 0;
+    }
+  }
+  
+  selectSgst(event){
+    this.sgstPer = event.target.value;
+    this.percentage = (Number(this.icgstPer) + Number(this.cgstPer) + Number(this.sgstPer))
+    if(this.totalAmount !== 0) {
+      var percentage = (this.percentage*this.totalAmount)/100;
+      this.addInvoice.total_payable_amount =  this.totalAmount - percentage;
+    } else {
+      this.addInvoice.total_payable_amount = 0;
+    }
+  }
+  
+
   onSubmit(valid: any): void {
     this.showError = true;
     this.submitted = true;
@@ -226,10 +299,22 @@ export class AddInvoiceComponent implements OnInit {
       this.addInvoice.fixed = this.addMilestone;
       console.log(this.addInvoice)
 
-      if (this.addInvoice.cgst > 101) {
-        this.toastr.error('The percentage must be between 0 and 100');
-        return;
-      }
+      this.loading = true;
+      // this.spinner.show();
+
+      this._invoiceService.addInvoice(this.addInvoice).subscribe(objS => {
+        if (objS.code == 200) {
+          this.loading = false;
+          // this.spinner.hide();
+          this._toastrService.success(objS.message);
+          this._router.navigate(['/invoice-management/list']);
+        }
+        else {
+          this._toastrService.error(objS.message);
+          this.loading = false;
+          // this.spinner.hide();
+        }
+      })
     }
   }
 

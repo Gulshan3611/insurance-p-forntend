@@ -25,7 +25,7 @@ export class EditVendorComponent implements OnInit {
     private _router: Router,
     private _vendorService: VendorService,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService,  
+    private _authService: AuthService,  
   ) { }
 
   ngOnInit(): void {
@@ -33,6 +33,10 @@ export class EditVendorComponent implements OnInit {
       this.reviewId = this.activatedRoute.snapshot.params['id'];
       this.vendorDetails_f(this.reviewId);      
     }
+  }
+
+  checkpermission(value: any, type: any) {
+    return this._authService.checkAccess(value, type)
   }
 
   selectVendor(event: any) {

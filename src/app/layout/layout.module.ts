@@ -6,6 +6,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { NavbarComponent } from './navbar/navbar.component';
 import { FullComponent } from './full/full.component';
 import { FooterComponent } from './footer/footer.component';
+import { NoPermissionComponent } from './no-permission/no-permission.component';
 
 
 
@@ -16,7 +17,8 @@ import { FooterComponent } from './footer/footer.component';
     PageNotFoundComponent,
     NavbarComponent,
     FullComponent,
-    FooterComponent
+    FooterComponent,
+    NoPermissionComponent
   ],
   imports: [
     CommonModule

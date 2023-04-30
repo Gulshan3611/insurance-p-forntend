@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SidebarService,AuthService } from "../../_services";
+import { SidebarService, AuthService } from "../../_services";
 import { ActivatedRoute, Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
 
 @Component({
@@ -20,8 +20,8 @@ export class SidebarComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private _authService: AuthService
-    ) { 
-      
+  ) {
+
     this.currentRoute = "";
     this.router.events.subscribe((event: Event) => {
 
@@ -30,31 +30,31 @@ export class SidebarComponent implements OnInit {
         this.url = event.url;
       }
     });
-    }
+  }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.profile = this._authService.getAdminData();
   }
 
   // status: boolean = false;
-  menuBtn(){
-    this._sidebarService.IsSideBarShow = !this._sidebarService.IsSideBarShow; 
+  menuBtn() {
+    this._sidebarService.IsSideBarShow = !this._sidebarService.IsSideBarShow;
   }
-  
+
   checkAccess(moduleId: any, type: any) {
-    console.log(moduleId, type)
+    // console.log(moduleId, type)
     var data = this._authService.getAdminData().role;
-    var loginDetails =  this._authService.getAdminData();
+    var loginDetails = this._authService.getAdminData();
     // console.log('data-----===>>122==', data)
     if (data && loginDetails.type != 'superadmin') {
-        for (let i = 0; i < data.resource.length; i++) {
-            if (data.resource[i].moduleId == moduleId) {
-                return data.resource[i].permissions.includes(type) ? true : false
-            }
+      for (let i = 0; i < data.resource.length; i++) {
+        if (data.resource[i].moduleId == moduleId) {
+          return data.resource[i].permissions.includes(type) ? true : false
         }
+      }
     } else {
-        return true;
+      return true;
     }
-}
+  }
 
 }

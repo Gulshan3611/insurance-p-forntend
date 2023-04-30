@@ -8,7 +8,7 @@
                         [(ngModel)]="searchForm.search" [ngModelOptions]="{standalone: true}"
                         (ngModelChange)="refreshList(1,searchForm.search)">
                         <button rippleEffect [routerLink]="['/invoice-management/add']"
-                            routerLinkActive="router-link-active"
+                        *ngIf="checkpermission(5,'add')"
                             class="btn btn-primary ml-1 mb-2 float-right">Add</button>
                     </h4>
                     <div class="table-responsive mb-2">
@@ -57,12 +57,13 @@
                                                 </a>
                                                 <a ngbDropdownItem href="javascript:void(0)"
                                                     routerLink="/invoice-management/preview/343434"
+                                                    *ngIf="checkpermission(5,'view')"
                                                     routerLinkActive="router-link-active">
                                                     <i class="feather icon-eye mr-50"></i><span>View preview</span>
                                                 </a>
                                                 <a ngbDropdownItem href="javascript:void(0)"
                                                     routerLink="/invoice-management/edit/343434"
-                                                    routerLinkActive="router-link-active">
+                                                    *ngIf="checkpermission(5,'edit')">
                                                     <i class="feather icon-edit mr-50"></i><span>Edit</span>
                                                 </a>
                                                 <a ngbDropdownItem href="javascript:void(0)">
@@ -72,7 +73,8 @@
                                                     <i class="feather icon-toggle-left mr-50"></i>
                                                     <span>Deactivate</span>
                                                 </a>
-                                                <a ngbDropdownItem href="javascript:void(0)">
+                                                <a ngbDropdownItem href="javascript:void(0)" 
+                                                *ngIf="checkpermission(5,'delete')">
                                                     <i class="feather icon-trash mr-50"></i> <span>Delete</span>
                                                 </a>
                                             </div>

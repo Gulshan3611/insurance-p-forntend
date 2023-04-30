@@ -6,8 +6,8 @@
                     <h4 class="card-title">
                         <input type="text" (keyup)="onKeyUp($event)" class="form-control d-inline-block col-md-4 mr-2"
                             id="exampleInputEmail1" placeholder="Search by vendor name">
-                        <button rippleEffect [routerLink]="['/vendor-management/add']"
-                            routerLinkActive="router-link-active"
+                        <button rippleEffect [routerLink]="['/vendor-management/add']" 
+                        *ngIf="checkpermission(3,'add')"
                             class="btn btn-primary ml-1 mb-2 float-right">Add</button>
                     </h4>
                     <div class="table-responsive mb-2">
@@ -44,12 +44,12 @@
                                             <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
                                                 <a ngbDropdownItem href="javascript:void(0);"
                                                     routerLink="/vendor-management/view/{{item.id}}"
-                                                    routerLinkActive="router-link-active">
+                                                    *ngIf="checkpermission(3,'view')">
                                                     <i class="feather icon-eye mr-50"></i><span>View</span>
                                                 </a>
                                                 <a ngbDropdownItem href="javascript:void(0);"
                                                     routerLink="/vendor-management/edit/{{item.id}}"
-                                                    routerLinkActive="router-link-active">
+                                                    *ngIf="checkpermission(3,'edit')">
                                                     <i class="feather icon-edit mr-50"></i><span>Edit</span>
                                                 </a>
                                                 <a *ngIf="item?.status!=1" ngbDropdownItem
@@ -61,7 +61,7 @@
                                                     <i class="feather icon-toggle-left mr-50"></i>
                                                     <span>Deactivate</span>
                                                 </a>
-                                                <a ngbDropdownItem (click)="deleteVendor_f(item)">
+                                                <a ngbDropdownItem (click)="deleteVendor_f(item)" *ngIf="checkpermission(3,'delete')">
                                                     <i class="feather icon-trash mr-50"></i> <span>Delete</span>
                                                 </a>
                                             </div>

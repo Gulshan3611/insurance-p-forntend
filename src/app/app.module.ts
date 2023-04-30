@@ -35,6 +35,7 @@ import { VendorManagementComponent } from './components/vendor-management/vendor
 import { ProjectManagementComponent } from './components/project-management/project-management.component';
 import { ManageInvoiceComponent } from './components/manage-invoice/manage-invoice.component';  
 import { ClientComponent } from './components/client/client.component';
+import { NoPermissionComponent } from './layout/no-permission/no-permission.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { ClientComponent } from './components/client/client.component';
     ManageInvoiceComponent,
     ClientComponent,
     ResourceManagementComponent,
+    NoPermissionComponent
   ],
   imports: [
     BrowserModule,

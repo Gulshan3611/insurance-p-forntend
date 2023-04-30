@@ -73,7 +73,7 @@ export class AddProjectComponent implements OnInit {
     private router: Router,
     private _vendorService: VendorService,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService,
+    private _authService: AuthService,
     private spinner: NgxSpinnerService
 
   ) { }
@@ -81,6 +81,11 @@ export class AddProjectComponent implements OnInit {
   ngOnInit(): void {
     this.getVendorLists_f()
   }
+
+  checkpermission(value: any, type: any) {
+    return this._authService.checkAccess(value, type)
+  }
+
   getVendorLists_f(){
     this.apiCalled = false;
     this._vendorService.getVendorLists({

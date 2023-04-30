@@ -45,11 +45,13 @@
                                             </button>
                                             <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
                                                 <a ngbDropdownItem href="javascript:void(0);"
+                                                    *ngIf="checkpermission(2,'view')"
                                                     routerLink="/staff-management/view/{{item.id}}"
                                                     routerLinkActive="router-link-active">
                                                     <i class="feather icon-eye mr-50"></i><span>View</span>
                                                 </a>
                                                 <a ngbDropdownItem href="javascript:void(0);"
+                                                *ngIf="checkpermission(2,'edit')"
                                                     routerLink="/staff-management/edit/{{item.id}}"
                                                     routerLinkActive="router-link-active">
                                                     <i class="feather icon-edit mr-50"></i><span>Edit</span>
@@ -60,7 +62,8 @@
                                                 <a *ngIf="item?.status!=0" ngbDropdownItem (click)="activateDeactivatestaff_f(item,'deactive')">
                                                     <i class="feather icon-toggle-left mr-50"></i> <span>Deactivate</span>
                                                 </a>
-                                                <a ngbDropdownItem type="button" (click)="deleteStaff_f(item)">
+                                                <a ngbDropdownItem type="button" (click)="deleteStaff_f(item)"
+                                                *ngIf="checkpermission(2,'delete')">
                                                     <i class="feather icon-trash mr-50"></i> <span>Delete</span>
                                                 </a>
                                             </div>

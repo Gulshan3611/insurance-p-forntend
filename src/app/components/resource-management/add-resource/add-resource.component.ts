@@ -27,10 +27,20 @@ export class AddResourceComponent implements OnInit {
     private _router: Router,
     private _resourceService:ResourceService,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService,  
+    private _authService: AuthService,  
     private spinner: NgxSpinnerService
 
   ) { }
+  
+
+  ngOnInit(): void {
+     
+  }
+
+  checkpermission(value: any, type: any) {
+    return this._authService.checkAccess(value, type)
+  }
+
   handleFileSelect(evt: any) {
     var files = evt.target.files;
     if (files.length === 0)
@@ -53,11 +63,6 @@ export class AddResourceComponent implements OnInit {
     }
 
   }
-
-  ngOnInit(): void {
-     
-  }
-
   selectResource(event: any) {
     this.selectedResource = event;
   }

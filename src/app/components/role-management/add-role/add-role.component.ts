@@ -94,12 +94,16 @@ export class AddRoleComponent implements OnInit {
     private _toastrService: ToastrService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    public authService: AuthService,
+    public _authService: AuthService,
     private spinner: NgxSpinnerService
 
   ) { }
 
   ngOnInit(): void { }
+
+  checkpermission(value: any, type: any) {
+    return this._authService.checkAccess(value, type)
+  }
 
   onSubmit(valid: any): void {
     this.showError = true;

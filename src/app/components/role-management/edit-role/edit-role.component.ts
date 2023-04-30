@@ -94,7 +94,7 @@ export class EditRoleComponent implements OnInit {
     private toastr: ToastrService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    public authService: AuthService,
+    public _authService: AuthService,
     private _toastrService: ToastrService,
     private spinner: NgxSpinnerService
 
@@ -105,6 +105,9 @@ export class EditRoleComponent implements OnInit {
       this.reviewId = this.activatedRoute.snapshot.params['id'];
       this.roleDetails_f(this.reviewId);
     }
+  }
+  checkpermission(value: any, type: any) {
+    return this._authService.checkAccess(value, type)
   }
 
   onSubmit(valid: any): void {

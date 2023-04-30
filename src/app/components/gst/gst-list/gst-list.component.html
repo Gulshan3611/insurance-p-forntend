@@ -8,7 +8,8 @@
                         [(ngModel)]="searchForm.search" [ngModelOptions]="{standalone: true}"
                         (ngModelChange)="refreshList(1,searchForm.search)">
 
-                        <button rippleEffect routerLink='/gst/add' class="btn btn-primary ml-1 mb-2 float-right">Add</button>
+                        <button rippleEffect routerLink='/gst/add' class="btn btn-primary ml-1 mb-2 float-right" 
+                        *ngIf="checkpermission(6,'add')">Add</button>
                     </h4>
                     <div class="table-responsive mb-2">
                         <table class="table table-bordered table-hover">
@@ -48,12 +49,12 @@
                                             <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
                                                 <a ngbDropdownItem href="javascript:void(0)"
                                                     routerLink="/gst/view/{{item?.id}}"
-                                                    routerLinkActive="router-link-active">
+                                                    *ngIf="checkpermission(6,'view')">
                                                     <i class="feather icon-eye mr-50"></i><span>View </span>
                                                 </a>
                                                 <a ngbDropdownItem href="javascript:void(0)"
                                                     routerLink="/gst/edit/{{item?.id}}"
-                                                    routerLinkActive="router-link-active">
+                                                    *ngIf="checkpermission(6,'edit')">
                                                     <i class="feather icon-edit mr-50"></i><span>Edit</span>
                                                 </a>
                                                 <a *ngIf="item?.status==0" ngbDropdownItem href="javascript:void(0)" (click)="activateDeactivateGst(item, 'active')">
@@ -62,7 +63,8 @@
                                                 <a *ngIf="item?.status==1" ngbDropdownItem href="javascript:void(0)" (click)="activateDeactivateGst(item, 'deactive')">
                                                     <i class="feather icon-toggle-left mr-50"></i> <span>Deactivate</span>
                                                 </a>
-                                                <a ngbDropdownItem href="javascript:void(0)" (click)="deleteGst(item)">
+                                                <a ngbDropdownItem href="javascript:void(0)" (click)="deleteGst(item)" 
+                                                *ngIf="checkpermission(6,'delete')">
                                                     <i class="feather icon-trash mr-50"></i> <span>Delete</span>
                                                 </a>
                                             </div>

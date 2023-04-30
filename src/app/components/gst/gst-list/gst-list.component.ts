@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, NgZone, Output, EventEmitter 
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
-import { GstService } from "../../../_services";
+import { GstService, AuthService } from "../../../_services";
 import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
@@ -24,11 +24,16 @@ export class GstListComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private _gstService:GstService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private _authService:AuthService
   ) { }
 
   ngOnInit(): void {
     this.getGstListFromApi();
+  }
+
+  checkpermission(value: any, type: any) {
+    return this._authService.checkAccess(value, type)
   }
 
   getGstListFromApi() {

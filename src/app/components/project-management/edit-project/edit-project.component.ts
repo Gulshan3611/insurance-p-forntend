@@ -45,7 +45,7 @@ export class EditProjectComponent implements OnInit {
     private _router: Router,
     private _roleService: RoleService,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService,  
+    private _authService: AuthService,  
   ) { }
 
   
@@ -58,6 +58,10 @@ export class EditProjectComponent implements OnInit {
 
   ngOnInit(): void {
      this.addProject.projectPercentage = 40
+  }
+
+  checkpermission(value: any, type: any) {
+    return this._authService.checkAccess(value, type)
   }
 
   percentageChange(event: any) {

@@ -95,10 +95,14 @@ export class EditInvoiceComponent implements OnInit {
     private _router: Router,
     private _roleService: RoleService,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService,
+    private _authService: AuthService,
   ) { }
 
   ngOnInit(): void { 
+  }
+
+  checkpermission(value: any, type: any) {
+    return this._authService.checkAccess(value, type)
   }
 
   add() {

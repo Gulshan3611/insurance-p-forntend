@@ -516,7 +516,7 @@
                                     </div>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary mr-2"
+                                <button type="submit" class="btn btn-primary mr-2" *ngIf="checkpermission(3,'add')"
                                     (click)="onSubmit(f.form.valid)">{{loading?'Please wait ...':'Submit'}}</button>
                                 <button class="btn btn-danger" [routerLink]="['/vendor-management/list']"
                                     routerLinkActive="router-link-active">Cancel</button>

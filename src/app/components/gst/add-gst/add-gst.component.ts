@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, NgZone, Output, EventEmitter 
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FlatpickrOptions } from 'ng2-flatpickr';
-import { GstService } from "../../../_services";
+import { AuthService, GstService } from "../../../_services";
 import { environment } from '../../../../environments/environment';
 import { NgxSpinnerService } from "ngx-spinner";
 
@@ -26,10 +26,15 @@ export class AddGstComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private _gstService :GstService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private _authService:AuthService
   ) { }
 
   ngOnInit(): void {
+  }
+
+  checkpermission(value: any, type: any) {
+    return this._authService.checkAccess(value, type)
   }
 
   onSubmit(valid: any): void {

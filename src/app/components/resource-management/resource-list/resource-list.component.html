@@ -7,7 +7,7 @@
                         <input type="text" (keyup)="onKeyUp($event)" trim="blur" class="form-control d-inline-block col-md-4"
                             id="exampleInputEmail1" placeholder="Search by name">
                         <button type="button" routerLink="/resource-management/add"
-                            routerLinkActive="router-link-active" class="btn btn-primary ml-1 float-right"
+                        *ngIf="checkpermission(7,'add')" class="btn btn-primary ml-1 float-right"
                             rippleEffect>Add </button>
                     </h4>
                     <div class="table-responsive mb-2">
@@ -45,11 +45,11 @@
                                             </button>
                                             <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
                                                 <a ngbDropdownItem routerLink="/resource-management/view/{{item.id}}"
-                                                    routerLinkActive="router-link-active">
+                                                *ngIf="checkpermission(7,'view')">
                                                     <i class="feather icon-eye mr-50"></i><span>View</span>
                                                 </a>
                                                 <a ngbDropdownItem routerLink="/resource-management/edit/{{item.id}}"
-                                                    routerLinkActive="router-link-active">
+                                                *ngIf="checkpermission(7,'edit')">
                                                     <i class="feather icon-edit mr-50"></i><span>Edit</span>
                                                 </a>
 
@@ -62,7 +62,8 @@
                                                     <i class="feather icon-toggle-left mr-50"></i>
                                                     <span>Deactivate</span>
                                                 </a>
-                                                <a type="button" (click)="deleteResource_f(item)" ngbDropdownItem>
+                                                <a type="button" (click)="deleteResource_f(item)" 
+                                                *ngIf="checkpermission(7,'delete')" ngbDropdownItem>
                                                     <i class="feather icon-trash mr-50"></i> <span>Delete</span>
                                                 </a>
                                             </div>

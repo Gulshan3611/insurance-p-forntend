@@ -6,6 +6,7 @@ import { FullComponent } from './layout/full/full.component';
 
 import {AuthGuard } from '../app/_helpers';
 import { PageNotFoundComponent } from './layout/page-not-found/page-not-found.component';
+import { NoPermissionComponent } from './layout/no-permission/no-permission.component';
 
 const routes: Routes = [
   {
@@ -26,7 +27,7 @@ const routes: Routes = [
   {
     path: '',
     component: FullComponent, 
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'vendor-management',
@@ -37,7 +38,7 @@ const routes: Routes = [
   {
     path: '',
     component: FullComponent, 
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'staff-management',
@@ -48,7 +49,7 @@ const routes: Routes = [
   {
     path: '',
     component: FullComponent, 
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'role-management',
@@ -59,7 +60,7 @@ const routes: Routes = [
   {
     path: '',
     component: FullComponent, 
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'resource-management',
@@ -70,7 +71,7 @@ const routes: Routes = [
   {
     path: '',
     component: FullComponent, 
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'invoice-management',
@@ -81,7 +82,7 @@ const routes: Routes = [
   {
     path: '',
     component: FullComponent, 
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'project-management',
@@ -92,7 +93,7 @@ const routes: Routes = [
   {
     path: '',
     component: FullComponent, 
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'client-management',
@@ -103,7 +104,7 @@ const routes: Routes = [
   {
     path: '',
     component: FullComponent, 
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'gst',
@@ -114,13 +115,18 @@ const routes: Routes = [
   {
     path: '',
     component: FullComponent, 
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'setting',
         loadChildren: () => import('./components/setting/setting.module').then(m => m.SettingModule)
       },
     ]
+  },
+  {
+    path: 'no-permission',
+    component: NoPermissionComponent, 
+    canActivate: [AuthGuard],
   },
   { 
     path: '**', 

@@ -40,7 +40,7 @@ export class EditStaffComponent implements OnInit {
     private _router: Router,
     private _roleService: RoleService,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService,
+    private _authService: AuthService,
     // private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone
   ) { }
@@ -53,6 +53,10 @@ export class EditStaffComponent implements OnInit {
       this.staffDetails_f(this.reviewId);      
     }
     this.getRoleLists_f()
+  }
+
+  checkpermission(value: any, type: any) {
+    return this._authService.checkAccess(value, type)
   }
   // loadGoogleMap() {
   //   this.mapsAPILoader.load().then(() => {

@@ -46,6 +46,10 @@ export class ResourceListComponent implements OnInit {
     // console.log("rrrrrrrrrrrrr", this.refreshToken.refresh.token);
   }
 
+  checkpermission(value: any, type: any) {
+    return this._authService.checkAccess(value, type)
+  }
+
   onKeyUp(event: any) {
     this.searchForm = event.target.value.trim().replace(/^\s+/, '');
     // console.log("ssssssssssss",this.searchForm);

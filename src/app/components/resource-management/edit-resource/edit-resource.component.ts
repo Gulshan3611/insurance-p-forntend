@@ -69,7 +69,7 @@ export class EditResourceComponent implements OnInit {
     private toastr: ToastrService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    public authService: AuthService,
+    public _authService: AuthService,
     private _toastrService: ToastrService,
     private spinner: NgxSpinnerService
 
@@ -80,6 +80,10 @@ export class EditResourceComponent implements OnInit {
       this.resourceId = this.activatedRoute.snapshot.params['id'];
       this.getResourceDetailFromApi(this.resourceId);
     }
+  }
+
+  checkpermission(value: any, type: any) {
+    return this._authService.checkAccess(value, type)
   }
 
   getResourceDetailFromApi(id: any){

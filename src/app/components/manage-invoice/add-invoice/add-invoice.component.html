@@ -33,7 +33,7 @@
                                             <ng-select name="projectName" [(ngModel)]="addInvoice.projectName"
                                                 #projectName="ngModel" placeholder="Select Project" (change)="projectDetail($event)" required>
                                                 <ng-container *ngFor="let item of projectList?.docs">
-                                                    <ng-option value="{{item?.id}}"> {{item?.projectName}} </ng-option>
+                                                    <ng-option value="{{item?.projectName}}"> {{item?.projectName}} </ng-option>
                                                 </ng-container>
                                             </ng-select>
 
@@ -88,22 +88,22 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Add Items</label>
-                                            <ng-select name="addItem" [(ngModel)]="addInvoice.addItem"
-                                                #addItem="ngModel" (change)="selectItem($event)" required>
+                                            <label>Project Type</label>
+                                            <ng-select name="projectType" [(ngModel)]="addInvoice.projectType"
+                                                #projectType="ngModel" (change)="selectItem($event)" required>
                                                 <ng-container>
                                                     <ng-option value="hourly"> Hourly </ng-option>
                                                     <ng-option value="projectOnMonthly"> Project on Monthly </ng-option>
                                                     <ng-option value="resourceOnMonthly"> Resource on Monthly</ng-option>
                                                     <!-- <ng-option value="resourceOnHourly"> Resource on Hourly</ng-option> -->
-                                                    <ng-option value="fixed"> Fixed </ng-option>
+                                                    <ng-option value="FIXED"> Fixed </ng-option>
                                                 </ng-container>
                                             </ng-select>
 
                                             <span class="form-text text-danger small"
-                                                *ngIf="addItem.invalid && showError">
+                                                *ngIf="projectType.invalid && showError">
                                                 <span class="form-text text-danger small"
-                                                    *ngIf="addItem.errors?.['required']">Add items is
+                                                    *ngIf="projectType.errors?.['required']">Project Type items is
                                                     required</span>
                                             </span>
                                         </div>
@@ -317,78 +317,75 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-4" *ngIf="percentageBox === true">
                                         <div class="form-group">
                                             <label>CGST</label>
-                                            <fieldset>
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" pattern="^[0-9]*$"
-                                                        name="cgst" [(ngModel)]="addInvoice.cgst" #cgst="ngModel"
-                                                        maxlength="3" required>
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text" id="basic-addon1">%</span>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
+                                            <!-- <input type="text" class="form-control" pattern="^[0-9]*$"
+                                                name="cgst" [(ngModel)]="addInvoice.cgst" #cgst="ngModel"
+                                                maxlength="3" required> -->
+                                            <select class="custom-select" name="cgst" [(ngModel)]="addInvoice.cgst" 
+                                            (change)="selectcgst($event)" #cgst="ngModel" required>
+                                                <option value="">Select</option>
+                                                <option value="5">5%</option>
+                                                <option value="12">12%</option>
+                                                <option value="18">18%</option>
+                                                <option value="28">28%</option>
+                                            </select>
                                             <span class="form-text text-danger small" *ngIf="cgst.invalid && showError">
                                                 <span class="form-text text-danger small"
                                                     *ngIf="cgst.errors?.['required']">CGST is
                                                     required</span>
-                                                <span class="form-text text-danger small"
+                                                <!-- <span class="form-text text-danger small"
                                                     [hidden]="!cgst.errors?.['pattern']">
                                                     Please enter valid CGST.
-                                                </span>
+                                                </span> -->
                                             </span>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-4" *ngIf="percentageBox === true">
                                         <div class="form-group">
                                             <label>SGST</label>
-                                            <fieldset>
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" pattern="^[0-9]*$"
-                                                        name="sgst" [(ngModel)]="addInvoice.sgst" #sgst="ngModel"
-                                                        maxlength="3" required>
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text" id="basic-addon1">%</span>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
+                                            <select class="custom-select" name="sgst" [(ngModel)]="addInvoice.sgst" 
+                                            (change)="selectSgst($event)" #sgst="ngModel" required>
+                                                <option value="">Select</option>
+                                                <option value="5">5%</option>
+                                                <option value="12">12%</option>
+                                                <option value="18">18%</option>
+                                                <option value="28">28%</option>
+                                            </select>
                                             <span class="form-text text-danger small" *ngIf="sgst.invalid && showError">
                                                 <span class="form-text text-danger small"
                                                     *ngIf="sgst.errors?.['required']">SGST is
                                                     required</span>
-                                                <span class="form-text text-danger small"
+                                                <!-- <span class="form-text text-danger small"
                                                     [hidden]="!sgst.errors?.['pattern']">
                                                     Please enter valid sgst.
-                                                </span>
+                                                </span> -->
                                             </span>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-4" *ngIf="percentageBox === true">
                                         <div class="form-group">
                                             <label>ICGST</label>
-                                            <fieldset>
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" pattern="^[0-9]*$"
-                                                        name="icgst" [(ngModel)]="addInvoice.icgst" #icgst="ngModel"
-                                                        maxlength="3" required>
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text" id="basic-addon1">%</span>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
+                                            <select class="custom-select" name="icgst" [(ngModel)]="addInvoice.icgst" 
+                                            #icgst="ngModel" (change)="selectIcgst($event)" required>
+                                                <option value="">Select</option>
+                                                <option value="5">5%</option>
+                                                <option value="12">12%</option>
+                                                <option value="18">18%</option>
+                                                <option value="28">28%</option>
+                                            </select>
                                             <span class="form-text text-danger small"
                                                 *ngIf="icgst.invalid && showError">
                                                 <span class="form-text text-danger small"
                                                     *ngIf="icgst.errors?.['required']">ICGST is
                                                     required</span>
-                                                <span class="form-text text-danger small"
+                                                <!-- <span class="form-text text-danger small"
                                                     [hidden]="!icgst.errors?.['pattern']">
                                                     Please enter valid ICGST.
-                                                </span>
+                                                </span> -->
                                             </span>
                                         </div>
                                     </div>
@@ -465,7 +462,7 @@
                                     </div>
  
                                 </div>
-                                <button type="submit" class="btn btn-primary mr-2"
+                                <button type="submit" class="btn btn-primary mr-2" *ngIf="checkpermission(5,'add')"
                                     (click)="onSubmit(f.form.valid)">{{loading?'Please wait ...':'Save and Preview'}}</button>
                                 <button class="btn btn-danger" [routerLink]="['/invoice-management/list']"
                                     routerLinkActive="router-link-active">Cancel</button>
