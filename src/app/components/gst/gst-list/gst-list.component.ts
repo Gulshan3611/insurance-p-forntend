@@ -15,7 +15,7 @@ export class GstListComponent implements OnInit {
   apiCalled: boolean = false;
   gstList: any = [];
   gstListLength: any = [];
-  searchForm: any = { search: ''};
+  searchForm: any = '';
   page: any = 1;
   limit: any = 10;
 
@@ -32,6 +32,12 @@ export class GstListComponent implements OnInit {
     this.getGstListFromApi();
   }
 
+  onKeyUp(event: any) {
+    this.searchForm = event.target.value.trim().replace(/^\s+/, '');
+    // console.log("ssssssssssss", this.searchForm);
+    this.getGstListFromApi();
+  }
+
   checkpermission(value: any, type: any) {
     return this._authService.checkAccess(value, type)
   }
@@ -41,7 +47,7 @@ export class GstListComponent implements OnInit {
     this._gstService.getGstList({
       page: this.page,
       limit: this.limit,
-      searchBy: this.searchForm.search,
+      searchBy: this.searchForm,
     }).subscribe(objS => {
       this.apiCalled = true;
         this.gstList = objS;
@@ -58,27 +64,27 @@ export class GstListComponent implements OnInit {
   }
 
   activateDeactivateGst(request: any, type: any) {
-    var msg = '';
-    if (type == 'deactive') {
-      msg = 'Do you want to deactive Gst?';
+    // var msg = '';
+    // if (type == 'deactive') {
+    //   msg = 'Do you want to deactive Gst?';
 
-    } else {
-      msg = 'Do you want to active Gst?';
-    }
-    Swal.fire({
-      title: 'Are you sure?',
-      text: msg,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#7367F0',
-      cancelButtonColor: '#E42728',
-      confirmButtonText: 'Yes',
-      customClass: {
-        confirmButton: 'btn btn-primary',
-        cancelButton: 'btn btn-danger ml-1'
-      }
-    }).then((result: any) => {
-      if (result.value) {
+    // } else {
+    //   msg = 'Do you want to active Gst?';
+    // }
+    // Swal.fire({
+    //   title: 'Are you sure?',
+    //   text: msg,
+    //   icon: 'warning',
+    //   showCancelButton: true,
+    //   confirmButtonColor: '#7367F0',
+    //   cancelButtonColor: '#E42728',
+    //   confirmButtonText: 'Yes',
+    //   customClass: {
+    //     confirmButton: 'btn btn-primary',
+    //     cancelButton: 'btn btn-danger ml-1'
+    //   }
+    // }).then((result: any) => {
+    //   if (result.value) {
         let data = {
           ids: [request?.id],
           status: type
@@ -96,8 +102,8 @@ export class GstListComponent implements OnInit {
           }, (err) => {
             console.log(err);
           })
-        }
-    });
+        // }
+    // })
   } 
   
   
