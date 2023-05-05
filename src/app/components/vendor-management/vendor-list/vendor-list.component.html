@@ -19,6 +19,7 @@
                                 <tr>
                                     <th>S.No</th>
                                     <th>Vendor Name</th>
+                                    <th>Vendor Type</th>
                                     <!-- <th>Country</th> -->
                                     <th>Currency </th>
                                     <th>Address</th>
@@ -30,9 +31,10 @@
                                 <tr *ngFor="let item of vendorList?.docs let i=index">
                                     <td>{{(page-1)*10+i+1}}</td>
                                     <td>{{item?.name}}</td>
+                                    <th> {{ item?.vendorType == 0 ? 'Individual' : 'Company' }}</th>
                                     <!-- <td> {{item?.country}}</td> -->
                                     <td> {{item?.currency}}</td>
-                                    <td>{{item?.address}}, {{item?.state}}, {{item?.country}}  </td>
+                                    <td>{{item?.address}}, {{item?.city}}, {{item?.state}}, {{item?.country}}, {{item?.zipcode}}  </td>
                                     <td>
                                         <label *ngIf="item?.status==1" class="badge badge-success">Active</label>
                                         <label *ngIf="item?.status==0" class="badge badge-danger">Inactive</label>

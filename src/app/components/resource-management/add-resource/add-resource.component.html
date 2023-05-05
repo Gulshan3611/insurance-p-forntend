@@ -64,7 +64,7 @@
                                         <div class="form-group">
                                             <label> Technology</label>
                                             <input type="text" class="form-control" id="exampleInputName1"
-                                                pattern="[a-zA-Z ]*" name="technology"
+                                                pattern="[a-zA-Z0-9/!@#$%^&*()_-+= ]*" name="technology"
                                                 [(ngModel)]="addResource.technology" #technology="ngModel" maxlength="50"
                                                 minlength="2" placeholder="Technology" required>
                                             <span class="form-text text-danger small"
@@ -136,7 +136,7 @@
                                         <div class="form-group">
                                             <label> Designation</label>
                                             <input type="text" class="form-control" id="exampleInputName1"
-                                                pattern="[a-zA-Z ]*" name="designation"
+                                                pattern="[a-zA-Z0-9/!@#$%^&*()_-+= ]*" name="designation"
                                                 [(ngModel)]="addResource.designation" #designation="ngModel"
                                                 maxlength="50" minlength="2" placeholder="Designation" required>
                                             <span class="form-text text-danger small"

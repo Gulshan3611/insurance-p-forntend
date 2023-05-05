@@ -195,7 +195,7 @@ export class AddInvoiceComponent implements OnInit {
           this.totalAmount = this.totalAmount + this.projectData.fixed[i].milestoneAmount;
         }
         this.addInvoice.total_payable_amount = this.totalAmount;
-        this.percentageBox =true;
+        this.percentageBox = true;
       }
 
     }, (err) => {
@@ -297,24 +297,37 @@ export class AddInvoiceComponent implements OnInit {
       this.loading = true;
 
       this.addInvoice.fixed = this.addMilestone;
-      console.log(this.addInvoice)
+      console.log('--------------',this.addInvoice)
+
+      let data = {
+        vendorId: this.addInvoice.clientName,
+        projectId:  this.addInvoice.projectId,
+        invoiceNumber: this.addInvoice.InvoiceNumber,
+        invoiceDate: this.addInvoice.invoiceDate,
+        invoiceDueDate: this.addInvoice.invoiceDueDate,
+        note: this.addInvoice.note,
+        bankConversionCharges: this.addInvoice.bankConversionCharges,
+        paidAmount: this.addInvoice.total_payable_amount,
+        fixed: this.projectData.fixed
+      }
+      console.log('--------------',data, this.projectData.fixed)
 
       this.loading = true;
       // this.spinner.show();
 
-      this._invoiceService.addInvoice(this.addInvoice).subscribe(objS => {
-        if (objS.code == 200) {
-          this.loading = false;
-          // this.spinner.hide();
-          this._toastrService.success(objS.message);
-          this._router.navigate(['/invoice-management/list']);
-        }
-        else {
-          this._toastrService.error(objS.message);
-          this.loading = false;
-          // this.spinner.hide();
-        }
-      })
+      // this._invoiceService.addInvoice(this.addInvoice).subscribe(objS => {
+      //   if (objS.code == 200) {
+      //     this.loading = false;
+      //     // this.spinner.hide();
+      //     this._toastrService.success(objS.message);
+      //     this._router.navigate(['/invoice-management/list']);
+      //   }
+      //   else {
+      //     this._toastrService.error(objS.message);
+      //     this.loading = false;
+      //     // this.spinner.hide();
+      //   }
+      // })
     }
   }
 

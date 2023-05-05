@@ -30,17 +30,17 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Project Name</label>
-                                            <ng-select name="projectName" [(ngModel)]="addInvoice.projectName"
-                                                #projectName="ngModel" placeholder="Select Project" (change)="projectDetail($event)" required>
+                                            <ng-select name="projectId" [(ngModel)]="addInvoice.projectId"
+                                                #projectId="ngModel" placeholder="Select Project" (change)="projectDetail($event)" required>
                                                 <ng-container *ngFor="let item of projectList?.docs">
-                                                    <ng-option value="{{item?.id}}"> {{item?.projectName}} </ng-option>
+                                                    <ng-option value="{{item?.id}}" > {{item?.projectName}} </ng-option>
                                                 </ng-container>
                                             </ng-select>
 
                                             <span class="form-text text-danger small"
-                                                *ngIf="projectName.invalid && showError">
+                                                *ngIf="projectId.invalid && showError">
                                                 <span class="form-text text-danger small"
-                                                    *ngIf="projectName.errors?.['required']">Project name is
+                                                    *ngIf="projectId.errors?.['required']">Project name is
                                                     required</span>
                                             </span>
                                         </div>
@@ -116,20 +116,22 @@
                                                     <div class="form-group">
                                                         <label>Milestone Name</label>
                                                         <div class="input-group">
-                                                            <input type="text" class="form-control" pattern="[a-zA-Z0-9 ]*"
-                                                                name="milestoneName{{i}}" [(ngModel)]="item.milestoneName"
-                                                                #milestoneName="ngModel" maxlength="60" required>
+                                                            <input type="text" class="form-control" pattern="[a-zA-Z0-9 ]*" 
+                                                                name="milestoneId{{i}}" [(ngModel)]="item.milestoneName"
+                                                                #milestoneId="ngModel" maxlength="60" disabled>
                                                         </div>
-                                                        <span class="form-text text-danger small"
-                                                            *ngIf="milestoneName.invalid && showError">
-                                                            <span class="form-text text-danger small"
-                                                                *ngIf="milestoneName.errors?.['required']">Milestone name is
-                                                                required</span>
-                                                            <span class="form-text text-danger small"
-                                                                [hidden]="!milestoneName.errors?.['pattern']">
-                                                                Please enter valid milestone name.
-                                                            </span>
-                                                        </span>
+                                                    </div>
+                                                </div>
+    
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Project Amount</label>
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" pattern="^[0-9]*$"
+                                                                name="milestoneAmount{{i}}"
+                                                                [(ngModel)]="item.milestoneAmount"
+                                                                #milestoneAmount="ngModel" maxlength="8" disabled>
+                                                        </div>
                                                     </div>
                                                 </div>
     
@@ -161,30 +163,7 @@
                                                     </div>
                                                 </div>
     
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>Project Amount</label>
-                                                        <div class="input-group">
-                                                            <input type="text" class="form-control" pattern="^[0-9]*$"
-                                                                name="milestoneAmount{{i}}"
-                                                                [(ngModel)]="item.milestoneAmount"
-                                                                #milestoneAmount="ngModel" maxlength="8" required>
-                                                        </div>
-                                                        <span class="form-text text-danger small"
-                                                            *ngIf="milestoneAmount.invalid && showError">
-                                                            <span class="form-text text-danger small"
-                                                                *ngIf="milestoneAmount.errors?.['required']">Payment
-                                                                percentage name is
-                                                                required</span>
-                                                            <span class="form-text text-danger small"
-                                                                [hidden]="!milestoneAmount.errors?.['pattern']">
-                                                                Please enter valid payment percentage.
-                                                            </span>
-                                                        </span>
-                                                    </div>
-                                                </div>
-    
-                                                <div class="col-md-4">
+                                                <!-- <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Payable Amount</label>
                                                         <div class="input-group">
@@ -205,7 +184,8 @@
                                                             </span>
                                                         </span>
                                                     </div>
-                                                </div>
+                                                </div> -->
+                                            
                                             </div>
                                             <div class="btnBox">
                                                 <a (click)="add()"
@@ -390,6 +370,25 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="account-name">Note</label>
+                                            <textarea class="form-control" type="text"
+                                                pattern="[a-zA-Z0-9/_.,!#$%&*()=+- ]*" name="note"
+                                                [(ngModel)]="addInvoice.note" #note="ngModel" minlength="10"
+                                                maxlength="150" placeholder="Note" required></textarea>
+
+                                            <div *ngIf="note.invalid && showError"
+                                                class="form-text text-danger small">
+                                                <small *ngIf="note.errors?.['required']">Note is required </small>
+                                                <small *ngIf="note.errors?.['minlength']"> Please enter note
+                                                    between 10 and
+                                                    150.</small>
+                                                <small *ngIf="note.errors?.['pattern']"> Please enter valid
+                                                    note.</small>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="account-name">GST Number</label>
@@ -413,16 +412,16 @@
                                             <label>Bank and Conversion Charges</label>
 
                                             <input type="text" class="form-control" pattern="^[0-9]*$"
-                                                name="bank_conversion" [(ngModel)]="addInvoice.bank_conversion"
-                                                #bank_conversion="ngModel" maxlength="5" required>
+                                                name="bankConversionCharges" [(ngModel)]="addInvoice.bankConversionCharges"
+                                                #bankConversionCharges="ngModel" maxlength="5" required>
 
                                             <span class="form-text text-danger small"
-                                                *ngIf="bank_conversion.invalid && showError">
+                                                *ngIf="bankConversionCharges.invalid && showError">
                                                 <span class="form-text text-danger small"
-                                                    *ngIf="bank_conversion.errors?.['required']">Bank and conversion is
+                                                    *ngIf="bankConversionCharges.errors?.['required']">Bank and conversion is
                                                     required</span>
                                                 <span class="form-text text-danger small"
-                                                    [hidden]="!bank_conversion.errors?.['pattern']">
+                                                    [hidden]="!bankConversionCharges.errors?.['pattern']">
                                                     Please enter valid bank and conversion.
                                                 </span>
                                             </span>

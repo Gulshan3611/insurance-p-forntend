@@ -15,7 +15,7 @@
                                         <div class="form-group">
                                             <label>Industry Name*</label>
                                             <input type="text" class="form-control"
-                                                pattern="[a-zA-Z0-9 ]*" name="industry"
+                                                pattern="[a-zA-Z0-9/!@#$%^&*()_-+= ]*" name="industry"
                                                 [(ngModel)]="gstForm.industry" #industry="ngModel" minlength="2"
                                                 maxlength="60" required>
                                             <span class="form-text text-danger small" *ngIf="industry.invalid && showError">

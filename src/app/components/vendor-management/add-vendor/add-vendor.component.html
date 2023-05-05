@@ -33,7 +33,7 @@
                                         <div class="form-group">
                                             <label for="exampleInputName1">Company Name</label>
                                             <input type="text" class="form-control" id="exampleInputName1"
-                                                pattern="[a-zA-Z0-9 ]*" name="companyName"
+                                                pattern="[a-zA-Z0-9/!@#$%^&*()_-+= ]*" name="companyName"
                                                 [(ngModel)]="addVendor.companyName" #companyName="ngModel"
                                                 maxlength="100" required>
                                             <span class="form-text text-danger small"

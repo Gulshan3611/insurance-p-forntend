@@ -14,7 +14,7 @@ export class EditVendorComponent implements OnInit {
   showError: boolean = false;
   apiCalled: boolean = false;
   submitted = false;
-  addVendor: any = {}; 
+  addVendor: any = {};
   selectedVendor: any = '';
   selectedCurrency: any = '';
   reviewId: any = '';
@@ -25,13 +25,13 @@ export class EditVendorComponent implements OnInit {
     private _router: Router,
     private _vendorService: VendorService,
     private activatedRoute: ActivatedRoute,
-    private _authService: AuthService,  
+    private _authService: AuthService,
   ) { }
 
   ngOnInit(): void {
     if (this.activatedRoute.snapshot.params['id']) {
       this.reviewId = this.activatedRoute.snapshot.params['id'];
-      this.vendorDetails_f(this.reviewId);      
+      this.vendorDetails_f(this.reviewId);
     }
   }
 
@@ -46,7 +46,7 @@ export class EditVendorComponent implements OnInit {
   selectCurrency(event: any) {
     this.selectedCurrency = event;
   }
-   
+
   onSubmit(valid: any): void {
     this.showError = true;
     this.submitted = true;
@@ -56,37 +56,35 @@ export class EditVendorComponent implements OnInit {
       // console.log(this.addVendor)
       this.addVendor.email = this.addVendor.email.toLocaleLowerCase();
       this._vendorService
-      .updateVendorDetails(this.addVendor,this.reviewId).subscribe(objS => {
-        if (objS.code == 200) {
-          this.loading = false;
-          this.toastr.success(objS.message)
-          this._router.navigate(['/vendor-management/list']);
-        } else {
-          this.loading = false;
-          this.toastr.error(objS.message)
-        }
-      }, (err) => {
-        console.log(err);
-      })
+        .updateVendorDetails(this.addVendor, this.reviewId).subscribe(objS => {
+          if (objS.code == 200) {
+            this.loading = false;
+            this.toastr.success(objS.message)
+            this._router.navigate(['/vendor-management/list']);
+          } else {
+            this.loading = false;
+            this.toastr.error(objS.message)
+          }
+        }, (err) => {
+          console.log(err);
+        })
     }
   }
 
-  vendorDetails_f(id: any){
+  vendorDetails_f(id: any) {
     this._vendorService.vendorDetails(this.reviewId).subscribe((res) => {
       if (res['data']) {
         this.addVendor = res['data'];
         // console.log(this.addVendor); 
-          if(this.addVendor.country == '' ) {
-            this.selectedCurrency = '';
-          } else {
-            this.selectedVendor = 1;
-          }
-
-          // console.log(this.selectedVendor)
+        if (this.addVendor.vendorType == 0) {
+          this.selectedVendor = '0';
+        } else {
+          this.selectedVendor = '1';
+        }
       }
     }, (err) => {
       console.log('Error while Login', err);
-    })  
+    })
   }
 
 }
