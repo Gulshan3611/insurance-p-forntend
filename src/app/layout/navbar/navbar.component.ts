@@ -33,7 +33,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.profile = this._authService.getAdminData();
     this.refreshToken = localStorage.getItem('go_d_r_a_t');
-    console.log(this.profile);
+    // console.log(this.profile);
     
     // this._header.$isCalledService
     // .subscribe((data: any) => {

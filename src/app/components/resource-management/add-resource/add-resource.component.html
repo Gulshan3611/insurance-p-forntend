@@ -6,8 +6,8 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Add New Resource
-                                <a href="#" routerLink='/resource-management/list' routerLinkActive="router-link-active"
-                                    type="button" class="btn btn-primary float-right">Back</a>
+                                <!-- <a href="#" routerLink='/resource-management/list' routerLinkActive="router-link-active"
+                                    type="button" class="btn btn-primary float-right">Back</a> -->
                             </h4>
                             <form class="forms-sample" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
                                 <div class="form-group row">
@@ -661,10 +661,12 @@
                                     </div> -->
                                 </div>
 
+                               <div class="text-center">
                                 <button type="submit" class="btn btn-primary mr-2" *ngIf="checkpermission(7,'add')" 
-                                    (click)="onSubmit(f.form.valid)">{{loading?'Please wait ...':'Submit'}}</button>
-                                <button class="btn btn-danger" [routerLink]="['/resource-management/list']"
-                                    routerLinkActive="router-link-active">Cancel</button>
+                                (click)="onSubmit(f.form.valid)">{{loading?'Please wait ...':'Submit'}}</button>
+                            <button class="btn btn-danger" [routerLink]="['/resource-management/list']"
+                                routerLinkActive="router-link-active">Cancel</button>
+                               </div>
                             </form>
                         </div>
                     </div>

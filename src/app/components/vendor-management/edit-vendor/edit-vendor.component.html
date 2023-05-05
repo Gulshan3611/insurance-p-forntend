@@ -6,8 +6,8 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Edit Vendor
-                                <a href="#" routerLink='/vendor-management/list' routerLinkActive="router-link-active" type="button"
-                                class="btn btn-primary float-right">Back</a>
+                                <!-- <a href="#" routerLink='/vendor-management/list' routerLinkActive="router-link-active" type="button"
+                                class="btn btn-primary float-right">Back</a> -->
                             </h4>
                             <form class="forms-sample" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
                                 <div class="form-group row">
@@ -108,11 +108,11 @@
                                             <ng-select name="currency" [(ngModel)]="addVendor.currency" #currency="ngModel"
                                                 placeholder="Select Currency" (change)="selectCurrency($event)"  required>
                                                 <ng-container>
-                                                    <ng-option value="Dollar">$ - Dollar</ng-option>
-                                                    <ng-option value="Euro">€ - Euro</ng-option>
-                                                    <ng-option value="Pound">£ - Pound</ng-option>
-                                                    <ng-option value="Yuan">¥ - Yuan</ng-option>
-                                                    <ng-option value="Rupee"> ₹ - Rupee</ng-option>
+                                                    <ng-option value="Dollar ($)">$ - Dollar</ng-option>
+                                                    <ng-option value="Euro (€)">€ - Euro</ng-option>
+                                                    <ng-option value="Pound (£)">£ - Pound</ng-option>
+                                                    <ng-option value="Yuan (¥)">¥ - Yuan</ng-option>
+                                                    <ng-option value="Rupee (₹)"> ₹ - Rupee</ng-option>
                                                 </ng-container>
                                             </ng-select>
                                             <div *ngIf="currency.invalid && showError" class="form-text text-danger small">
@@ -491,7 +491,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="account-name">City</label>
-                                            <input class="form-control" type="text" name="city"
+                                            <input class="form-control" type="text" name="city" maxlength="60"
                                                 [(ngModel)]="addVendor.city" #city="ngModel" placeholder="City" required>
                             
                                             <div *ngIf="city.invalid && showError" class="form-text text-danger small">
@@ -513,10 +513,12 @@
                                     </div>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary mr-2" *ngIf="checkpermission(3,'edit')"
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary mr-2" *ngIf="checkpermission(3,'edit')"
                                     (click)="onSubmit(f.form.valid)">{{loading?'Please wait ...':'Submit'}}</button>
                                 <button class="btn btn-danger" [routerLink]="['/vendor-management/list']"
                                     routerLinkActive="router-link-active">Cancel</button>
+                                </div>
                             </form>
                         </div>
                     </div>

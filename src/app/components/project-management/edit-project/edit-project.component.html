@@ -843,10 +843,12 @@
                                     </div>
 
                                 </div>
+                               <div class="text-center">
                                 <button type="submit" class="btn btn-primary mr-2" *ngIf="checkpermission(4,'edit')"
-                                    (click)="onSubmit(f.form.valid)">{{loading?'Please wait ...':'Submit'}}</button>
-                                <button class="btn btn-danger" [routerLink]="['/project-management/list']"
-                                    routerLinkActive="router-link-active">Cancel</button>
+                                (click)="onSubmit(f.form.valid)">{{loading?'Please wait ...':'Submit'}}</button>
+                            <button class="btn btn-danger" [routerLink]="['/project-management/list']"
+                                routerLinkActive="router-link-active">Cancel</button>
+                               </div>
                             </form>
                         </div>
                     </div>

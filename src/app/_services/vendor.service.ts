@@ -20,7 +20,7 @@ export class VendorService {
     }
     // get Role Lists
     getVendorLists(request: any): Observable<any> {
-        return this.http.get(`${this.apiUrl}/vendor?page=1&sortBy=asc&limit=10&searchBy=` + request.searchBy, request).pipe(map(this.extractData));
+        return this.http.get(`${this.apiUrl}/vendor?page=` + request.page + '&limit=' + request.limit + '&searchBy=' + request.searchBy, request).pipe(map(this.extractData));
     }
     // add Role 
     addVendor(request: any): Observable<any> {

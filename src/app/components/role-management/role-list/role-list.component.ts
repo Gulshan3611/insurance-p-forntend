@@ -35,7 +35,7 @@ export class RoleListComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private _authService: AuthService,
-    private _roleService:RoleService,
+    private _roleService: RoleService,
     private _header: updateHeaderService,
     private spinner: NgxSpinnerService
   ) { }
@@ -51,11 +51,11 @@ export class RoleListComponent implements OnInit {
   }
 
   onKeyUp(event: any) {
-    this.searchForm=event.target.value.trim().replace(/^\s+/, '');
+    this.searchForm = event.target.value.trim().replace(/^\s+/, '');
     // console.log("ssssssssssss",this.searchForm);
     this.getRoleLists_f()
   }
-  getRoleLists_f(){
+  getRoleLists_f() {
     this.apiCalled = false;
     this._roleService.getRoleLists({
       page: this.page,
@@ -76,6 +76,7 @@ export class RoleListComponent implements OnInit {
       console.log('err', err)
     });
   }
+
   refreshList(page: any, search: any) {
     this.page = page ? page : 1;
     this.getRoleLists_f()
@@ -102,27 +103,26 @@ export class RoleListComponent implements OnInit {
         })
       }
     })
-    
-  }
-  activateDeactivateRoles_f(request: any,status: string) {
-    const requestData =
-     {status: status,
-      ids:[request.id]   
-    }
-    
-    console.log(requestData);
-      if (request) {
-        console.log(request);
-        this._roleService.activateDeactivateRoles(requestData).subscribe(objS => {
-          this.apiCalled = true;
-          this.getRoleLists_f()
-          this._toastrService.success(objS.message);
-        }, (err) => {
-          console.log(err);
-        })
-      }
-    }
-    
-  
 
+  }
+
+  activateDeactivateRoles_f(request: any, status: string) {
+    const requestData =
+    {
+      status: status,
+      ids: [request.id]
+    }
+
+    console.log(requestData);
+    if (request) {
+      console.log(request);
+      this._roleService.activateDeactivateRoles(requestData).subscribe(objS => {
+        this.apiCalled = true;
+        this.getRoleLists_f()
+        this._toastrService.success(objS.message);
+      }, (err) => {
+        console.log(err);
+      })
+    }
+  }
 }

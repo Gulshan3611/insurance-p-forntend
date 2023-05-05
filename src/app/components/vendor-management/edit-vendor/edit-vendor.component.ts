@@ -53,7 +53,7 @@ export class EditVendorComponent implements OnInit {
     // console.log('checking---', valid, this.resource)
     if (valid) {
       this.loading = true;
-      console.log(this.addVendor)
+      // console.log(this.addVendor)
       this.addVendor.email = this.addVendor.email.toLocaleLowerCase();
       this._vendorService
       .updateVendorDetails(this.addVendor,this.reviewId).subscribe(objS => {
@@ -75,7 +75,14 @@ export class EditVendorComponent implements OnInit {
     this._vendorService.vendorDetails(this.reviewId).subscribe((res) => {
       if (res['data']) {
         this.addVendor = res['data'];
-        console.log(this.addVendor); 
+        // console.log(this.addVendor); 
+          if(this.addVendor.country == '' ) {
+            this.selectedCurrency = '';
+          } else {
+            this.selectedVendor = 1;
+          }
+
+          // console.log(this.selectedVendor)
       }
     }, (err) => {
       console.log('Error while Login', err);

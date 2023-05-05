@@ -21,7 +21,7 @@ export class StaffService {
 
     // get staf Lists
     getStaffLists(request: any): Observable<any> {
-        return this.http.get(`${this.apiUrl}/auth/subadmin?page=1&sortBy=asc&limit=10&searchBy=` + request.searchBy, request).pipe(map(this.extractData));
+        return this.http.get(`${this.apiUrl}/auth/subadmin?page=` + request.page + '&limit=' + request.limit + '&searchBy=' + request.searchBy, request).pipe(map(this.extractData));
     }
     // active deactive Role 
     activateDeactivateStaff(request: any): Observable<any> {

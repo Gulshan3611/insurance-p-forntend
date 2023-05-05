@@ -20,7 +20,7 @@ export class RoleService {
     }
     // get Role Lists
     getRoleLists(request: any): Observable<any> {
-        return this.http.get(`${this.apiUrl}/roles?page=1&sortBy=asc&limit=10&searchBy=`+request.searchBy,request).pipe(map(this.extractData));
+        return this.http.get(`${this.apiUrl}/roles?page=` + request.page + '&limit=' + request.limit + '&searchBy=' +request.searchBy,request).pipe(map(this.extractData));
     }
     // get Role details
     roleDetails(request: any): Observable<any> {

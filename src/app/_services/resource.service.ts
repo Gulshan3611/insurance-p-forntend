@@ -20,7 +20,7 @@ export class ResourceService {
     }
     // get Resource Lists
     getResourceLists(request: any): Observable<any> {
-        return this.http.get(`${this.apiUrl}/resource?page=1&sortBy=asc&limit=10&searchBy=`+request.searchBy,request).pipe(map(this.extractData));
+        return this.http.get(`${this.apiUrl}/resource?page=` + request.page + '&limit=' + request.limit + '&searchBy=' + request.searchBy,request).pipe(map(this.extractData));
     }
     // get Resource details
     resourceDetails(request: any): Observable<any> {

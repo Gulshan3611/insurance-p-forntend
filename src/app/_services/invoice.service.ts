@@ -35,7 +35,7 @@ export class InvoiceService {
 
     // get gst Lists
     getInvoiceList(request: any): Observable<any> {
-        return this.http.get(`${this.apiUrl}/invoice?page=1&sortBy=asc&limit=10&searchBy=` + request.searchBy, request).pipe(map(this.extractData));
+        return this.http.get(`${this.apiUrl}/invoice?page=` + request.page + '&limit=' + request.limit + '&searchBy=' + request.searchBy, request).pipe(map(this.extractData));
     }
     // add gst 
     addInvoice(request: any): Observable<any> {

@@ -47,7 +47,8 @@ export class ChangePasswordComponent implements OnInit {
             if (res.code == 200) {
               this.loading = false;
               this.myForm = {}
-              this.router.navigate(['/setting']);
+              this._authService.adminLogout();
+              this.router.navigate(['/auth/login']);
               this._toastrService.success(res.message);
             } else {
               this._toastrService.error(res.message);

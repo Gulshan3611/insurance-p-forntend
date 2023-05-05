@@ -67,12 +67,12 @@
                                                     <label for="account-name">Name</label>
                                                     <input class="form-control" type="text" pattern="[a-zA-Z0-9/-_ ]*" name="name"
                                                         [(ngModel)]="profile.name" placeholder="Name" #name="ngModel" minlength="2"
-                                                        maxlength="200" required>
+                                                        maxlength="80" required>
 
                                                     <div *ngIf="name.invalid && showError" class="form-text text-danger small">
                                                         <small *ngIf="['name.errors?.required']">Name is required </small>
                                                         <small hidden="['!name.errors?.minlength']"> Please enter name between 2 and
-                                                            200.</small>
+                                                            80.</small>
                                                         <small hidden="!name.errors?.pattern"> Please enter valid name.</small>
                                                     </div>
                                                 </div>
@@ -85,8 +85,8 @@
                                                         class="form-control" placeholder="Email" name="email" [(ngModel)]="profile.email"
                                                         #email="ngModel"  required>
                                                     <div *ngIf="email.invalid && showError" class="form-text text-danger small">
-                                                        <small *ngIf="['email.errors?.required']">Email is required</small>
-                                                        <small hidden="['!email.errors?.pattern']">
+                                                        <small *ngIf="email.errors?.['required']">Email is required</small>
+                                                        <small *ngIf="email.errors?.['pattern']">
                                                             Invalid email address. Please enter your email address in format
                                                             youname@example.com</small>
                                                     </div>
@@ -100,8 +100,8 @@
                                                         [(ngModel)]="profile.phone" #phone="ngModel" required>
 
                                                     <div *ngIf="phone.invalid && showError" class="form-text text-danger small">
-                                                        <small *ngIf="['phone.errors?.required']">Mobile number is required</small>
-                                                        <small hidden="['!phone.errors?.pattern']">
+                                                        <small *ngIf="phone.errors?.['required']">Mobile number is required</small>
+                                                        <small *ngIf="phone.errors?.['pattern']">
                                                             Please enter valid mobile number.</small>
                                                     </div>
                                                 </div>

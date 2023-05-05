@@ -6,8 +6,8 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Add New Project
-                                <a href="#" routerLink='/project-management/list' routerLinkActive="router-link-active"
-                                    type="button" class="btn btn-primary float-right">Back</a>
+                                <!-- <a href="#" routerLink='/project-management/list' routerLinkActive="router-link-active"
+                                    type="button" class="btn btn-primary float-right">Back</a> -->
                             </h4>
                             <form class="forms-sample" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
                                 <div class="form-group row">
@@ -860,10 +860,12 @@
                                     </div>
 
                                 </div>
-                                <button type="submit" class="btn btn-primary mr-2" *ngIf="checkpermission(4,'add')"
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary mr-2" *ngIf="checkpermission(4,'add')"
                                     (click)="onSubmit(f.form.valid)">{{loading?'Please wait ...':'Submit'}}</button>
                                 <button class="btn btn-danger" [routerLink]="['/project-management/list']"
                                     routerLinkActive="router-link-active">Cancel</button>
+                                </div>
                             </form>
                         </div>
                     </div>

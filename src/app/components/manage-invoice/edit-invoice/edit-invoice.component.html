@@ -468,10 +468,12 @@
                                     </div>
  
                                 </div>
-                                <button type="submit" class="btn btn-primary mr-2" *ngIf="checkpermission(5,'edit')"
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary mr-2" *ngIf="checkpermission(5,'edit')"
                                     (click)="onSubmit(f.form.valid)">{{loading?'Please wait ...':'Submit'}}</button>
                                 <button class="btn btn-danger" [routerLink]="['/invoice-management/list']"
                                     routerLinkActive="router-link-active">Cancel</button>
+                                </div>
                             </form>
                         </div>
                     </div>

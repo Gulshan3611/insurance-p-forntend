@@ -55,6 +55,7 @@ export class ProjectListComponent implements OnInit {
     // console.log("ssssssssssss", this.searchForm);
     this.getProjectLists_f()
   }
+  
   getProjectLists_f() {
     this.apiCalled = false;
     this._projectService.getProjectLists({

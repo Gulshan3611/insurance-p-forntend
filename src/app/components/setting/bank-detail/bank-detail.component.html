@@ -13,13 +13,13 @@
                     </ng-container>
                 </ng-select> -->
                 <input class="form-control" type="text" pattern="[a-zA-Z0-9/-_ ]*" name="companyName"
-                    [(ngModel)]="bank.companyName" placeholder="companyName" #companyName="ngModel" minlength="2"
-                    maxlength="200" required>
+                    [(ngModel)]="bank.companyName" placeholder="Company name" 
+                    #companyName="ngModel" maxlength="200" required>
 
                 <div *ngIf="companyName.invalid && showError" class="form-text text-danger small">
                     <small *ngIf="['companyName.errors?.required']">Company Name is required </small>
-                    <small hidden="['!companyName.errors?.minlength']"> Please enter name between 2 and
-                        200.</small>
+                    <!-- <small hidden="['!companyName.errors?.minlength']"> Please enter name between 2 and
+                        200.</small> -->
                     <small hidden="!companyName.errors?.pattern"> Please enter valid company name.</small>
                 </div>
             </div>
@@ -35,6 +35,7 @@
                         <ng-option value="Punjab National Bank">Punjab National Bank</ng-option>
                         <ng-option value="Yes Bank">Yes Bank</ng-option> 
                         <ng-option value="ICICI Bank">ICICI Bank</ng-option> 
+                        <ng-option value="Other">Other</ng-option> 
                     </ng-container>
                 </ng-select>
                 <div *ngIf="bankName.invalid && showError" class="form-text text-danger small">
@@ -98,8 +99,8 @@
         <div class="col-12 col-sm-6">
             <div class="form-group">
                 <label for="account-name">MICR Code</label>
-                <input class="form-control" type="text" pattern="[a-zA-Z0-9/-_ ]*" name="micrCode"
-                    [(ngModel)]="bank.micrCode" #micrCode="ngModel" required>
+                <input class="form-control" type="text" pattern="^[0-9]{9}$" name="micrCode"
+                    [(ngModel)]="bank.micrCode" minlength="9" #micrCode="ngModel" required>
 
                 <div *ngIf="micrCode.invalid && showError" class="form-text text-danger small">
                     <small *ngIf="micrCode.errors?.['required']">MICR code is required </small>
@@ -112,10 +113,12 @@
             <div class="form-group">
                 <label for="account-name">SWIFT Code</label>
                 <input class="form-control" type="text" pattern="[a-zA-Z0-9/-_ ]*" name="swiftCode"
-                    [(ngModel)]="bank.swiftCode" #swiftCode="ngModel" minlength="5" maxlength="11" required>
+                    [(ngModel)]="bank.swiftCode" #swiftCode="ngModel" minlength="8" maxlength="11" required>
 
                 <div *ngIf="swiftCode.invalid && showError" class="form-text text-danger small">
                     <small *ngIf="swiftCode.errors?.['required']">SWIFT code is required </small>
+                    <small *ngIf="swiftCode.errors?.['minlength']">Please enter SWIFT code between 8 and
+                        11.</small>
                     <small *ngIf="swiftCode.errors?.['pattern']"> Please enter valid SWIFT code</small>
                 </div>
             </div>

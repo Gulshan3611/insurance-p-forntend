@@ -33,7 +33,7 @@
                                             <ng-select name="projectName" [(ngModel)]="addInvoice.projectName"
                                                 #projectName="ngModel" placeholder="Select Project" (change)="projectDetail($event)" required>
                                                 <ng-container *ngFor="let item of projectList?.docs">
-                                                    <ng-option value="{{item?.projectName}}"> {{item?.projectName}} </ng-option>
+                                                    <ng-option value="{{item?.id}}"> {{item?.projectName}} </ng-option>
                                                 </ng-container>
                                             </ng-select>
 
@@ -462,10 +462,12 @@
                                     </div>
  
                                 </div>
-                                <button type="submit" class="btn btn-primary mr-2" *ngIf="checkpermission(5,'add')"
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary mr-2" *ngIf="checkpermission(5,'add')"
                                     (click)="onSubmit(f.form.valid)">{{loading?'Please wait ...':'Save and Preview'}}</button>
                                 <button class="btn btn-danger" [routerLink]="['/invoice-management/list']"
                                     routerLinkActive="router-link-active">Cancel</button>
+                                </div>
                             </form>
                         </div>
                     </div>

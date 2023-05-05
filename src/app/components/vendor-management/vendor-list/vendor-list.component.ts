@@ -15,7 +15,7 @@ export class VendorListComponent implements OnInit {
 
   page: any = 1;
   vendorListLength: any = [];
-  vendorList: any = {}
+  vendorList: any = [{}];
   searchForm: any = '';
   limit: any = 10;
   refreshToken: any;
@@ -52,9 +52,9 @@ export class VendorListComponent implements OnInit {
 
   onKeyUp(event: any) {
     this.searchForm = event.target.value.trim().replace(/^\s+/, '');
-    console.log("ssssssssssss", this.searchForm);
+    // console.log("ssssssssssss", this.searchForm);
     this.getVendorLists_f()
-  }
+  } 
 
   getVendorLists_f() {
     this.apiCalled = false;
@@ -64,28 +64,22 @@ export class VendorListComponent implements OnInit {
       searchBy: this.searchForm,
     }).subscribe(objS => {
       this.loading = this.showError = false;
-      if (objS?.docs?.length != 0) {
-        this.apiCalled = true;
-        this.vendorList = objS
-        this.vendorListLength = objS.docs.length;
-
-        // console.log(objS.docs)
-        console.log('print response====vendor', objS.docs.length, this.vendorList.total)
-      } else {
-        this.vendorList = []
-        this.vendorListLength = [];
-        // this._toastrService.error(objS.message);
-      }
+      this.apiCalled = true;
+      this.vendorList = objS
+      this.vendorListLength = objS.docs;
     }, (err) => {
-      this.loading = this.showError = false;
+      // this.loading = this.showError = false;
       console.log('err', err)
     });
   }
 
   refreshList(page: any, search: any) {
     this.page = page ? page : 1;
+
+    console.log(this.page)
+    
     this.getVendorLists_f()
-  }
+  } 
 
   deleteVendor_f(request: any) {
     Swal.fire({
