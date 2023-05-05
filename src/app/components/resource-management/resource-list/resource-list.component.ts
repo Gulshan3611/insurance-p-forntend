@@ -93,8 +93,8 @@ export class ResourceListComponent implements OnInit {
         console.log(request.id);
         this._resourceService.deleteResource(request.id).subscribe(objS => {
           this.apiCalled = true;
-          this.getResourceLists_f()
-          this._toastrService.success(objS.message);
+          this.getResourceLists_f()          
+          this._toastrService.success("Resource member deleted successfully");
         }, (err) => {
           console.log(err);
         })

@@ -491,11 +491,13 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="account-name">City</label>
-                                            <input class="form-control" type="text" name="city" maxlength="60"
-                                                [(ngModel)]="addVendor.city" #city="ngModel" placeholder="City" required>
+                                            <input class="form-control" type="text" name="city"
+                                                [(ngModel)]="addVendor.city" #city="ngModel" minlength="2" maxlength="50" placeholder="City" required>
                             
                                             <div *ngIf="city.invalid && showError" class="form-text text-danger small">
                                                 <small *ngIf="city.errors?.['required']">City is required </small>
+                                                <small *ngIf="city.errors?.['minlength']"> Please enter city between 2 and
+                                                    50.</small>
                                             </div>
                                         </div>
                                     </div>
