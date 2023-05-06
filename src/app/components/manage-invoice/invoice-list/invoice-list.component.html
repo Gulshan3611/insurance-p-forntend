@@ -5,10 +5,9 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <input type="text" class="form-control d-inline-block col-md-4 mr-2" placeholder="Search"
-                        [(ngModel)]="searchForm.search" [ngModelOptions]="{standalone: true}"
-                        (ngModelChange)="refreshList(1,searchForm.search)">
-                        <button rippleEffect [routerLink]="['/invoice-management/add']"
-                        *ngIf="checkpermission(5,'add')"
+                            [(ngModel)]="searchForm.search" [ngModelOptions]="{standalone: true}"
+                            (ngModelChange)="refreshList(1,searchForm.search)">
+                        <button rippleEffect [routerLink]="['/invoice-management/add']" *ngIf="checkpermission(5,'add')"
                             class="btn btn-primary ml-1 mb-2 float-right">Add</button>
                     </h4>
                     <div class="table-responsive mb-2">
@@ -20,24 +19,18 @@
                                     <th>Project Name</th>
                                     <th>Invoice Number</th>
                                     <th>Delivery Date</th>
-                                    <th>Project Percentage</th>
-                                    <th>Status</th>
+                                    <!-- <th>Project Percentage</th> -->
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- <tr *ngFor="let item of subadminList?.docs let i=index"> -->
-                                <tr>
-                                    <td>1</td>
-                                    <td> John Doe </td>
-                                    <td> Smart Attendance </td>
-                                    <td> FDS3432HH34F</td>
-                                    <td> Mar 10 2023 </td>
-                                    <td> 50% </td>
-                                    <td>
-                                        <label class="badge badge-success">Active</label>
-                                        <!-- <label *ngIf="item?.status==0" class="badge badge-danger">Inactive</label> -->
-                                    </td>
+                                <tr *ngFor="let item of invoiceList?.docs let i=index">
+                                    <!-- <tr> -->
+                                    <td>{{(page-1)*10+i+1}}</td>
+                                    <td> {{item?.vendorId?.name}} </td>
+                                    <td> {{item?.projectId?.projectName}} </td>
+                                    <td> {{item?.invoiceNumber}}</td>
+                                    <td>{{item?.invoiceDueDate | date}} </td>
                                     <td class="overflow-hidden">
                                         <div container="body" ngbDropdown class="d-inline-block">
                                             <button type="button" class="btn btn-flat-primary waves-effect waves-light"
@@ -61,36 +54,30 @@
                                                     <i class="feather icon-eye mr-50"></i><span>View preview</span>
                                                 </a>
                                                 <a ngbDropdownItem href="javascript:void(0)"
-                                                    routerLink="/invoice-management/edit/343434"
+                                                    routerLink="/invoice-management/edit/{{item?.id}}"
                                                     *ngIf="checkpermission(5,'edit')">
                                                     <i class="feather icon-edit mr-50"></i><span>Edit</span>
                                                 </a>
-                                                <a ngbDropdownItem href="javascript:void(0)">
-                                                    <i class="feather icon-toggle-right mr-50"></i><span>Activate</span>
-                                                </a>
-                                                <a ngbDropdownItem href="javascript:void(0)">
-                                                    <i class="feather icon-toggle-left mr-50"></i>
-                                                    <span>Deactivate</span>
-                                                </a>
-                                                <a ngbDropdownItem href="javascript:void(0)" 
-                                                *ngIf="checkpermission(5,'delete')">
+                                                <a ngbDropdownItem href="javascript:void(0)" (click)="deleteInvoice(item)"
+                                                    *ngIf="checkpermission(5,'delete')">
                                                     <i class="feather icon-trash mr-50"></i> <span>Delete</span>
                                                 </a>
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
-                                <!-- <tr *ngIf="subadminListLength.length==0 && apiCalled">
-                      <td class="noData text-center" colspan="10">No Records found</td>
-                    </tr> -->
+                                <tr *ngIf="invoiceList?.docs?.length==0 && apiCalled">
+                                    <td class="noData text-center" colspan="10">No Records found</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
-                    <!-- <div class="d-flex justify-content-center mt-5"> -->
-                    <!-- <ngb-pagination *ngIf="subadminListLength.length!=0 && apiCalled" [collectionSize]="subadminList.total"
-                [(page)]="page" [maxSize]="10" [rotate]="true" [boundaryLinks]="true" (pageChange)="refreshList(page,'')">
-              </ngb-pagination> -->
-                    <!-- </div> -->
+                    <div class="d-flex justify-content-end">
+                        <ngb-pagination *ngIf="invoiceList?.docs?.length!=0 && apiCalled"
+                            [collectionSize]="invoiceList.total" [(page)]="page" [maxSize]="10" [rotate]="true"
+                            [boundaryLinks]="true" (pageChange)="refreshList(page,'')">
+                        </ngb-pagination>
+                    </div>
                 </div>
             </div>
         </div>

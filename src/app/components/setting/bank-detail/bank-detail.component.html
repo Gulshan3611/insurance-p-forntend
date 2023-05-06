@@ -14,7 +14,7 @@
                 </ng-select> -->
                 <input class="form-control" type="text" pattern="[a-zA-Z0-9/-_ ]*" name="companyName"
                     [(ngModel)]="bank.companyName" placeholder="Company name" 
-                    #companyName="ngModel" maxlength="200" required>
+                    #companyName="ngModel" maxlength="100" required>
 
                 <div *ngIf="companyName.invalid && showError" class="form-text text-danger small">
                     <small *ngIf="['companyName.errors?.required']">Company Name is required </small>
@@ -51,6 +51,8 @@
 
                 <div *ngIf="branch.invalid && showError" class="form-text text-danger small">
                     <small *ngIf="branch.errors?.['required']">Bank branch name is required </small>
+                    <small *ngIf="branch.errors?.['minlength']"> Please enter name between 5 and
+                        25.</small>
                     <small *ngIf="branch.errors?.['pattern']"> Please enter valid bank branch</small>
                 </div>
             </div>

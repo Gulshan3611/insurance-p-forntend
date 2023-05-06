@@ -58,4 +58,28 @@ export class InvoiceListComponent implements OnInit {
     this.getInvoiceListFromApi();
   }
 
+  deleteInvoice(request: any) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "Do you want to delete this Invoice?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        console.log(request.id);
+        this._invoiceService.deleteInvoice(request.id).subscribe(objS => {
+          this.apiCalled = true;
+          this.getInvoiceListFromApi();
+          this._toastrService.success(objS.message);
+        }, (err) => {
+          console.log(err);
+        })
+      }
+    })
+    
+  }
+
 }

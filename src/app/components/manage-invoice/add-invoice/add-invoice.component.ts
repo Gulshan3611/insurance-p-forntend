@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FlatpickrOptions } from 'ng2-flatpickr';
 // import locale from 'date-fns/locale/en-US';
 import * as moment from 'moment';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-invoice',
@@ -17,7 +18,7 @@ export class AddInvoiceComponent implements OnInit {
   showError: boolean = false;
   apiCalled: boolean = false;
   submitted = false;
-  addInvoice: any = { fixed: [], cgst: '', icgst: '', sgst: '' };
+  addInvoice: any = { fixed: [], cgst: '', icgst: '', sgst: '', paidAmount: 0, discountFixed: 0 };
   currentDate: any = new Date();
   percentageValue: any;
   gstCountry: any;
@@ -31,6 +32,7 @@ export class AddInvoiceComponent implements OnInit {
 
   vendorId: any = '';
   totalAmount: any = 0;
+  proAmount: any = 0;
   cgstPer: any = 0;
   sgstPer: any = 0;
   icgstPer: any = 0;
@@ -44,6 +46,11 @@ export class AddInvoiceComponent implements OnInit {
     paymentPercentage: "",
     milestoneAmount: '',
     payable_amount: ''
+  }];
+
+  fixedMilestone: any = [{
+    milestoneId: "",
+    paymentPercentage: '',
   }];
 
   addMilestone1: any = [{
@@ -183,7 +190,7 @@ export class AddInvoiceComponent implements OnInit {
     this._invoiceService.getProjectDetail(id).subscribe(objS => {
       this.apiCalled = true;
       this.projectData = objS.data;
-      console.log(this.projectData)
+      // console.log(this.projectData)
 
       this.invoiceDateData = moment.parseZone(this.projectData?.createdAt).format('YYYY-MM-DD');
       this.dueDateData = moment.parseZone(this.invoiceDateData).add(15, 'days').format('YYYY-MM-DD')
@@ -191,11 +198,10 @@ export class AddInvoiceComponent implements OnInit {
         this.addInvoice.projectType = 'FIXED';
         this.milestone = 'FIXED'
         this.addMilestone = this.projectData.fixed;
-        for (let i = 0; i < this.projectData.fixed.length; i++) {
-          this.totalAmount = this.totalAmount + this.projectData.fixed[i].milestoneAmount;
-        }
-        this.addInvoice.total_payable_amount = this.totalAmount;
-        this.percentageBox = true;
+        this.calTotalAmount(1);
+        this.fixedMile();
+        // console.log('=================', this.fixedMilestone)
+        // this.percentageBox = true;
       }
 
     }, (err) => {
@@ -204,6 +210,30 @@ export class AddInvoiceComponent implements OnInit {
 
   }
 
+  calTotalAmount(event) {
+    if(event === 1) {
+      this.totalAmount = 0
+      for (let i = 0; i < this.projectData.fixed.length; i++) {
+        this.totalAmount = this.totalAmount + this.projectData.fixed[i].milestoneAmount;
+        this.proAmount = this.totalAmount
+      } 
+      this.addInvoice.total_payable_amount = this.totalAmount;
+    } else {
+      this.totalAmount = 0
+      for (let i = 0; i < this.addMilestone.length; i++) {
+        this.totalAmount = this.totalAmount + this.addMilestone[i].milestoneAmount;
+      } 
+      this.addInvoice.total_payable_amount = this.totalAmount;
+    }
+  }
+
+  fixedMile() {
+    let newArray = this.addMilestone.map(item => {
+      return { milestoneId: item._id, paymentPercentage: item.projectPercentage };
+    });
+    this.fixedMilestone = newArray
+  }
+  
   add() {
     this.addMilestone.push({
       milestoneName: "",
@@ -287,17 +317,23 @@ export class AddInvoiceComponent implements OnInit {
       this.addInvoice.total_payable_amount = 0;
     }
   }
-  
+
+  updatemilestonePer(i,item) {
+    var percentage = (item.projectPercentage*this.proAmount)/100;
+    this.addMilestone[i].milestoneAmount = percentage
+
+    this.calTotalAmount(2);
+    this.fixedMile();
+  }
 
   onSubmit(valid: any): void {
     this.showError = true;
     this.submitted = true;
     // console.log('checking---', valid, this.resource)
     if (valid) {
-      this.loading = true;
-
-      this.addInvoice.fixed = this.addMilestone;
-      console.log('--------------',this.addInvoice)
+      this.loading = true; 
+ 
+      // console.log('--------------ssssssss',this.addInvoice)
 
       let data = {
         vendorId: this.addInvoice.clientName,
@@ -307,27 +343,28 @@ export class AddInvoiceComponent implements OnInit {
         invoiceDueDate: this.addInvoice.invoiceDueDate,
         note: this.addInvoice.note,
         bankConversionCharges: this.addInvoice.bankConversionCharges,
-        paidAmount: this.addInvoice.total_payable_amount,
-        fixed: this.projectData.fixed
+        fixed: this.fixedMilestone,
+        discountFixed: this.addInvoice.discountFixed,
+        paidAmount: this.addInvoice.paidAmount,
       }
-      console.log('--------------',data, this.projectData.fixed)
+      // console.log('--------------',data, this.projectData.fixed)
 
       this.loading = true;
       // this.spinner.show();
 
-      // this._invoiceService.addInvoice(this.addInvoice).subscribe(objS => {
-      //   if (objS.code == 200) {
-      //     this.loading = false;
-      //     // this.spinner.hide();
-      //     this._toastrService.success(objS.message);
-      //     this._router.navigate(['/invoice-management/list']);
-      //   }
-      //   else {
-      //     this._toastrService.error(objS.message);
-      //     this.loading = false;
-      //     // this.spinner.hide();
-      //   }
-      // })
+      this._invoiceService.addInvoice(data).subscribe(objS => {
+        if (objS.code == 200) {
+          this.loading = false;
+          // this.spinner.hide();
+          this._toastrService.success(objS.message);
+          this._router.navigate(['/invoice-management/list']);
+        }
+        else {
+          this._toastrService.error(objS.message);
+          this.loading = false;
+          // this.spinner.hide();
+        }
+      })
     }
   }
 

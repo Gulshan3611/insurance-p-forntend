@@ -33,30 +33,26 @@ export class InvoiceService {
         return this.http.get(`${this.apiUrl}/vendor`).pipe(map(this.extractData));
     }
 
-    // get gst Lists
+    // get Invoice Lists
     getInvoiceList(request: any): Observable<any> {
         return this.http.get(`${this.apiUrl}/invoice?page=` + request.page + '&limit=' + request.limit + '&searchBy=' + request.searchBy, request).pipe(map(this.extractData));
     }
-    // add gst 
+    // add Invoice 
     addInvoice(request: any): Observable<any> {
         return this.http.post(`${this.apiUrl}/invoice`, request).pipe(map(this.extractData));
     }
-    // delete gst 
-    // deleteGst(request: any): Observable<any> {
-    //     return this.http.delete(`${this.apiUrl}/gst/` + request).pipe(map(this.extractData));
-    // }
-    // // delete gst 
-    // activateDeactivateGst(request: any): Observable<any> {
-    //     return this.http.post(`${this.apiUrl}/gst/activateDeactivateGsts`, request).pipe(map(this.extractData));
-    // }
+    // delete Invoice 
+    deleteInvoice(request: any): Observable<any> {
+        return this.http.delete(`${this.apiUrl}/invoice/` + request).pipe(map(this.extractData));
+    } 
 
-    // // get gst details
-    // gstDetails(request: any): Observable<any> {
-    //     return this.http.get(`${this.apiUrl}/gst/` + request).pipe(map(this.extractData));
-    // }
+    // get Invoice details
+    invoiceDetails(request: any): Observable<any> {
+        return this.http.get(`${this.apiUrl}/invoice/` + request).pipe(map(this.extractData));
+    }
 
-    // // update gst details
-    // updateGstDetails(request: any, id: any): Observable<any> {
-    //     return this.http.patch(`${this.apiUrl}/gst/` + id, request).pipe(map(this.extractData));
-    // }
+    // update Invoice details
+    updateInvoiceDetails(request: any, id: any): Observable<any> {
+        return this.http.patch(`${this.apiUrl}/invoice/` + id, request).pipe(map(this.extractData));
+    }
 }

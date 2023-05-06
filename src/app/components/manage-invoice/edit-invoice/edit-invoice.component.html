@@ -6,7 +6,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Edit Invoice</h4>
-                            <form class="forms-sample" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
+                            <!-- <form class="forms-sample" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
                                 <div class="form-group row">
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -53,8 +53,8 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Invoice Number</label>
-                                            <input type="text" class="form-control" name="InvoiceNumber"
-                                                [(ngModel)]="addInvoice.InvoiceNumber" #InvoiceNumber="ngModel"
+                                            <input type="text" class="form-control" name="invoiceNumber"
+                                                [(ngModel)]="addInvoice.invoiceNumber" #invoiceNumber="ngModel"
                                                 readonly>
                                         </div>
                                     </div>
@@ -471,6 +471,513 @@
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-primary mr-2" *ngIf="checkpermission(5,'edit')"
                                     (click)="onSubmit(f.form.valid)">{{loading?'Please wait ...':'Submit'}}</button>
+                                <button class="btn btn-danger" [routerLink]="['/invoice-management/list']"
+                                    routerLinkActive="router-link-active">Cancel</button>
+                                </div>
+                            </form> -->
+                        
+                            <form class="forms-sample" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
+                                <div class="form-group row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Client Name</label>
+                                            <ng-select name="clientName" [(ngModel)]="addInvoice.clientName" (change)="getProject($event)"
+                                                #clientName="ngModel" placeholder="Select Vendor" required>
+                                                <ng-container *ngFor="let item of venderList?.docs" >
+                                                    <ng-option value="{{item?.id}}" *ngIf="item?.status == 1"> {{item?.name}} </ng-option>
+                                                </ng-container>
+                                            </ng-select>
+
+                                            <span class="form-text text-danger small"
+                                                *ngIf="clientName.invalid && showError">
+                                                <span class="form-text text-danger small"
+                                                    *ngIf="clientName.errors?.['required']">Client name is
+                                                    required</span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Project Name</label>
+                                            <ng-select name="projectId" [(ngModel)]="addInvoice.projectId"
+                                                #projectId="ngModel" placeholder="Select Project" (change)="projectDetail($event)" required>
+                                                <ng-container *ngFor="let item of projectList?.docs">
+                                                    <ng-option value="{{item?.id}}" > {{item?.projectName}} </ng-option>
+                                                </ng-container>
+                                            </ng-select>
+
+                                            <span class="form-text text-danger small"
+                                                *ngIf="projectId.invalid && showError">
+                                                <span class="form-text text-danger small"
+                                                    *ngIf="projectId.errors?.['required']">Project name is
+                                                    required</span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Invoice Number</label>
+                                            <input type="text" class="form-control" name="invoiceNumber"
+                                                [(ngModel)]="addInvoice.invoiceNumber" #invoiceNumber="ngModel"
+                                                readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label> Invoice Date</label>
+                                            <ng2-flatpickr [config]="invoiceDate" name="invoiceDate" (change)="selectedDates($event)"
+                                                [(ngModel)]="addInvoice.invoiceDate" #invoiceDate="ngModel" placeholder="{{invoiceDateData}}" required>
+                                            </ng2-flatpickr>
+                                            <span class="form-text text-danger small"
+                                                *ngIf="invoiceDate.invalid && showError">
+                                                <span class="form-text text-danger small"
+                                                    *ngIf="invoiceDate.errors?.['required']">Invoice date is
+                                                    required</span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label> Invoice Due Date</label>
+                                            <ng2-flatpickr [config]="invoiceDueDate" name="invoiceDueDate"
+                                                [(ngModel)]="addInvoice.invoiceDueDate" placeholder="{{dueDateData}}" #invoiceDueDate="ngModel"
+                                                required>
+                                            </ng2-flatpickr>
+                                            <span class="form-text text-danger small"
+                                                *ngIf="invoiceDueDate.invalid && showError">
+                                                <span class="form-text text-danger small"
+                                                    *ngIf="invoiceDueDate.errors?.['required']">Invoice date is
+                                                    required</span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Project Type</label>
+                                            <ng-select name="projectType" [(ngModel)]="addInvoice.projectType"
+                                                #projectType="ngModel" (change)="selectItem($event)" required>
+                                                <ng-container>
+                                                    <ng-option value="hourly"> Hourly </ng-option>
+                                                    <ng-option value="projectOnMonthly"> Project on Monthly </ng-option>
+                                                    <ng-option value="resourceOnMonthly"> Resource on Monthly</ng-option>
+                                                    <!-- <ng-option value="resourceOnHourly"> Resource on Hourly</ng-option> -->
+                                                    <ng-option value="FIXED"> Fixed </ng-option>
+                                                </ng-container>
+                                            </ng-select>
+
+                                            <span class="form-text text-danger small"
+                                                *ngIf="projectType.invalid && showError">
+                                                <span class="form-text text-danger small"
+                                                    *ngIf="projectType.errors?.['required']">Project Type items is
+                                                    required</span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12" *ngIf="milestone == 'FIXED'">
+                                        <div class="d-flex align-items-start pt-2 mb-2 border border-primary rounded" *ngFor="let item of addMilestone; let i = index">
+                                            <div class="row w-100 m-0">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Milestone Name</label>
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" pattern="[a-zA-Z0-9 ]*" 
+                                                                name="milestoneId{{i}}" [(ngModel)]="item.milestoneName"
+                                                                #milestoneId="ngModel" maxlength="60" disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+    
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Project Amount</label>
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" pattern="^[0-9]*$"
+                                                                name="milestoneAmount{{i}}"
+                                                                [(ngModel)]="item.milestoneAmount"
+                                                                #milestoneAmount="ngModel" maxlength="8" disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+    
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Payment Percentage</label>
+                                                        <fieldset>
+                                                            <div class="input-group">
+                                                                <input type="text" (keyup)="updatemilestonePer(i , item )" class="form-control" pattern="^[0-9]*$"
+                                                                    name="projectPercentage{{i}}" [(ngModel)]="item.projectPercentage"
+                                                                    #projectPercentage="ngModel" maxlength="3" required>
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text"
+                                                                        id="basic-addon1">%</span>
+                                                                </div>
+                                                            </div>
+                                                        </fieldset>
+                                                        <span class="form-text text-danger small"
+                                                            *ngIf="projectPercentage.invalid && showError">
+                                                            <span class="form-text text-danger small"
+                                                                *ngIf="projectPercentage.errors?.['required']">Payment
+                                                                percentage name is
+                                                                required</span>
+                                                            <span class="form-text text-danger small"
+                                                                [hidden]="!cgst.errors?.['pattern']">
+                                                                Please enter valid payment percentage.
+                                                            </span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+    
+                                                <!-- <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Payable Amount</label>
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" pattern="^[0-9]*$"
+                                                                name="payable_amount{{i}}"
+                                                                [(ngModel)]="item.payable_amount"
+                                                                #payable_amount="ngModel" maxlength="8" required>
+                                                        </div>
+                                                        <span class="form-text text-danger small"
+                                                            *ngIf="payable_amount.invalid && showError">
+                                                            <span class="form-text text-danger small"
+                                                                *ngIf="payable_amount.errors?.['required']">Payable
+                                                                percentage name is
+                                                                required</span>
+                                                            <span class="form-text text-danger small"
+                                                                [hidden]="!payable_amount.errors?.['pattern']">
+                                                                Please enter valid payable percentage.
+                                                            </span>
+                                                        </span>
+                                                    </div>
+                                                </div> -->
+                                            
+                                            </div>
+                                            <div class="btnBox">
+                                                <a (click)="add()"
+                                                    class="btn btn-sm btn-relief-info btn-icon waves-effect waves-light"
+                                                    href="javascript:void(0)"><i class="feather icon-plus"></i> </a>
+                                                <a (click)="remove(i)" *ngIf="addMilestone?.length > 1"
+                                                    class="btn btn-sm btn-relief-danger btn-icon waves-effect waves-light"
+                                                    href="javascript:void(0)"><i class="feather icon-trash-2"></i> </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12"
+                                        *ngIf="milestone == 'hourly' || milestone == 'project_monthly' || milestone == 'resource_monthly'">
+                                        <div class="d-flex align-items-start pt-2 mb-2 border border-primary rounded"  *ngFor="let items of addMilestone1; let j = index">
+                                            <div class="row w-100 m-0" >
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label>Description</label>
+                                                        <div class="input-group">
+                                                            <textarea class="form-control" pattern="[a-zA-Z0-9 ]*"
+                                                                name="description{{j}}" [(ngModel)]="items.description"
+                                                                #description="ngModel" maxlength="200" required></textarea>
+                                                        </div>
+                                                        <span class="form-text text-danger small"
+                                                            *ngIf="description.invalid && showError">
+                                                            <span class="form-text text-danger small"
+                                                                *ngIf="description.errors?.['required']">Milestone name is
+                                                                required</span>
+                                                            <span class="form-text text-danger small"
+                                                                [hidden]="!description.errors?.['pattern']">
+                                                                Please enter valid milestone name.
+                                                            </span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+    
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Month</label>
+                                                        <ng2-flatpickr [config]="month" name="month{{j}}"
+                                                            [(ngModel)]="items.month" #month="ngModel"
+                                                            required>
+                                                        </ng2-flatpickr>
+    
+                                                        <span class="form-text text-danger small"
+                                                            *ngIf="month.invalid && showError">
+                                                            <span class="form-text text-danger small"
+                                                                *ngIf="month.errors?.['required']">Month is
+                                                                required</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+    
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Monthly Amount</label>
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" pattern="^[0-9]*$"
+                                                                name="monthly_amount{{j}}"
+                                                                [(ngModel)]="items.monthly_amount"
+                                                                #monthly_amount="ngModel" maxlength="8" required>
+                                                        </div>
+                                                        <span class="form-text text-danger small"
+                                                            *ngIf="monthly_amount.invalid && showError">
+                                                            <span class="form-text text-danger small"
+                                                                *ngIf="monthly_amount.errors?.['required']">Monthly amount name is
+                                                                required</span>
+                                                            <span class="form-text text-danger small"
+                                                                [hidden]="!monthly_amount.errors?.['pattern']">
+                                                                Please enter valid monthly amount.
+                                                            </span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+    
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Payable Amount</label>
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" pattern="^[0-9]*$"
+                                                                name="payable_amount{{j}}"
+                                                                [(ngModel)]="items.payable_amount"
+                                                                #payable_amount="ngModel" maxlength="8" required>
+                                                        </div>
+                                                        <span class="form-text text-danger small"
+                                                            *ngIf="payable_amount.invalid && showError">
+                                                            <span class="form-text text-danger small"
+                                                                *ngIf="payable_amount.errors?.['required']">Payable
+                                                                percentage name is
+                                                                required</span>
+                                                            <span class="form-text text-danger small"
+                                                                [hidden]="!payable_amount.errors?.['pattern']">
+                                                                Please enter valid payable percentage.
+                                                            </span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="btnBox">
+                                                <a (click)="item()"
+                                                    class="btn btn-sm btn-relief-info btn-icon waves-effect waves-light"
+                                                    href="javascript:void(0)"><i class="feather icon-plus"></i> </a>
+                                                <a (click)="removeItem(j)" *ngIf="addMilestone1?.length > 1"
+                                                    class="btn btn-sm btn-relief-danger btn-icon waves-effect waves-light"
+                                                    href="javascript:void(0)"><i class="feather icon-trash-2"></i> </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4" *ngIf="percentageBox === true">
+                                        <div class="form-group">
+                                            <label>CGST</label>
+                                            <!-- <input type="text" class="form-control" pattern="^[0-9]*$"
+                                                name="cgst" [(ngModel)]="addInvoice.cgst" #cgst="ngModel"
+                                                maxlength="3" required> -->
+                                            <select class="custom-select" name="cgst" [(ngModel)]="addInvoice.cgst" 
+                                            (change)="selectcgst($event)" #cgst="ngModel" required>
+                                                <option value="">Select</option>
+                                                <option value="5">5%</option>
+                                                <option value="12">12%</option>
+                                                <option value="18">18%</option>
+                                                <option value="28">28%</option>
+                                            </select>
+                                            <span class="form-text text-danger small" *ngIf="cgst.invalid && showError">
+                                                <span class="form-text text-danger small"
+                                                    *ngIf="cgst.errors?.['required']">CGST is
+                                                    required</span>
+                                                <!-- <span class="form-text text-danger small"
+                                                    [hidden]="!cgst.errors?.['pattern']">
+                                                    Please enter valid CGST.
+                                                </span> -->
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4" *ngIf="percentageBox === true">
+                                        <div class="form-group">
+                                            <label>SGST</label>
+                                            <select class="custom-select" name="sgst" [(ngModel)]="addInvoice.sgst" 
+                                            (change)="selectSgst($event)" #sgst="ngModel" required>
+                                                <option value="">Select</option>
+                                                <option value="5">5%</option>
+                                                <option value="12">12%</option>
+                                                <option value="18">18%</option>
+                                                <option value="28">28%</option>
+                                            </select>
+                                            <span class="form-text text-danger small" *ngIf="sgst.invalid && showError">
+                                                <span class="form-text text-danger small"
+                                                    *ngIf="sgst.errors?.['required']">SGST is
+                                                    required</span>
+                                                <!-- <span class="form-text text-danger small"
+                                                    [hidden]="!sgst.errors?.['pattern']">
+                                                    Please enter valid sgst.
+                                                </span> -->
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4" *ngIf="percentageBox === true">
+                                        <div class="form-group">
+                                            <label>ICGST</label>
+                                            <select class="custom-select" name="icgst" [(ngModel)]="addInvoice.icgst" 
+                                            #icgst="ngModel" (change)="selectIcgst($event)" required>
+                                                <option value="">Select</option>
+                                                <option value="5">5%</option>
+                                                <option value="12">12%</option>
+                                                <option value="18">18%</option>
+                                                <option value="28">28%</option>
+                                            </select>
+                                            <span class="form-text text-danger small"
+                                                *ngIf="icgst.invalid && showError">
+                                                <span class="form-text text-danger small"
+                                                    *ngIf="icgst.errors?.['required']">ICGST is
+                                                    required</span>
+                                                <!-- <span class="form-text text-danger small"
+                                                    [hidden]="!icgst.errors?.['pattern']">
+                                                    Please enter valid ICGST.
+                                                </span> -->
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="account-name">Note</label>
+                                            <textarea class="form-control" type="text"
+                                                pattern="[a-zA-Z0-9/_.,!#$%&*() ]*" name="note"
+                                                [(ngModel)]="addInvoice.note" #note="ngModel" minlength="10"
+                                                maxlength="150" placeholder="Note" required></textarea>
+
+                                            <div *ngIf="note.invalid && showError"
+                                                class="form-text text-danger small">
+                                                <small *ngIf="note.errors?.['required']">Note is required </small>
+                                                <small *ngIf="note.errors?.['minlength']"> Please enter note
+                                                    between 10 and
+                                                    150.</small>
+                                                <small *ngIf="note.errors?.['pattern']"> Please enter valid
+                                                    note.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="account-name">GST Number</label>
+                                            <input class="form-control" type="text"
+                                                pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$"
+                                                name="gstinNumber" [(ngModel)]="addInvoice.gstNumber"
+                                                #gstNumber="ngModel" required>
+
+                                            <div *ngIf="gstNumber.invalid && showError"
+                                                class="form-text text-danger small">
+                                                <small *ngIf="gstNumber.errors?.['required']">GST number is required
+                                                </small>
+                                                <small *ngIf="gstNumber.errors?.['pattern']"> Please enter valid GST
+                                                    number</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Select Account</label>
+                                            <input type="text" class="form-control" name="selectAccount" [(ngModel)]="addInvoice.selectAccount" placeholder="8795453523344511" value="8795453523344511"
+                                            #selectAccount="ngModel" disabled>
+                                            <!-- <ng-select name="selectAccount" [(ngModel)]="addInvoice.selectAccount"
+                                                #selectAccount="ngModel" required>
+                                                <ng-container>
+                                                    <ng-option value="8795453523344511"> 8795453523344511 </ng-option>
+                                                    <ng-option value="3456456653344654"> 3456456653344654 </ng-option>
+                                                    <ng-option value="657445352337673"> 657445352337673 </ng-option>
+                                                </ng-container>
+                                            </ng-select> -->
+
+                                            <!-- <span class="form-text text-danger small"
+                                                *ngIf="selectAccount.invalid && showError">
+                                                <span class="form-text text-danger small"
+                                                    *ngIf="selectAccount.errors?.['required']">Account is
+                                                    required</span>
+                                            </span> -->
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Bank and Conversion Charges</label>
+
+                                            <input type="text" class="form-control" pattern="^[0-9]*$"
+                                                name="bankConversionCharges" [(ngModel)]="addInvoice.bankConversionCharges"
+                                                #bankConversionCharges="ngModel" maxlength="5" required>
+
+                                            <span class="form-text text-danger small"
+                                                *ngIf="bankConversionCharges.invalid && showError">
+                                                <span class="form-text text-danger small"
+                                                    *ngIf="bankConversionCharges.errors?.['required']">Bank and conversion is
+                                                    required</span>
+                                                <span class="form-text text-danger small"
+                                                    [hidden]="!bankConversionCharges.errors?.['pattern']">
+                                                    Please enter valid bank and conversion.
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Discount </label>
+                                            <input type="text" class="form-control" pattern="^[0-9]*$"
+                                                name="discountFixed" [(ngModel)]="addInvoice.discountFixed"
+                                                #discountFixed="ngModel" maxlength="8" required>
+
+                                            <span class="form-text text-danger small"
+                                                *ngIf="discountFixed.invalid && showError">
+                                                <span class="form-text text-danger small"
+                                                    *ngIf="discountFixed.errors?.['required']">Discount is
+                                                    required</span>
+                                                <span class="form-text text-danger small"
+                                                    [hidden]="!discountFixed.errors?.['pattern']">
+                                                    Please enter valid discount.
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Paid Amount</label>
+
+                                            <input type="text" class="form-control" pattern="^[0-9]*$"
+                                                name="bankConversionCharges" [(ngModel)]="addInvoice.paidAmount"
+                                                #paidAmount="ngModel" maxlength="8" required>
+
+                                            <span class="form-text text-danger small"
+                                                *ngIf="paidAmount.invalid && showError">
+                                                <span class="form-text text-danger small"
+                                                    *ngIf="paidAmount.errors?.['required']">Paid Amount is
+                                                    required</span>
+                                                <span class="form-text text-danger small"
+                                                    [hidden]="!paidAmount.errors?.['pattern']">
+                                                    Please enter valid paid amount.
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Total Payable Amount</label>
+
+                                            <input type="text" class="form-control" pattern="^[0-9]*$"
+                                                name="total_payable_amount" [(ngModel)]="addInvoice.total_payable_amount"
+                                                #total_payable_amount="ngModel" disabled>
+ 
+                                        </div>
+                                    </div>
+ 
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary mr-2" *ngIf="checkpermission(5,'add')"
+                                    (click)="onSubmit(f.form.valid)">{{loading?'Please wait ...':'Save and Preview'}}</button>
                                 <button class="btn btn-danger" [routerLink]="['/invoice-management/list']"
                                     routerLinkActive="router-link-active">Cancel</button>
                                 </div>

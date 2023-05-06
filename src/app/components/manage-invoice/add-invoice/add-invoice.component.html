@@ -49,8 +49,8 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Invoice Number</label>
-                                            <input type="text" class="form-control" name="InvoiceNumber"
-                                                [(ngModel)]="addInvoice.InvoiceNumber" #InvoiceNumber="ngModel"
+                                            <input type="text" class="form-control" name="invoiceNumber"
+                                                [(ngModel)]="addInvoice.invoiceNumber" #invoiceNumber="ngModel"
                                                 readonly>
                                         </div>
                                     </div>
@@ -140,9 +140,9 @@
                                                         <label>Payment Percentage</label>
                                                         <fieldset>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" pattern="^[0-9]*$"
+                                                                <input type="text" (keyup)="updatemilestonePer(i , item )" class="form-control" pattern="^[0-9]*$"
                                                                     name="projectPercentage{{i}}" [(ngModel)]="item.projectPercentage"
-                                                                    #projectPercentage="ngModel" maxlength="60" required>
+                                                                    #projectPercentage="ngModel" maxlength="3" required>
                                                                 <div class="input-group-append">
                                                                     <span class="input-group-text"
                                                                         id="basic-addon1">%</span>
@@ -374,7 +374,7 @@
                                         <div class="form-group">
                                             <label for="account-name">Note</label>
                                             <textarea class="form-control" type="text"
-                                                pattern="[a-zA-Z0-9/_.,!#$%&*()=+- ]*" name="note"
+                                                pattern="[a-zA-Z0-9/_.,!#$%&*() ]*" name="note"
                                                 [(ngModel)]="addInvoice.note" #note="ngModel" minlength="10"
                                                 maxlength="150" placeholder="Note" required></textarea>
 
@@ -389,6 +389,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="account-name">GST Number</label>
@@ -404,6 +405,29 @@
                                                 <small *ngIf="gstNumber.errors?.['pattern']"> Please enter valid GST
                                                     number</small>
                                             </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Select Account</label>
+                                            <input type="text" class="form-control" name="selectAccount" [(ngModel)]="addInvoice.selectAccount" placeholder="8795453523344511" value="8795453523344511"
+                                            #selectAccount="ngModel" disabled>
+                                            <!-- <ng-select name="selectAccount" [(ngModel)]="addInvoice.selectAccount"
+                                                #selectAccount="ngModel" required>
+                                                <ng-container>
+                                                    <ng-option value="8795453523344511"> 8795453523344511 </ng-option>
+                                                    <ng-option value="3456456653344654"> 3456456653344654 </ng-option>
+                                                    <ng-option value="657445352337673"> 657445352337673 </ng-option>
+                                                </ng-container>
+                                            </ng-select> -->
+
+                                            <!-- <span class="form-text text-danger small"
+                                                *ngIf="selectAccount.invalid && showError">
+                                                <span class="form-text text-danger small"
+                                                    *ngIf="selectAccount.errors?.['required']">Account is
+                                                    required</span>
+                                            </span> -->
                                         </div>
                                     </div>
 
@@ -430,33 +454,53 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group">
+                                            <label>Discount </label>
+                                            <input type="text" class="form-control" pattern="^[0-9]*$"
+                                                name="discountFixed" [(ngModel)]="addInvoice.discountFixed"
+                                                #discountFixed="ngModel" maxlength="8" required>
+
+                                            <span class="form-text text-danger small"
+                                                *ngIf="discountFixed.invalid && showError">
+                                                <span class="form-text text-danger small"
+                                                    *ngIf="discountFixed.errors?.['required']">Discount is
+                                                    required</span>
+                                                <span class="form-text text-danger small"
+                                                    [hidden]="!discountFixed.errors?.['pattern']">
+                                                    Please enter valid discount.
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Paid Amount</label>
+
+                                            <input type="text" class="form-control" pattern="^[0-9]*$"
+                                                name="bankConversionCharges" [(ngModel)]="addInvoice.paidAmount"
+                                                #paidAmount="ngModel" maxlength="8" required>
+
+                                            <span class="form-text text-danger small"
+                                                *ngIf="paidAmount.invalid && showError">
+                                                <span class="form-text text-danger small"
+                                                    *ngIf="paidAmount.errors?.['required']">Paid Amount is
+                                                    required</span>
+                                                <span class="form-text text-danger small"
+                                                    [hidden]="!paidAmount.errors?.['pattern']">
+                                                    Please enter valid paid amount.
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
                                             <label>Total Payable Amount</label>
 
                                             <input type="text" class="form-control" pattern="^[0-9]*$"
                                                 name="total_payable_amount" [(ngModel)]="addInvoice.total_payable_amount"
                                                 #total_payable_amount="ngModel" disabled>
  
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>Select Account</label>
-                                            <ng-select name="selectAccount" [(ngModel)]="addInvoice.selectAccount"
-                                                #selectAccount="ngModel" required>
-                                                <ng-container>
-                                                    <ng-option value="8795453523344511"> 8795453523344511 </ng-option>
-                                                    <ng-option value="3456456653344654"> 3456456653344654 </ng-option>
-                                                    <ng-option value="657445352337673"> 657445352337673 </ng-option>
-                                                </ng-container>
-                                            </ng-select>
-
-                                            <span class="form-text text-danger small"
-                                                *ngIf="selectAccount.invalid && showError">
-                                                <span class="form-text text-danger small"
-                                                    *ngIf="selectAccount.errors?.['required']">Account is
-                                                    required</span>
-                                            </span>
                                         </div>
                                     </div>
  
