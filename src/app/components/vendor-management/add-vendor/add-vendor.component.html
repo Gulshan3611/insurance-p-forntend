@@ -52,8 +52,14 @@
                                         <div class="form-group">
                                             <label for="exampleInputName1">Vendor Name</label>
                                             <input type="text" class="form-control" id="exampleInputName1"
-                                                pattern="[a-zA-Z0-9 ]*" name="name" [(ngModel)]="addVendor.name"
-                                                #name="ngModel" maxlength="100" placeholder="Vendor name" required>
+                                                pattern="[a-zA-Z0-9 ]*" name="name"
+                                                [(ngModel)]="addVendor.name" #name="ngModel" maxlength="100"
+                                                placeholder="vendor name"
+                                                required>
+                                            
+                                            <span class="form-text text-danger small" *ngIf="regexTest('^\\d+$', addVendor.name)">
+                                                Please enter valid vendor name .
+                                            </span>
                                             <span class="form-text text-danger small" *ngIf="name.invalid && showError">
                                                 <span class="form-text text-danger small"
                                                     *ngIf="name.errors?.['required']">Vendor name is
