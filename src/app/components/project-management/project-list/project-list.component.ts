@@ -55,7 +55,7 @@ export class ProjectListComponent implements OnInit {
     // console.log("ssssssssssss", this.searchForm);
     this.getProjectLists_f()
   }
-  
+
   getProjectLists_f() {
     this.apiCalled = false;
     this._projectService.getProjectLists({
@@ -64,21 +64,28 @@ export class ProjectListComponent implements OnInit {
       searchBy: this.searchForm,
     }).subscribe(objS => {
       this.loading = this.showError = false;
-      if (objS?.docs?.length != 0) {
-        this.apiCalled = true;
-        this.projectList = objS;
-        this.projectListLength = objS.total;
-        // console.log('print response====vendor',objS.docs.length, this.projectList)
+      if (objS.code != 401) {
+        if (objS?.docs?.length != 0) {
+          this.apiCalled = true;
+          this.projectList = objS;
+          this.projectListLength = objS.total;
+          // console.log('print response====vendor',objS.docs.length, this.projectList)
+        } else {
+          this.projectList = []
+          this.projectListLength = [];
+          // this._toastrService.error(objS.message);
+        }
       } else {
-        this.projectList = []
-        this.projectListLength = [];
-        // this._toastrService.error(objS.message);
+        this._toastrService.error(objS.message);
+        this._authService.adminLogout();
+        this.router.navigate(['/auth/login']);
       }
     }, (err) => {
       this.loading = this.showError = false;
       console.log('err', err)
     });
   }
+
   refreshList(page: any, search: any) {
     this.page = page ? page : 1;
     this.getProjectLists_f()
@@ -108,24 +115,67 @@ export class ProjectListComponent implements OnInit {
 
   }
 
-  activateDeactivateProjects_f(request: any, status: string) {
+  // activateDeactivateProjects_f(request: any, status: string) {
 
+  //   const requestData =
+  //   {
+  //     status: status,
+  //     ids: [request.id]
+  //   }
+
+  //   console.log(requestData);
+  //   if (request) {
+  //     console.log(request);
+  //     this._projectService.activateDeactivateProjects(requestData).subscribe(objS => {
+  //       this.apiCalled = true;
+  //       this.getProjectLists_f()
+  //       this._toastrService.success(objS.message);
+  //     }, (err) => {
+  //       console.log(err);
+  //     })
+  //   }
+  // }
+
+  activateDeactivateProjects_f(request: any, status: string) {
     const requestData =
     {
       status: status,
       ids: [request.id]
     }
-
-    console.log(requestData);
-    if (request) {
-      console.log(request);
-      this._projectService.activateDeactivateProjects(requestData).subscribe(objS => {
-        this.apiCalled = true;
-        this.getProjectLists_f()
-        this._toastrService.success(objS.message);
-      }, (err) => {
-        console.log(err);
-      })
+    var msg = '';
+    if (status == 'deactive') {
+      msg = 'Do you want to deactive this project ?';
+    } else {
+      msg = 'Do you want to active this project?';
     }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: msg,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      cancelButtonColor: '#E42728',
+      confirmButtonText: 'Yes',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      }
+    }).then((result: any) => {
+      if (result.value) {
+
+        // console.log(requestData);
+        if (request) {
+          console.log(request);
+          this._projectService.activateDeactivateProjects(requestData).subscribe(objS => {
+            this.apiCalled = true;
+            this.getProjectLists_f()
+            this._toastrService.success(objS.message);
+          }, (err) => {
+            console.log(err);
+          })
+        }
+      }
+    });
   }
+
 }

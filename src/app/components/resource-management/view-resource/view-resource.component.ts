@@ -43,8 +43,14 @@ export class ViewResourceComponent implements OnInit {
 
   getResourceDetailFromApi(id: any){
     this._resourceService.resourceDetails(this.resourceId).subscribe((res) => {
+      if(res.code !=401) {
       if (res['data']) {
         this.addResource = res['data'];
+      }
+    } else {
+        this._toastrService.error(res.message);
+        this.authService.adminLogout();
+        this.router.navigate(['/auth/login']);
       }
     }, (err) => {
       console.log('Error while Login', err);

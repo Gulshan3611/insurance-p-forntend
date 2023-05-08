@@ -35,43 +35,47 @@ export class AddVendorComponent implements OnInit {
 
   }
 
-checkpermission(value: any, type: any) {
-  return this._authService.checkAccess(value, type)
-}
-
-selectVendor(event: any) {
-  this.selectedVendor = event;
-}
-
-selectCurrency(event: any) {
-  this.selectedCurrency = event;
-}
-regexTest(pattern: string, value: string): boolean {
-  return new RegExp(pattern).test(value);
-}
-
-onSubmit(valid: any): void {
-  this.showError = true;
-  this.submitted = true;
-  if(valid) {
-    this.loading = true;
-    this._vendorService.addVendor(this.addVendor).subscribe(objS => {
-      this.loading = this.showError = false;
-      if (objS.code == 200) {
-        // this._authService.setDataAdmin(objS.data);
-        this.spinner.hide();
-        this._toastrService.success(objS.message);
-        // this._header.checkFunction(true);
-        this._router.navigate(['/vendor-management/list']);
-      } else {
-        this._toastrService.error(objS.message);
-        this.spinner.hide();
-      }
-    }, (err) => {
-      this.loading = this.showError = false;
-      console.log('err', err)
-    });
+  checkpermission(value: any, type: any) {
+    return this._authService.checkAccess(value, type)
   }
-}
+
+  selectVendor(event: any) {
+    this.selectedVendor = event;
+  }
+
+  selectCurrency(event: any) {
+    this.selectedCurrency = event;
+  }
+  regexTest(pattern: string, value: string): boolean {
+    return new RegExp(pattern).test(value);
+  }
+
+  onSubmit(valid: any): void {
+    this.showError = true;
+    this.submitted = true;
+    if (valid) {
+      this.loading = true;
+      this._vendorService.addVendor(this.addVendor).subscribe(objS => {
+        this.loading = this.showError = false;
+        if (objS.code == 200) {
+          // this._authService.setDataAdmin(objS.data);
+          this.spinner.hide();
+          this._toastrService.success(objS.message);
+          // this._header.checkFunction(true);
+          this._router.navigate(['/vendor-management/list']);
+        } else if (objS.code == 401) {
+          this._toastrService.error(objS.message);
+          this._authService.adminLogout();
+          this._router.navigate(['/auth/login']);
+        } else {
+          this._toastrService.error(objS.message);
+          this.spinner.hide();
+        }
+      }, (err) => {
+        this.loading = this.showError = false;
+        console.log('err', err)
+      });
+    }
+  }
 
 }

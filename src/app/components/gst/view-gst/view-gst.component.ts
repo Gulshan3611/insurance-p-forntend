@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, NgZone, Output, EventEmitter 
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FlatpickrOptions } from 'ng2-flatpickr';
-import { GstService } from "../../../_services";
+import { GstService, AuthService } from "../../../_services";
 import { environment } from '../../../../environments/environment';
 import { NgxSpinnerService } from "ngx-spinner";
 
@@ -13,7 +13,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 })
 export class ViewGstComponent implements OnInit {
 
-  
+
   submitted = false;
   loading: boolean = false;
   showError: boolean = false;
@@ -26,7 +26,8 @@ export class ViewGstComponent implements OnInit {
     private _toastrService: ToastrService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private _gstService :GstService,
+    private _gstService: GstService,
+    private _authService: AuthService,
     private spinner: NgxSpinnerService
   ) { }
 
@@ -37,10 +38,16 @@ export class ViewGstComponent implements OnInit {
     }
   }
 
-  getGstDetailFromApi(id: any){
+  getGstDetailFromApi(id: any) {
     this._gstService.gstDetails(this.gstId).subscribe((res) => {
-      if (res['data']) {
-        this.gstForm = res['data'];
+      if (res.code != 401) {
+        if (res['data']) {
+          this.gstForm = res['data'];
+        }
+      } else {
+        this._toastrService.error(res.message);
+        this._authService.adminLogout();
+        this.router.navigate(['/auth/login']);
       }
     }, (err) => {
       console.log('Error while Login', err);

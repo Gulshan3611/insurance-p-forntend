@@ -50,7 +50,11 @@ export class ChangePasswordComponent implements OnInit {
               this._authService.adminLogout();
               this.router.navigate(['/auth/login']);
               this._toastrService.success(res.message);
-            } else {
+            } else if (res.code == 401) {
+              this._toastrService.error(res.message);
+              this._authService.adminLogout();
+              this.router.navigate(['/auth/login']);
+            }  else {
               this._toastrService.error(res.message);
               this.loading = false;
             }

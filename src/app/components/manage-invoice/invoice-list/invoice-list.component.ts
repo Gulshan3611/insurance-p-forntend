@@ -45,9 +45,15 @@ export class InvoiceListComponent implements OnInit {
       searchBy: this.searchForm.search,
     }).subscribe(objS => {
       this.apiCalled = true;
+      if(objS.code != 401) {
         this.invoiceList = objS;
         this.invoiceListLength = objS.total;
         console.log(this.invoiceListLength)
+      } else {
+        this._toastrService.error(objS.message);
+        this._authService.adminLogout();
+        this.router.navigate(['/auth/login']);
+      }
     }, (err) => {
       console.log(err);
     })

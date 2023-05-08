@@ -160,7 +160,11 @@ export class CompanyDetailComponent implements OnInit {
           this._toastrService.success(objS.message);
           this._header.checkFunction(true);
           this.getOfficeDetail()
-        } else {
+        } else if (objS.code == 401) {
+          this._toastrService.error(objS.message);
+          this._authService.adminLogout();
+          this.router.navigate(['/auth/login']);
+        }  else {
           this._toastrService.error(objS.message);
           this.spinner.hide();
         }

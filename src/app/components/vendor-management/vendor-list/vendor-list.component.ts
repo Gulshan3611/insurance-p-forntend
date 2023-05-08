@@ -54,7 +54,7 @@ export class VendorListComponent implements OnInit {
     this.searchForm = event.target.value.trim().replace(/^\s+/, '');
     // console.log("ssssssssssss", this.searchForm);
     this.getVendorLists_f()
-  } 
+  }
 
   getVendorLists_f() {
     this.apiCalled = false;
@@ -64,9 +64,15 @@ export class VendorListComponent implements OnInit {
       searchBy: this.searchForm,
     }).subscribe(objS => {
       this.loading = this.showError = false;
-      this.apiCalled = true;
-      this.vendorList = objS
-      this.vendorListLength = objS.docs;
+      if (objS.code != 401) {
+        this.apiCalled = true;
+        this.vendorList = objS
+        this.vendorListLength = objS.docs;
+      } else {
+        this._toastrService.error(objS.message);
+        this._authService.adminLogout();
+        this.router.navigate(['/auth/login']);
+      }
     }, (err) => {
       // this.loading = this.showError = false;
       console.log('err', err)
@@ -77,9 +83,9 @@ export class VendorListComponent implements OnInit {
     this.page = page ? page : 1;
 
     console.log(this.page)
-    
+
     this.getVendorLists_f()
-  } 
+  }
 
   deleteVendor_f(request: any) {
     Swal.fire({
@@ -105,25 +111,68 @@ export class VendorListComponent implements OnInit {
 
   }
 
-  activateDeactivateVendor_f(request: any, status: string) {
+  // activateDeactivateVendor_f(request: any, status: string) {
 
+  //   const requestData =
+  //   {
+  //     status: status,
+  //     ids: [request.id]
+  //   }
+
+  //   console.log(requestData);
+  //   if (request) {
+  //     console.log(request);
+  //     this._vendorService.activateDeactivateVendors(requestData).subscribe(objS => {
+  //       this.apiCalled = true;
+  //       this.getVendorLists_f()
+  //       this._toastrService.success(objS.message);
+  //     }, (err) => {
+  //       console.log(err);
+  //     })
+  //   }
+  // }
+
+
+  activateDeactivateVendor_f(request: any, status: string) {
     const requestData =
     {
       status: status,
       ids: [request.id]
     }
-
-    console.log(requestData);
-    if (request) {
-      console.log(request);
-      this._vendorService.activateDeactivateVendors(requestData).subscribe(objS => {
-        this.apiCalled = true;
-        this.getVendorLists_f()
-        this._toastrService.success(objS.message);
-      }, (err) => {
-        console.log(err);
-      })
+    var msg = '';
+    if (status == 'deactive') {
+      msg = 'Do you want to deactive this vendor ?';
+    } else {
+      msg = 'Do you want to active this vendor?';
     }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: msg,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      cancelButtonColor: '#E42728',
+      confirmButtonText: 'Yes',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      }
+    }).then((result: any) => {
+      if (result.value) {
+
+        // console.log(requestData);
+        if (request) {
+          console.log(request);
+          this._vendorService.activateDeactivateVendors(requestData).subscribe(objS => {
+            this.apiCalled = true;
+            this.getVendorLists_f()
+            this._toastrService.success(objS.message);
+          }, (err) => {
+            console.log(err);
+          })
+        }
+      }
+    });
   }
 
 }

@@ -46,11 +46,15 @@ export class ViewVendorComponent implements OnInit {
 
   vendorDetails_f(id: any){
     this._vendorService.vendorDetails(this.reviewId).subscribe((res) => {
+      if(res.code != 401) {
       if (res['data']) {
         this.addVendor = res['data'];
-        console.log(res['data']);
-        
-      }
+        console.log(res['data']); 
+      }} else {
+        this.toastr.error(res.message);
+        this.authService.adminLogout();
+        this._router.navigate(['/auth/login']);
+      } 
     }, (err) => {
       console.log('Error while Login', err);
     })  

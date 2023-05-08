@@ -21,20 +21,44 @@ export class AdminService {
 
     // Login
     login(request: any): Observable<any> {
-        return this.http.post(`${this.apiUrl}/auth/login`, request).pipe(map(this.extractData));
+        return this.http.post(`${this.apiUrl}/auth/login`, request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+                console.log('Unauthorized Access');
+            }
+            return throwError(error);
+        })
+        );
     }
     // logOut
     logOut(request: any): Observable<any> {
-        return this.http.post(`${this.apiUrl}/auth/logout`, request).pipe(map(this.extractData));
+        return this.http.post(`${this.apiUrl}/auth/logout`, request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+                console.log('Unauthorized Access');
+            }
+            return throwError(error);
+        })
+        );
     }
     // update user info
     updateUserInfo(id: any,request: any): Observable<any> {
-        return this.http.patch(`${this.apiUrl}/auth/subadmin/profile/`+id, request).pipe(map(this.extractData));
+        return this.http.patch(`${this.apiUrl}/auth/subadmin/profile/`+id, request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+                console.log('Unauthorized Access');
+            }
+            return throwError(error);
+        })
+        );
     }
 
     // forget Password
     forgotPassword(data: any): Observable<any> {
-        return this.http.post(`${this.apiUrl}/auth/forgot-password`, data).pipe(map(this.extractData));
+        return this.http.post(`${this.apiUrl}/auth/forgot-password`, data).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+                console.log('Unauthorized Access');
+            }
+            return throwError(error);
+        })
+        );
     }
     
     // Reset Password
@@ -44,30 +68,66 @@ export class AdminService {
 
     // Change Password
     changePassword(request: any): Observable<any> {
-        return this.http.post(`${this.apiUrl}/auth/change-password`, request).pipe(map(this.extractData));
+        return this.http.post(`${this.apiUrl}/auth/change-password`, request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+                console.log('Unauthorized Access');
+            }
+            return throwError(error);
+        })
+        );
     }
 
     // update Admin
     updateAdmin(request: any): Observable<any> {
-        return this.http.patch(`${this.apiUrl}/admin/auth/editprofile`, request).pipe(map(this.extractData));
+        return this.http.patch(`${this.apiUrl}/admin/auth/editprofile`, request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+                console.log('Unauthorized Access');
+            }
+            return throwError(error);
+        })
+        );
     }
     // update Bank Details
     updateBankDetails(request: any): Observable<any> {
-        return this.http.post(`${this.apiUrl}/bank`, request).pipe(map(this.extractData));
+        return this.http.post(`${this.apiUrl}/bank`, request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+                console.log('Unauthorized Access');
+            }
+            return throwError(error);
+        })
+        );
     }
     // get Bank Details
     getBankDetails(request: any): Observable<any> {
-        return this.http.get(`${this.apiUrl}/bank/`+request ).pipe(map(this.extractData));
+        return this.http.get(`${this.apiUrl}/bank/`+request ).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+                console.log('Unauthorized Access');
+            }
+            return throwError(error);
+        })
+        );
     }
     
     // update Ofiice Details
     getOfiiceDetails(request: any): Observable<any> {
-        return this.http.get(`${this.apiUrl}/company/` + request,).pipe(map(this.extractData));
+        return this.http.get(`${this.apiUrl}/company/` + request,).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+                console.log('Unauthorized Access');
+            }
+            return throwError(error);
+        })
+        );
     }
     
     // update Ofiice Details
     updateOfiiceDetails(request: any): Observable<any> {
-        return this.http.post(`${this.apiUrl}/company`,request).pipe(map(this.extractData));
+        return this.http.post(`${this.apiUrl}/company`,request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+                console.log('Unauthorized Access');
+            }
+            return throwError(error);
+        })
+        );
     }
   
 }

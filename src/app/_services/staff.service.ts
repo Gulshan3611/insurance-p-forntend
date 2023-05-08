@@ -21,29 +21,65 @@ export class StaffService {
 
     // get staf Lists
     getStaffLists(request: any): Observable<any> {
-        return this.http.get(`${this.apiUrl}/auth/subadmin?page=` + request.page + '&limit=' + request.limit + '&searchBy=' + request.searchBy, request).pipe(map(this.extractData));
+        return this.http.get(`${this.apiUrl}/auth/subadmin?page=` + request.page + '&limit=' + request.limit + '&searchBy=' + request.searchBy, request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+                console.log('Unauthorized Access');
+            }
+            return throwError(error);
+        })
+        );
     }
     // active deactive Role 
     activateDeactivateStaff(request: any): Observable<any> {
-        return this.http.post(`${this.apiUrl}/auth/activateDeactivateAdmins`, request).pipe(map(this.extractData));
+        return this.http.post(`${this.apiUrl}/auth/activateDeactivateAdmins`, request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+                console.log('Unauthorized Access');
+            }
+            return throwError(error);
+        })
+        );
     }
     // delete staff 
     deleteStaff(request: any): Observable<any> {
-        return this.http.delete(`${this.apiUrl}/auth/subadmin/` + request).pipe(map(this.extractData));
+        return this.http.delete(`${this.apiUrl}/auth/subadmin/` + request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+                console.log('Unauthorized Access');
+            }
+            return throwError(error);
+        })
+        );
     }
 
     // get staff details
     staffDetails(request: any): Observable<any> {
-        return this.http.get(`${this.apiUrl}/auth/subadmin/` + request).pipe(map(this.extractData));
+        return this.http.get(`${this.apiUrl}/auth/subadmin/` + request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+                console.log('Unauthorized Access');
+            }
+            return throwError(error);
+        })
+        );
     }
 
     // add staff 
     addNewStaff(request: any): Observable<any> {
-        return this.http.post(`${this.apiUrl}/auth/subadmin`, request).pipe(map(this.extractData));
+        return this.http.post(`${this.apiUrl}/auth/subadmin`, request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+                console.log('Unauthorized Access');
+            }
+            return throwError(error);
+        })
+        );
     }
 
     // update staff details
     updateStaffDetails(request: any, id: any): Observable<any> {
-        return this.http.patch(`${this.apiUrl}/auth/subadmin/` +id, request).pipe(map(this.extractData));
+        return this.http.patch(`${this.apiUrl}/auth/subadmin/` +id, request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+                console.log('Unauthorized Access');
+            }
+            return throwError(error);
+        })
+        );
     }
 }

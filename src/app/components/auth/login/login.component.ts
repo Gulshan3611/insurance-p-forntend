@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     if (this._authService.isLoggedInAdmin()) {
       // navigate to dashboard
-      this._router.navigate(['/setting']);
+      this._router.navigate(['/role-management/list']);
     }
   } 
 
@@ -95,7 +95,7 @@ export class LoginComponent implements OnInit {
               }
             }
           } else {
-            return true;
+            this._router.navigate(['/role-management/list']);
           }
         }
         this.spinner.hide()

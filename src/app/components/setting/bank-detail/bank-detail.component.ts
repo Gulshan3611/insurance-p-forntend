@@ -50,7 +50,11 @@ export class BankDetailComponent implements OnInit {
       this.loading = this.showError = false;
       if (objS.code == 200) {
         this.bank = objS.data
-      } else {
+      } else if (objS.code == 401) {
+        this._toastrService.error(objS.message);
+        this._authService.adminLogout();
+        this.router.navigate(['/auth/login']);
+      }  else {
         this._toastrService.error(objS.message);
       }
     }, (err) => {
@@ -80,7 +84,11 @@ export class BankDetailComponent implements OnInit {
           this._toastrService.success("Bank Details Successfully Updated");
           this._header.checkFunction(true);
           this.getBankDetail();
-        } else {
+        } else if (objS.code == 401) {
+          this._toastrService.error(objS.message);
+          this._authService.adminLogout();
+          this.router.navigate(['/auth/login']);
+        }  else {
           this._toastrService.error(objS.message);
           this.spinner.hide();
         }

@@ -50,7 +50,7 @@ export class EditStaffComponent implements OnInit {
     // this.getRolesListFromApi();
     if (this.activatedRoute.snapshot.params['id']) {
       this.reviewId = this.activatedRoute.snapshot.params['id'];
-      this.staffDetails_f(this.reviewId);      
+      this.staffDetails_f(this.reviewId);
     }
     this.getRoleLists_f()
   }
@@ -141,11 +141,15 @@ export class EditStaffComponent implements OnInit {
       this.requestData.state = this.staffForm.state;
       this.requestData.zipcode = this.staffForm.zipcode;
       this._staffService
-        .updateStaffDetails(this.requestData,this.reviewId).subscribe(objS => {
+        .updateStaffDetails(this.requestData, this.reviewId).subscribe(objS => {
           if (objS.code == 200) {
             this.loading = false;
             this.toastr.success(objS.message)
             this._router.navigate(['/staff-management/list']);
+          } else if (objS.code == 401) {
+            this.toastr.error(objS.message);
+            this._authService.adminLogout();
+            this._router.navigate(['/auth/login']);
           } else {
             this.loading = false;
             this.toastr.error(objS.message)
@@ -156,7 +160,7 @@ export class EditStaffComponent implements OnInit {
     }
   }
 
-  getRoleLists_f(){
+  getRoleLists_f() {
     this.apiCalled = false;
     this._roleService.getRoleLists({
       page: this.page,
@@ -168,8 +172,12 @@ export class EditStaffComponent implements OnInit {
       if (objS.code == 200) {
         this.apiCalled = true;
         this.roleList = objS.data
-        console.log("this.roleList",this.roleList);
-        
+        console.log("this.roleList", this.roleList);
+
+      } else if (objS.code == 401) {
+        this.toastr.error(objS.message);
+        this._authService.adminLogout();
+        this._router.navigate(['/auth/login']);
       } else {
         this.toastr.error(objS.message);
       }
@@ -179,15 +187,21 @@ export class EditStaffComponent implements OnInit {
     });
   }
 
-  staffDetails_f(id: any){
+  staffDetails_f(id: any) {
     this._staffService.staffDetails(this.reviewId).subscribe((res) => {
-      if (res['data']) {
-        this.staffForm = res['data'];
-        console.log(this.staffForm); 
+      if (res.code != 401) {
+        if (res['data']) {
+          this.staffForm = res['data'];
+          console.log(this.staffForm);
+        }
+      } else if (res.code == 401) {
+        this.toastr.error(res.message);
+        this._authService.adminLogout();
+        this._router.navigate(['/auth/login']);
       }
     }, (err) => {
       console.log('Error while Login', err);
-    })  
+    })
   }
 
 }

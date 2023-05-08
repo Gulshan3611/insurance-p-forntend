@@ -114,6 +114,8 @@ export class AddStaffComponent implements OnInit {
   //       console.log(err);
   //     })
   // }
+
+
   onSubmit(valid: any): void {
     this.showError = true;
     this.submitted = true;
@@ -127,6 +129,10 @@ export class AddStaffComponent implements OnInit {
             this.loading = false;
             this.toastr.success(objS.message)
             this._router.navigate(['/staff-management/list']);
+          } else if (objS.code == 401) {
+            this.toastr.error(objS.message);
+            this._authService.adminLogout();
+            this._router.navigate(['/auth/login']);
           } else {
             this.loading = false;
             this.toastr.error(objS.message)
@@ -139,7 +145,7 @@ export class AddStaffComponent implements OnInit {
     }
   }
 
-  getRoleLists_f(){
+  getRoleLists_f() {
     this.apiCalled = false;
     this._roleService.getRoleLists({
       page: this.page,
@@ -151,9 +157,12 @@ export class AddStaffComponent implements OnInit {
       if (objS.code == 200) {
         this.apiCalled = true;
         this.roleList = objS.data
-        console.log("this.roleList",this.roleList);
-        
-      } else {
+        console.log("this.roleList", this.roleList); 
+      } else if (objS.code == 401) {
+        this.toastr.error(objS.message);
+        this._authService.adminLogout();
+        this._router.navigate(['/auth/login']);
+      }  else {
         this.toastr.error(objS.message);
       }
     }, (err) => {

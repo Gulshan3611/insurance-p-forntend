@@ -31,8 +31,8 @@
                                     <td> Feb 1, 2023</td>
                                     <td> 50% </td>
                                     <td>
-                                        <label class="badge badge-success">Active</label>
-                                        <!-- <label *ngIf="item?.status==0" class="badge badge-danger">Inactive</label> -->
+                                        <label *ngIf="item?.status==1" class="badge badge-success">Active</label>
+                                        <label *ngIf="item?.status==0" class="badge badge-danger">Inactive</label>
                                     </td>
                                     <td class="overflow-hidden">
                                         <div container="body" ngbDropdown class="d-inline-block">

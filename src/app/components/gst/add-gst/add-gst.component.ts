@@ -25,9 +25,9 @@ export class AddGstComponent implements OnInit {
     private _toastrService: ToastrService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private _gstService :GstService,
+    private _gstService: GstService,
     private spinner: NgxSpinnerService,
-    private _authService:AuthService
+    private _authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -39,11 +39,11 @@ export class AddGstComponent implements OnInit {
 
   onSubmit(valid: any): void {
     this.showError = true;
-    this.submitted = true; 
+    this.submitted = true;
 
     if (valid) {
       console.log(this.gstForm)
-      if(this.gstForm.gst > 101 ) {
+      if (this.gstForm.gst > 101) {
         this._toastrService.error('The percentage must be between 0 and 100');
         return;
       }
@@ -57,8 +57,15 @@ export class AddGstComponent implements OnInit {
           // this.spinner.hide();
           this._toastrService.success(objS.message);
           this.router.navigate(['/gst/list']);
-        }
-        else {
+        } else if (objS.code == 401) {
+          this._toastrService.error(objS.message);
+          this._authService.adminLogout();
+          this.router.navigate(['/auth/login']);
+        } else if (objS.code == 401) {
+          this._toastrService.error(objS.message);
+          this._authService.adminLogout();
+          this.router.navigate(['/auth/login']);
+        } else {
           this._toastrService.error(objS.message);
           this.loading = false;
           // this.spinner.hide();
@@ -66,7 +73,4 @@ export class AddGstComponent implements OnInit {
       })
     }
   }
-
-  
-
 }

@@ -21,7 +21,7 @@ export class EditRoleComponent implements OnInit {
   apiCalled: boolean = false;
   roleForm: any = {};
   reviewId: any = '';
-  
+
   resource: any = [
     {
       moduleName: "Role And Permission",
@@ -135,6 +135,10 @@ export class EditRoleComponent implements OnInit {
           this.router.navigate(['/role-management/list']);
           this.loading = false;
           this.roleDetails_f(this.reviewId);
+        } else if (objS.code == 401) {
+          this._toastrService.error(objS.message);
+          this._authService.adminLogout();
+          this.router.navigate(['/auth/login']);
         } else {
           this._toastrService.error(objS.message);
           this.loading = false;
@@ -164,21 +168,27 @@ export class EditRoleComponent implements OnInit {
   }
   roleDetails_f(id: any) {
     this._roleService.roleDetails(this.reviewId).subscribe((res) => {
-      if (res['data']) {
-        this.roleForm = res['data'];
-        this.resource = res['data'].resource.map(item => ({
-          moduleName: item.moduleName,
-          moduleId: item.moduleId,
-          selectedAll: item.permissions.includes("selectedAll"),
-          list: item.permissions.includes("list"),
-          add: item.permissions.includes("add"),
-          edit: item.permissions.includes("edit"),
-          view: item.permissions.includes("view"),
-          delete: item.permissions.includes("delete")
-        }));
-        console.log("get",this.resource);
-        // console.log("5555",res['data']);
+      if (res.code != 401) {
+        if (res['data']) {
+          this.roleForm = res['data'];
+          this.resource = res['data'].resource.map(item => ({
+            moduleName: item.moduleName,
+            moduleId: item.moduleId,
+            selectedAll: item.permissions.includes("selectedAll"),
+            list: item.permissions.includes("list"),
+            add: item.permissions.includes("add"),
+            edit: item.permissions.includes("edit"),
+            view: item.permissions.includes("view"),
+            delete: item.permissions.includes("delete")
+          }));
+          console.log("get", this.resource);
+          // console.log("5555",res['data']);
 
+        }
+      } else {
+        this._toastrService.error(res.message);
+        this._authService.adminLogout();
+        this.router.navigate(['/auth/login']);
       }
     }, (err) => {
       console.log('Error while Login', err);

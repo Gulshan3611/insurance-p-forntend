@@ -68,6 +68,10 @@ export class RoleListComponent implements OnInit {
         this.apiCalled = true;
         this.roleList = objS.data
         this.roleListLength = objS.data.docs;
+      } else if(objS.code == 401) {
+        this._toastrService.error(objS.message);
+        this._authService.adminLogout();
+        this.router.navigate(['/auth/login']);
       } else {
         this._toastrService.error(objS.message);
       }
@@ -96,8 +100,14 @@ export class RoleListComponent implements OnInit {
         console.log(request.id);
         this._roleService.deleteRole(request.id).subscribe(objS => {
           this.apiCalled = true;
+          if(objS.code != 401) {
           this.getRoleLists_f()
           this._toastrService.success(objS.message);
+        } else {
+          this._toastrService.error(objS.message);
+          this._authService.adminLogout();
+          this.router.navigate(['/auth/login']);
+        }
         }, (err) => {
           console.log(err);
         })
@@ -112,17 +122,46 @@ export class RoleListComponent implements OnInit {
       status: status,
       ids: [request.id]
     }
-
-    console.log(requestData);
-    if (request) {
-      console.log(request);
-      this._roleService.activateDeactivateRoles(requestData).subscribe(objS => {
-        this.apiCalled = true;
-        this.getRoleLists_f()
-        this._toastrService.success(objS.message);
-      }, (err) => {
-        console.log(err);
-      })
+    var msg = '';
+    if (status == 'deactive') {
+      msg = 'Do you want to deactive this role ?';
+    } else {
+      msg = 'Do you want to active this awards?';
     }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: msg,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      cancelButtonColor: '#E42728',
+      confirmButtonText: 'Yes',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      }
+    }).then((result: any) => {
+      if (result.value) {
+
+        // console.log(requestData);
+        if (request) {
+          console.log(request);
+          this._roleService.activateDeactivateRoles(requestData).subscribe(objS => {
+            this.apiCalled = true;
+            if(objS.code != 401) {
+            this.getRoleLists_f()
+            this._toastrService.success(objS.message);
+          } else {
+            this._toastrService.error(objS.message);
+            this._authService.adminLogout();
+            this.router.navigate(['/auth/login']);
+          }
+          }, (err) => {
+            console.log(err);
+          })
+        }
+      }
+    });
   }
+
 }

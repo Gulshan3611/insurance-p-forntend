@@ -96,7 +96,11 @@ export class ProfileComponent implements OnInit {
           this.router.navigate(['/setting/profile']);
           this._toastrService.success(objS.message);
           this._header.checkFunction(true);
-        } else {
+        } else if (objS.code == 401) {
+          this._toastrService.error(objS.message);
+          this._authService.adminLogout();
+          this.router.navigate(['/auth/login']);
+        }  else {
           this._toastrService.error(objS.message);
           this.spinner.hide();
         }

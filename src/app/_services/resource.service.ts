@@ -20,28 +20,64 @@ export class ResourceService {
     }
     // get Resource Lists
     getResourceLists(request: any): Observable<any> {
-        return this.http.get(`${this.apiUrl}/resource?page=` + request.page + '&limit=' + request.limit + '&searchBy=' + request.searchBy,request).pipe(map(this.extractData));
+        return this.http.get(`${this.apiUrl}/resource?page=` + request.page + '&limit=' + request.limit + '&searchBy=' + request.searchBy, request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+                console.log('Unauthorized Access');
+            }
+            return throwError(error);
+        })
+        );
     }
     // get Resource details
     resourceDetails(request: any): Observable<any> {
-        return this.http.get(`${this.apiUrl}/resource/` + request).pipe(map(this.extractData));
+        return this.http.get(`${this.apiUrl}/resource/` + request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+                console.log('Unauthorized Access');
+            }
+            return throwError(error);
+        })
+        );
     }
-    
+
     // update Resource details
     updateResourceDetails(request: any, id: any): Observable<any> {
-        return this.http.patch(`${this.apiUrl}/resource/` +id, request).pipe(map(this.extractData));
+        return this.http.patch(`${this.apiUrl}/resource/` + id, request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+                console.log('Unauthorized Access');
+            }
+            return throwError(error);
+        })
+        );
     }
     // add Resource 
     addResource(request: any): Observable<any> {
-        return this.http.post(`${this.apiUrl}/resource`, request).pipe(map(this.extractData));
+        return this.http.post(`${this.apiUrl}/resource`, request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+                console.log('Unauthorized Access');
+            }
+            return throwError(error);
+        })
+        );
     }
     // delete Resource 
     deleteResource(request: any): Observable<any> {
-        return this.http.delete(`${this.apiUrl}/resource/`+request).pipe(map(this.extractData));
+        return this.http.delete(`${this.apiUrl}/resource/` + request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+                console.log('Unauthorized Access');
+            }
+            return throwError(error);
+        })
+        );
     }
     // active deactive Resource 
     activateDeactivateResources(request: any): Observable<any> {
-        return this.http.post(`${this.apiUrl}/resource/activateDeactivateResources`,request).pipe(map(this.extractData));
+        return this.http.post(`${this.apiUrl}/resource/activateDeactivateResources`, request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+                console.log('Unauthorized Access');
+            }
+            return throwError(error);
+        })
+        );
     }
 
 }

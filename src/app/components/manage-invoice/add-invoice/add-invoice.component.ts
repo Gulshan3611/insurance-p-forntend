@@ -102,13 +102,19 @@ export class AddInvoiceComponent implements OnInit {
     this.projectListApi(event)
   }
 
-  projectListApi(id){
+  projectListApi(id) {
     this.apiCalled = false;
     this._invoiceService.getProjectLists({
       vendorId: id,
     }).subscribe(objS => {
       this.apiCalled = true;
-      this.projectList = objS;
+      if (objS.code != 401) {
+        this.projectList = objS;
+      } else {
+        this._toastrService.error(objS.message);
+        this._authService.adminLogout();
+        this._router.navigate(['/auth/login']);
+      }
       // console.log(this.projectList)
     }, (err) => {
       console.log(err);
@@ -157,18 +163,18 @@ export class AddInvoiceComponent implements OnInit {
   }
 
   calTotalAmount(event) {
-    if(event === 1) {
+    if (event === 1) {
       this.totalAmount = 0
       for (let i = 0; i < this.projectData.fixed.length; i++) {
         this.totalAmount = this.totalAmount + this.projectData.fixed[i].milestoneAmount;
         this.proAmount = this.totalAmount
-      } 
+      }
       this.addInvoice.total_payable_amount = this.totalAmount;
     } else {
       this.totalAmount = 0
       for (let i = 0; i < this.addMilestone.length; i++) {
         this.totalAmount = this.totalAmount + this.addMilestone[i].milestoneAmount;
-      } 
+      }
       this.addInvoice.total_payable_amount = this.totalAmount;
     }
   }
@@ -179,7 +185,7 @@ export class AddInvoiceComponent implements OnInit {
     });
     this.fixedMilestone = newArray
   }
-  
+
   add() {
     this.addMilestone.push({
       milestoneName: "",
@@ -225,42 +231,42 @@ export class AddInvoiceComponent implements OnInit {
     this.addInvoice.invoiceDueDate = moment.parseZone(event).add(15, 'days').format("MM-DD-YYYY");
   }
 
-  selectcgst(event){
+  selectcgst(event) {
     this.cgstPer = event.target.value;
     this.percentage = (Number(this.icgstPer) + Number(this.cgstPer) + Number(this.sgstPer))
-    if(this.totalAmount !== 0) {
-      var percentage = (this.percentage*this.totalAmount)/100;
-      this.addInvoice.total_payable_amount =  this.totalAmount - percentage;
+    if (this.totalAmount !== 0) {
+      var percentage = (this.percentage * this.totalAmount) / 100;
+      this.addInvoice.total_payable_amount = this.totalAmount - percentage;
       console.log(percentage)
     } else {
       this.addInvoice.total_payable_amount = 0;
     }
   }
-  
-  selectIcgst(event){
+
+  selectIcgst(event) {
     this.icgstPer = event.target.value;
     this.percentage = (Number(this.icgstPer) + Number(this.cgstPer) + Number(this.sgstPer))
-    if(this.totalAmount !== 0) {
-      var percentage = (this.percentage*this.totalAmount)/100;
-      this.addInvoice.total_payable_amount =  this.totalAmount - percentage;
-    } else {
-      this.addInvoice.total_payable_amount = 0;
-    }
-  }
-  
-  selectSgst(event){
-    this.sgstPer = event.target.value;
-    this.percentage = (Number(this.icgstPer) + Number(this.cgstPer) + Number(this.sgstPer))
-    if(this.totalAmount !== 0) {
-      var percentage = (this.percentage*this.totalAmount)/100;
-      this.addInvoice.total_payable_amount =  this.totalAmount - percentage;
+    if (this.totalAmount !== 0) {
+      var percentage = (this.percentage * this.totalAmount) / 100;
+      this.addInvoice.total_payable_amount = this.totalAmount - percentage;
     } else {
       this.addInvoice.total_payable_amount = 0;
     }
   }
 
-  updatemilestonePer(i,item) {
-    var percentage = (item.projectPercentage*this.proAmount)/100;
+  selectSgst(event) {
+    this.sgstPer = event.target.value;
+    this.percentage = (Number(this.icgstPer) + Number(this.cgstPer) + Number(this.sgstPer))
+    if (this.totalAmount !== 0) {
+      var percentage = (this.percentage * this.totalAmount) / 100;
+      this.addInvoice.total_payable_amount = this.totalAmount - percentage;
+    } else {
+      this.addInvoice.total_payable_amount = 0;
+    }
+  }
+
+  updatemilestonePer(i, item) {
+    var percentage = (item.projectPercentage * this.proAmount) / 100;
     this.addMilestone[i].milestoneAmount = percentage
 
     this.calTotalAmount(2);
@@ -272,13 +278,13 @@ export class AddInvoiceComponent implements OnInit {
     this.submitted = true;
     // console.log('checking---', valid, this.resource)
     if (valid) {
-      this.loading = true; 
- 
+      this.loading = true;
+
       // console.log('--------------ssssssss',this.addInvoice)
 
       let data = {
         vendorId: this.addInvoice.clientName,
-        projectId:  this.addInvoice.projectId,
+        projectId: this.addInvoice.projectId,
         invoiceNumber: this.addInvoice.InvoiceNumber,
         invoiceDate: this.addInvoice.invoiceDate,
         invoiceDueDate: this.addInvoice.invoiceDueDate,

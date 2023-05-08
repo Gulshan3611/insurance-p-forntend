@@ -61,6 +61,10 @@ export class EditVendorComponent implements OnInit {
             this.loading = false;
             this.toastr.success(objS.message)
             this._router.navigate(['/vendor-management/list']);
+          } else if (objS.code == 401) {
+            this.toastr.error(objS.message);
+            this._authService.adminLogout();
+            this._router.navigate(['/auth/login']);
           } else {
             this.loading = false;
             this.toastr.error(objS.message)
@@ -73,14 +77,20 @@ export class EditVendorComponent implements OnInit {
 
   vendorDetails_f(id: any) {
     this._vendorService.vendorDetails(this.reviewId).subscribe((res) => {
-      if (res['data']) {
-        this.addVendor = res['data'];
-        // console.log(this.addVendor); 
-        if (this.addVendor.vendorType == 0) {
-          this.selectedVendor = '0';
-        } else {
-          this.selectedVendor = '1';
+      if (res.code != 401) {
+        if (res['data']) {
+          this.addVendor = res['data'];
+          // console.log(this.addVendor); 
+          if (this.addVendor.vendorType == 0) {
+            this.selectedVendor = '0';
+          } else {
+            this.selectedVendor = '1';
+          }
         }
+      } else {
+        this.toastr.error(res.message);
+        this._authService.adminLogout();
+        this._router.navigate(['/auth/login']);
       }
     }, (err) => {
       console.log('Error while Login', err);

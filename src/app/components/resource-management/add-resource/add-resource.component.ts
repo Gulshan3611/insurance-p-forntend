@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RoleService, AuthService ,ProjectService,ResourceService} from '../../../_services';
+import { RoleService, AuthService, ProjectService, ResourceService } from '../../../_services';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
@@ -17,7 +17,7 @@ export class AddResourceComponent implements OnInit {
   showError: boolean = false;
   apiCalled: boolean = false;
   submitted = false;
-  addResource: any = {gender: ''}; 
+  addResource: any = { gender: '' };
   selectedResource: any = '';
   selectedCurrency: any = '';
 
@@ -25,16 +25,16 @@ export class AddResourceComponent implements OnInit {
     private _projectService: ProjectService,
     private _toastrService: ToastrService,
     private _router: Router,
-    private _resourceService:ResourceService,
+    private _resourceService: ResourceService,
     private activatedRoute: ActivatedRoute,
-    private _authService: AuthService,  
+    private _authService: AuthService,
     private spinner: NgxSpinnerService
 
   ) { }
-  
+
 
   ngOnInit(): void {
-     
+
   }
 
   checkpermission(value: any, type: any) {
@@ -58,7 +58,7 @@ export class AddResourceComponent implements OnInit {
     }
     var reader = new FileReader();
     reader.readAsDataURL(files[0]);
-    reader.onload = (_event) => {      
+    reader.onload = (_event) => {
       this.addResource.profilePhoto = reader.result;
     }
 
@@ -70,7 +70,7 @@ export class AddResourceComponent implements OnInit {
   selectCurrency(event: any) {
     this.selectedCurrency = event;
   }
-   
+
   onSubmit(valid: any): void {
     this.showError = true;
     this.submitted = true;
@@ -80,14 +80,19 @@ export class AddResourceComponent implements OnInit {
       // console.log("hhhhhhhhhh",this.addResource)
       this._resourceService.addResource(this.addResource).subscribe(objS => {
         console.log('print response====', objS)
-        this.loading = this.showError = false;89
+        this.loading = this.showError = false; 89
         if (objS.code == 200) {
           // this._authService.setDataAdmin(objS.data);
           this.spinner.hide();
           this._toastrService.success(objS.message);
           // this._header.checkFunction(true);
           this._router.navigate(['/resource-management/list']);
-        } else {
+        } else if (objS.code == 401) {
+          this._toastrService.error(objS.message);
+          this._authService.adminLogout();
+          this._router.navigate(['/auth/login']);
+        }
+        else {
           this._toastrService.error(objS.message);
           this.spinner.hide();
         }

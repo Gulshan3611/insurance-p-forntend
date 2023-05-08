@@ -57,6 +57,7 @@ export class StaffListComponent implements OnInit {
     console.log("ssssssssssss", this.searchForm);
     this.getStaffLists_f()
   }
+
   getStaffLists_f() {
     this.apiCalled = false;
     this._staffService.getStaffLists({
@@ -70,6 +71,14 @@ export class StaffListComponent implements OnInit {
         this.staffList = objS.data
         console.log('print response====', this.staffList)
         this.staffListLength = objS.data.docs;
+      } else if (objS.code == 401) {
+        this._toastrService.error(objS.message);
+        this._authService.adminLogout();
+        this.router.navigate(['/auth/login']);
+      } else if (objS.code == 401) {
+        this._toastrService.error(objS.message);
+        this._authService.adminLogout();
+        this.router.navigate(['/auth/login']);
       } else {
         this._toastrService.error(objS.message);
       }
@@ -97,8 +106,14 @@ export class StaffListComponent implements OnInit {
         console.log(request.id);
         this._staffService.deleteStaff(request.id).subscribe(objS => {
           this.apiCalled = true;
-          this.getStaffLists_f()
-          this._toastrService.success(objS.message);
+          if (objS.code != 401) {
+            this.getStaffLists_f()
+            this._toastrService.success(objS.message);
+          } else {
+            this._toastrService.error(objS.message);
+            this._authService.adminLogout();
+            this.router.navigate(['/auth/login']);
+          }
         }, (err) => {
           console.log(err);
         })
@@ -106,23 +121,72 @@ export class StaffListComponent implements OnInit {
     })
 
   }
-  activateDeactivatestaff_f(request: any, status: string) {
+  // activateDeactivatestaff_f(request: any, status: string) {
 
+  //   const requestData =
+  //   {
+  //     status: status,
+  //     ids: [request.id]
+  //   }
+  //   if (request) {
+  //     console.log(request);
+  //     this._staffService.activateDeactivateStaff(requestData).subscribe(objS => {
+  //       this.apiCalled = true;
+  //       this.getStaffLists_f()
+  //       this._toastrService.success(objS.message);
+  //     }, (err) => {
+  //       console.log(err);
+  //     })
+  //   }
+  // }
+
+
+  activateDeactivatestaff_f(request: any, status: string) {
     const requestData =
     {
       status: status,
       ids: [request.id]
     }
-    if (request) {
-      console.log(request);
-      this._staffService.activateDeactivateStaff(requestData).subscribe(objS => {
-        this.apiCalled = true;
-        this.getStaffLists_f()
-        this._toastrService.success(objS.message);
-      }, (err) => {
-        console.log(err);
-      })
+    var msg = '';
+    if (status == 'deactive') {
+      msg = 'Do you want to deactive this member ?';
+    } else {
+      msg = 'Do you want to active this member?';
     }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: msg,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      cancelButtonColor: '#E42728',
+      confirmButtonText: 'Yes',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      }
+    }).then((result: any) => {
+      if (result.value) {
+
+        // console.log(requestData);
+        if (request) {
+          console.log(request);
+          this._staffService.activateDeactivateStaff(requestData).subscribe(objS => {
+            this.apiCalled = true;
+            if(objS.code != 401) {
+            this.getStaffLists_f()
+            this._toastrService.success(objS.message);
+          } else {
+            this._toastrService.error(objS.message);
+            this._authService.adminLogout();
+            this.router.navigate(['/auth/login']);
+          } 
+          }, (err) => {
+            console.log(err);
+          })
+        }
+      }
+    });
   }
 
 }

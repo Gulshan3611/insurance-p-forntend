@@ -86,10 +86,16 @@ export class EditResourceComponent implements OnInit {
     return this._authService.checkAccess(value, type)
   }
 
-  getResourceDetailFromApi(id: any){
+  getResourceDetailFromApi(id: any) {
     this._resourceService.resourceDetails(this.resourceId).subscribe((res) => {
-      if (res['data']) {
-        this.addResource = res['data'];
+      if (res.code != 401) {
+        if (res['data']) {
+          this.addResource = res['data'];
+        }
+      } else {
+        this._toastrService.error(res.message);
+        this._authService.adminLogout();
+        this.router.navigate(['/auth/login']);
       }
     }, (err) => {
       console.log('Error while Login', err);
@@ -127,7 +133,7 @@ export class EditResourceComponent implements OnInit {
     if (valid) {
       this.loading = true;
       this.spinner.show();
-      
+
       this._resourceService.updateResourceDetails(this.addResource, this.resourceId).subscribe(objS => {
         this.loading = this.showError = false;
         if (objS.code == 200) {
@@ -136,6 +142,10 @@ export class EditResourceComponent implements OnInit {
           this.router.navigate(['/resource-management/list']);
           this.loading = false;
           this.getResourceDetailFromApi(this.resourceId);
+        } else if (objS.code == 401) {
+          this._toastrService.error(objS.message);
+          this._authService.adminLogout();
+          this.router.navigate(['/auth/login']);
         } else {
           this._toastrService.error(objS.message);
           this.loading = false;

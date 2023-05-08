@@ -65,9 +65,15 @@ export class ResourceListComponent implements OnInit {
     }).subscribe(objS => {
       this.loading = this.showError = false;
       this.apiCalled = true;
-      this.resourceList = objS.docs
-      this.resourceListLength = objS.total;
-      console.log('print response====', this.resourceListLength)
+      if (objS.code != 4011) {
+        this.resourceList = objS.docs
+        this.resourceListLength = objS.total;
+        console.log('print response====', this.resourceListLength)
+      } else {
+        this._toastrService.error(objS.message);
+        this._authService.adminLogout();
+        this.router.navigate(['/auth/login']);
+      }
     }, (err) => {
       this.loading = this.showError = false;
       console.log('err', err)
@@ -93,8 +99,14 @@ export class ResourceListComponent implements OnInit {
         console.log(request.id);
         this._resourceService.deleteResource(request.id).subscribe(objS => {
           this.apiCalled = true;
-          this.getResourceLists_f()          
+          if(objS.code != 401) {
+          this.getResourceLists_f()
           this._toastrService.success("Resource member deleted successfully");
+        } else {
+          this._toastrService.error(objS.message);
+          this._authService.adminLogout();
+          this.router.navigate(['/auth/login']);
+        }
         }, (err) => {
           console.log(err);
         })
@@ -103,26 +115,72 @@ export class ResourceListComponent implements OnInit {
 
   }
 
+  // activateDeactivateResources_f(request: any, status: string) {
+  //   const requestData =
+  //   {
+  //     status: status,
+  //     ids: [request.id]
+  //   }
+
+  //   console.log(requestData);
+  //   if (request) {
+  //     console.log(request);
+  //     this._resourceService.activateDeactivateResources(requestData).subscribe(objS => {
+  //       this.apiCalled = true;
+  //       this.getResourceLists_f()
+  //       this._toastrService.success(objS.message);
+  //     }, (err) => {
+  //       console.log(err);
+  //     })
+  //   }
+  // }
+
   activateDeactivateResources_f(request: any, status: string) {
     const requestData =
     {
       status: status,
       ids: [request.id]
     }
-
-    console.log(requestData);
-    if (request) {
-      console.log(request);
-      this._resourceService.activateDeactivateResources(requestData).subscribe(objS => {
-        this.apiCalled = true;
-        this.getResourceLists_f()
-        this._toastrService.success(objS.message);
-      }, (err) => {
-        console.log(err);
-      })
+    var msg = '';
+    if (status == 'deactive') {
+      msg = 'Do you want to deactive this resource ?';
+    } else {
+      msg = 'Do you want to active this resource?';
     }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: msg,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7367F0',
+      cancelButtonColor: '#E42728',
+      confirmButtonText: 'Yes',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      }
+    }).then((result: any) => {
+      if (result.value) {
+
+        // console.log(requestData);
+        if (request) {
+          console.log(request);
+          this._resourceService.activateDeactivateResources(requestData).subscribe(objS => {
+            this.apiCalled = true;
+            if(objS.code != 401) {
+            this.getResourceLists_f()
+            this._toastrService.success(objS.message);
+          } else {
+            this._toastrService.error(objS.message);
+            this._authService.adminLogout();
+            this.router.navigate(['/auth/login']);
+          }
+          }, (err) => {
+            console.log(err);
+          })
+        }
+      }
+    });
   }
-
-
 
 }
