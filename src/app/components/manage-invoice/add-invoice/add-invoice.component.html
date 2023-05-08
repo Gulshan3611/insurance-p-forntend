@@ -11,10 +11,12 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Client Name</label>
-                                            <ng-select name="clientName" [(ngModel)]="addInvoice.clientName" (change)="getProject($event)"
-                                                #clientName="ngModel" placeholder="Select Vendor" required>
-                                                <ng-container *ngFor="let item of venderList?.docs" >
-                                                    <ng-option value="{{item?.id}}" *ngIf="item?.status == 1"> {{item?.name}} </ng-option>
+                                            <ng-select name="clientName" [(ngModel)]="addInvoice.clientName"
+                                                (change)="getProject($event)" #clientName="ngModel"
+                                                placeholder="Select Vendor" required>
+                                                <ng-container *ngFor="let item of venderList?.docs">
+                                                    <ng-option value="{{item?.id}}" *ngIf="item?.status == 1">
+                                                        {{item?.name}} </ng-option>
                                                 </ng-container>
                                             </ng-select>
 
@@ -31,9 +33,10 @@
                                         <div class="form-group">
                                             <label>Project Name</label>
                                             <ng-select name="projectId" [(ngModel)]="addInvoice.projectId"
-                                                #projectId="ngModel" placeholder="Select Project" (change)="projectDetail($event)" required>
+                                                #projectId="ngModel" placeholder="Select Project"
+                                                (change)="projectDetail($event)" required>
                                                 <ng-container *ngFor="let item of projectList?.docs">
-                                                    <ng-option value="{{item?.id}}" > {{item?.projectName}} </ng-option>
+                                                    <ng-option value="{{item?.id}}"> {{item?.projectName}} </ng-option>
                                                 </ng-container>
                                             </ng-select>
 
@@ -58,9 +61,16 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label> Invoice Date</label>
-                                            <ng2-flatpickr [config]="invoiceDate" name="invoiceDate" (change)="selectedDates($event)"
-                                                [(ngModel)]="addInvoice.invoiceDate" #invoiceDate="ngModel" placeholder="{{invoiceDateData}}" required>
-                                            </ng2-flatpickr>
+                                            <input type="text" [ngModelOptions]="{ standalone: true }" 
+                                            (ngModelChange)="selectedDates($event)" bsDatepicker class="form-control bsDatepicker" 
+                                            name="invoiceDate"  [(ngModel)]="addInvoice.invoiceDate" 
+                                            #invoiceDate="ngModel" readonly required/>
+
+
+                                            <!-- <ng2-flatpickr [config]="invoiceDate" name="invoiceDate"
+                                                (change)="selectedDates($event)" [(ngModel)]="addInvoice.invoiceDate"
+                                                #invoiceDate="ngModel" placeholder="{{invoiceDateData}}" required>
+                                            </ng2-flatpickr> -->
                                             <span class="form-text text-danger small"
                                                 *ngIf="invoiceDate.invalid && showError">
                                                 <span class="form-text text-danger small"
@@ -73,10 +83,12 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label> Invoice Due Date</label>
-                                            <ng2-flatpickr [config]="invoiceDueDate" name="invoiceDueDate"
-                                                [(ngModel)]="addInvoice.invoiceDueDate" placeholder="{{dueDateData}}" #invoiceDueDate="ngModel"
-                                                required>
-                                            </ng2-flatpickr>
+                                            <input type="text" bsDatepicker class="form-control bsDatepicker" name="invoiceDueDate" 
+                                            [(ngModel)]="addInvoice.invoiceDueDate" #invoiceDueDate="ngModel"  readonly required/>
+                                            <!-- <ng2-flatpickr [config]="invoiceDueDate" name="invoiceDueDate"
+                                                [(ngModel)]="addInvoice.invoiceDueDate" placeholder="{{dueDateData}}"
+                                                #invoiceDueDate="ngModel" required>
+                                            </ng2-flatpickr> -->
                                             <span class="form-text text-danger small"
                                                 *ngIf="invoiceDueDate.invalid && showError">
                                                 <span class="form-text text-danger small"
@@ -94,7 +106,8 @@
                                                 <ng-container>
                                                     <ng-option value="hourly"> Hourly </ng-option>
                                                     <ng-option value="projectOnMonthly"> Project on Monthly </ng-option>
-                                                    <ng-option value="resourceOnMonthly"> Resource on Monthly</ng-option>
+                                                    <ng-option value="resourceOnMonthly"> Resource on Monthly
+                                                    </ng-option>
                                                     <!-- <ng-option value="resourceOnHourly"> Resource on Hourly</ng-option> -->
                                                     <ng-option value="FIXED"> Fixed </ng-option>
                                                 </ng-container>
@@ -110,19 +123,21 @@
                                     </div>
 
                                     <div class="col-md-12" *ngIf="milestone == 'FIXED'">
-                                        <div class="d-flex align-items-start pt-2 mb-2 border border-primary rounded" *ngFor="let item of addMilestone; let i = index">
+                                        <div class="d-flex align-items-start pt-2 mb-2 border border-primary rounded"
+                                            *ngFor="let item of addMilestone; let i = index">
                                             <div class="row w-100 m-0">
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Milestone Name</label>
                                                         <div class="input-group">
-                                                            <input type="text" class="form-control" pattern="[a-zA-Z0-9 ]*" 
-                                                                name="milestoneId{{i}}" [(ngModel)]="item.milestoneName"
-                                                                #milestoneId="ngModel" maxlength="60" disabled>
+                                                            <input type="text" class="form-control"
+                                                                pattern="[a-zA-Z0-9 ]*" name="milestoneId{{i}}"
+                                                                [(ngModel)]="item.milestoneName" #milestoneId="ngModel"
+                                                                maxlength="60" disabled>
                                                         </div>
                                                     </div>
                                                 </div>
-    
+
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Project Amount</label>
@@ -134,14 +149,17 @@
                                                         </div>
                                                     </div>
                                                 </div>
-    
+
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Payment Percentage</label>
                                                         <fieldset>
                                                             <div class="input-group">
-                                                                <input type="text" (keyup)="updatemilestonePer(i , item )" class="form-control" pattern="^[0-9]*$"
-                                                                    name="projectPercentage{{i}}" [(ngModel)]="item.projectPercentage"
+                                                                <input type="text"
+                                                                    (keyup)="updatemilestonePer(i , item )"
+                                                                    class="form-control" pattern="^[0-9]*$"
+                                                                    name="projectPercentage{{i}}"
+                                                                    [(ngModel)]="item.projectPercentage"
                                                                     #projectPercentage="ngModel" maxlength="3" required>
                                                                 <div class="input-group-append">
                                                                     <span class="input-group-text"
@@ -162,7 +180,7 @@
                                                         </span>
                                                     </div>
                                                 </div>
-    
+
                                                 <!-- <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Payable Amount</label>
@@ -185,35 +203,38 @@
                                                         </span>
                                                     </div>
                                                 </div> -->
-                                            
+
                                             </div>
-                                            <div class="btnBox">
+                                            <!-- <div class="btnBox">
                                                 <a (click)="add()"
                                                     class="btn btn-sm btn-relief-info btn-icon waves-effect waves-light"
                                                     href="javascript:void(0)"><i class="feather icon-plus"></i> </a>
                                                 <a (click)="remove(i)" *ngIf="addMilestone?.length > 1"
                                                     class="btn btn-sm btn-relief-danger btn-icon waves-effect waves-light"
                                                     href="javascript:void(0)"><i class="feather icon-trash-2"></i> </a>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
 
                                     <div class="col-md-12"
                                         *ngIf="milestone == 'hourly' || milestone == 'project_monthly' || milestone == 'resource_monthly'">
-                                        <div class="d-flex align-items-start pt-2 mb-2 border border-primary rounded"  *ngFor="let items of addMilestone1; let j = index">
-                                            <div class="row w-100 m-0" >
+                                        <div class="d-flex align-items-start pt-2 mb-2 border border-primary rounded"
+                                            *ngFor="let items of addMilestone1; let j = index">
+                                            <div class="row w-100 m-0">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label>Description</label>
                                                         <div class="input-group">
                                                             <textarea class="form-control" pattern="[a-zA-Z0-9 ]*"
                                                                 name="description{{j}}" [(ngModel)]="items.description"
-                                                                #description="ngModel" maxlength="200" required></textarea>
+                                                                #description="ngModel" maxlength="200"
+                                                                required></textarea>
                                                         </div>
                                                         <span class="form-text text-danger small"
                                                             *ngIf="description.invalid && showError">
                                                             <span class="form-text text-danger small"
-                                                                *ngIf="description.errors?.['required']">Milestone name is
+                                                                *ngIf="description.errors?.['required']">Milestone name
+                                                                is
                                                                 required</span>
                                                             <span class="form-text text-danger small"
                                                                 [hidden]="!description.errors?.['pattern']">
@@ -222,15 +243,14 @@
                                                         </span>
                                                     </div>
                                                 </div>
-    
+
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Month</label>
                                                         <ng2-flatpickr [config]="month" name="month{{j}}"
-                                                            [(ngModel)]="items.month" #month="ngModel"
-                                                            required>
+                                                            [(ngModel)]="items.month" #month="ngModel" required>
                                                         </ng2-flatpickr>
-    
+
                                                         <span class="form-text text-danger small"
                                                             *ngIf="month.invalid && showError">
                                                             <span class="form-text text-danger small"
@@ -239,7 +259,7 @@
                                                         </span>
                                                     </div>
                                                 </div>
-    
+
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Monthly Amount</label>
@@ -252,7 +272,8 @@
                                                         <span class="form-text text-danger small"
                                                             *ngIf="monthly_amount.invalid && showError">
                                                             <span class="form-text text-danger small"
-                                                                *ngIf="monthly_amount.errors?.['required']">Monthly amount name is
+                                                                *ngIf="monthly_amount.errors?.['required']">Monthly
+                                                                amount name is
                                                                 required</span>
                                                             <span class="form-text text-danger small"
                                                                 [hidden]="!monthly_amount.errors?.['pattern']">
@@ -261,7 +282,7 @@
                                                         </span>
                                                     </div>
                                                 </div>
-    
+
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Payable Amount</label>
@@ -303,8 +324,8 @@
                                             <!-- <input type="text" class="form-control" pattern="^[0-9]*$"
                                                 name="cgst" [(ngModel)]="addInvoice.cgst" #cgst="ngModel"
                                                 maxlength="3" required> -->
-                                            <select class="custom-select" name="cgst" [(ngModel)]="addInvoice.cgst" 
-                                            (change)="selectcgst($event)" #cgst="ngModel" required>
+                                            <select class="custom-select" name="cgst" [(ngModel)]="addInvoice.cgst"
+                                                (change)="selectcgst($event)" #cgst="ngModel" required>
                                                 <option value="">Select</option>
                                                 <option value="5">5%</option>
                                                 <option value="12">12%</option>
@@ -326,8 +347,8 @@
                                     <div class="col-md-4" *ngIf="percentageBox === true">
                                         <div class="form-group">
                                             <label>SGST</label>
-                                            <select class="custom-select" name="sgst" [(ngModel)]="addInvoice.sgst" 
-                                            (change)="selectSgst($event)" #sgst="ngModel" required>
+                                            <select class="custom-select" name="sgst" [(ngModel)]="addInvoice.sgst"
+                                                (change)="selectSgst($event)" #sgst="ngModel" required>
                                                 <option value="">Select</option>
                                                 <option value="5">5%</option>
                                                 <option value="12">12%</option>
@@ -349,8 +370,8 @@
                                     <div class="col-md-4" *ngIf="percentageBox === true">
                                         <div class="form-group">
                                             <label>ICGST</label>
-                                            <select class="custom-select" name="icgst" [(ngModel)]="addInvoice.icgst" 
-                                            #icgst="ngModel" (change)="selectIcgst($event)" required>
+                                            <select class="custom-select" name="icgst" [(ngModel)]="addInvoice.icgst"
+                                                #icgst="ngModel" (change)="selectIcgst($event)" required>
                                                 <option value="">Select</option>
                                                 <option value="5">5%</option>
                                                 <option value="12">12%</option>
@@ -378,8 +399,7 @@
                                                 [(ngModel)]="addInvoice.note" #note="ngModel" minlength="10"
                                                 maxlength="150" placeholder="Note" required></textarea>
 
-                                            <div *ngIf="note.invalid && showError"
-                                                class="form-text text-danger small">
+                                            <div *ngIf="note.invalid && showError" class="form-text text-danger small">
                                                 <small *ngIf="note.errors?.['required']">Note is required </small>
                                                 <small *ngIf="note.errors?.['minlength']"> Please enter note
                                                     between 10 and
@@ -411,8 +431,9 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Select Account</label>
-                                            <input type="text" class="form-control" name="selectAccount" [(ngModel)]="addInvoice.selectAccount" placeholder="8795453523344511" value="8795453523344511"
-                                            #selectAccount="ngModel" disabled>
+                                            <input type="text" class="form-control" name="selectAccount"
+                                                [(ngModel)]="addInvoice.selectAccount" placeholder="8795453523344511"
+                                                value="8795453523344511" #selectAccount="ngModel" disabled>
                                             <!-- <ng-select name="selectAccount" [(ngModel)]="addInvoice.selectAccount"
                                                 #selectAccount="ngModel" required>
                                                 <ng-container>
@@ -436,13 +457,15 @@
                                             <label>Bank and Conversion Charges</label>
 
                                             <input type="text" class="form-control" pattern="^[0-9]*$"
-                                                name="bankConversionCharges" [(ngModel)]="addInvoice.bankConversionCharges"
+                                                name="bankConversionCharges"
+                                                [(ngModel)]="addInvoice.bankConversionCharges"
                                                 #bankConversionCharges="ngModel" maxlength="5" required>
 
                                             <span class="form-text text-danger small"
                                                 *ngIf="bankConversionCharges.invalid && showError">
                                                 <span class="form-text text-danger small"
-                                                    *ngIf="bankConversionCharges.errors?.['required']">Bank and conversion is
+                                                    *ngIf="bankConversionCharges.errors?.['required']">Bank and
+                                                    conversion is
                                                     required</span>
                                                 <span class="form-text text-danger small"
                                                     [hidden]="!bankConversionCharges.errors?.['pattern']">
@@ -498,18 +521,20 @@
                                             <label>Total Payable Amount</label>
 
                                             <input type="text" class="form-control" pattern="^[0-9]*$"
-                                                name="total_payable_amount" [(ngModel)]="addInvoice.total_payable_amount"
+                                                name="total_payable_amount"
+                                                [(ngModel)]="addInvoice.total_payable_amount"
                                                 #total_payable_amount="ngModel" disabled>
- 
+
                                         </div>
                                     </div>
- 
+
                                 </div>
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-primary mr-2" *ngIf="checkpermission(5,'add')"
-                                    (click)="onSubmit(f.form.valid)">{{loading?'Please wait ...':'Save and Preview'}}</button>
-                                <button class="btn btn-danger" [routerLink]="['/invoice-management/list']"
-                                    routerLinkActive="router-link-active">Cancel</button>
+                                        (click)="onSubmit(f.form.valid)">{{loading?'Please wait ...':'Save and
+                                        Preview'}}</button>
+                                    <button class="btn btn-danger" [routerLink]="['/invoice-management/list']"
+                                        routerLinkActive="router-link-active">Cancel</button>
                                 </div>
                             </form>
                         </div>

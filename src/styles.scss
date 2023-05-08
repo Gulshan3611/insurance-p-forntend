@@ -147,3 +147,21 @@
 .visually-hidden{
   display: none;
 }
+
+.theme-green .bs-datepicker-head {
+  background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7));
+}
+.theme-green .bs-datepicker-body table td.week span {
+  color: #5E50EE;
+}
+.theme-green .bs-datepicker-body table td span.selected, .theme-green .bs-datepicker-body table td.selected span, .theme-green .bs-datepicker-body table td span[class*="select-"]:after, .theme-green .bs-datepicker-body table td[class*="select-"] span:after {
+  background-color: #5E50EE;
+}
+
+.bsDatepicker{
+  cursor: pointer;
+
+  &:read-only {
+    background-color: transparent;
+  }
+}

@@ -2,8 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core'
 import { ProjectService, RoleService, AuthService, InvoiceService } from '../../../_services';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FlatpickrOptions } from 'ng2-flatpickr';
-// import locale from 'date-fns/locale/en-US';
 import * as moment from 'moment';
 
 @Component({
@@ -40,7 +38,6 @@ export class EditInvoiceComponent implements OnInit {
 
   percentageBox: boolean = false;
 
-
   addMilestone: any = [{
     milestoneName: "",
     paymentPercentage: "",
@@ -59,58 +56,6 @@ export class EditInvoiceComponent implements OnInit {
     monthly_amount: '',
     payable_amount: ''
   }];
-
-  invoiceDate: FlatpickrOptions = {
-    // locale: locale, // date-fns locale,
-    format: 'LLLL do yyyy', // date format to display in input
-    formatTitle: 'LLLL yyyy',
-    formatDays: 'EEEEE',
-    // mode: 'range',
-    firstCalendarDay: 0, // 0 - Sunday, 1 - Monday
-    position: 'bottom',
-    inputClass: '', // custom input CSS class to be applied
-    calendarClass: 'datepicker-default', // custom datepicker calendar CSS class to be applied
-    scrollBarColor: '#dfe3e9', // in case you customize you theme, here you define scroll bar color
-    minDate: this.currentDate,
-    // onChange: (selectedDates: any) => {
-    //   this.addInvoice.date = selectedDates.toString();
-    //   console.log(this.addInvoice.date)
-    // },
-  };
-
-  invoiceDueDate: FlatpickrOptions = {
-    // locale: locale, // date-fns locale,
-    format: 'LLLL do yyyy', // date format to display in input
-    formatTitle: 'LLLL yyyy',
-    formatDays: 'EEEEE',
-    // mode: 'range',
-    firstCalendarDay: 0, // 0 - Sunday, 1 - Monday
-    position: 'bottom',
-    inputClass: '', // custom input CSS class to be applied
-    calendarClass: 'datepicker-default', // custom datepicker calendar CSS class to be applied
-    scrollBarColor: '#dfe3e9', // in case you customize you theme, here you define scroll bar color
-    minDate: this.currentDate,
-    onChange: (selectedDates: any) => {
-      this.addInvoice.date = selectedDates.toString();
-    },
-  };
-
-  month: FlatpickrOptions = {
-    // locale: locale, // date-fns locale,
-    format: 'LLLL do yyyy', // date format to display in input
-    formatTitle: 'LLLL yyyy',
-    formatDays: 'EEEEE',
-    // mode: 'range',
-    firstCalendarDay: 0, // 0 - Sunday, 1 - Monday
-    position: 'bottom',
-    inputClass: '', // custom input CSS class to be applied
-    calendarClass: 'datepicker-default', // custom datepicker calendar CSS class to be applied
-    scrollBarColor: '#dfe3e9', // in case you customize you theme, here you define scroll bar color
-    minDate: this.currentDate,
-    onChange: (selectedDates: any) => {
-      this.addInvoice.date = selectedDates.toString();
-    },
-  };
 
   constructor(
     private _projectService: ProjectService,
@@ -136,6 +81,9 @@ export class EditInvoiceComponent implements OnInit {
         this.addInvoice = res['data'];
 
         this.getVendorListFromApi()
+
+        this.addInvoice.invoiceDate =  moment(res['data'].invoiceDate).format("MM-DD-YYYY") 
+        this.addInvoice.invoiceDueDate =  moment(res['data'].invoiceDueDate).format("MM-DD-YYYY") 
 
         this.addInvoice.clientName = this.addInvoice.vendorId
         this.projectDetailApi(this.addInvoice.projectId)
@@ -287,13 +235,8 @@ export class EditInvoiceComponent implements OnInit {
   }
 
   selectedDates(event: any) {
-    // moment.parseZone(event)
-    console.log(event.target.value)
-    console.log(moment.parseZone(event.target.value).add(15, 'days').format())
-    this.addInvoice.invoiceDueDate = moment.parseZone(event.target.value).add(15, 'days').format()
-    // 2023-04-26T18:30:00.000Z
-
-    this.dueDateData = moment.parseZone(event.target.value).add(15, 'days').format('YYYY-MM-DD')
+    console.log(event)
+    this.addInvoice.invoiceDueDate = moment.parseZone(event).add(15, 'days').format("MM-DD-YYYY");
   }
 
   selectcgst(event){

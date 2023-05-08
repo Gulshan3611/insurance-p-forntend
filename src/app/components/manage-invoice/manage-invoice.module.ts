@@ -8,6 +8,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Ng2FlatpickrModule } from 'ng2-flatpickr';
 import { MomentModule } from 'ngx-moment';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { ManageInvoiceRoutingModule } from './manage-invoice-routing.module';
 import { InvoiceListComponent } from './invoice-list/invoice-list.component';
@@ -38,7 +39,8 @@ import { EditInvoiceComponent } from './edit-invoice/edit-invoice.component';
     NgxSpinnerModule,
     NgSelectModule,
     Ng2FlatpickrModule,
-    MomentModule
+    MomentModule,
+    BsDatepickerModule.forRoot()
   ]
 })
 export class ManageInvoiceModule { }
