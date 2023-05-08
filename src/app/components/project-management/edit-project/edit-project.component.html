@@ -41,7 +41,7 @@
                                                 #projectName="ngModel" minlength="2" maxlength="60"
                                                 placeholder="Project name" required>
                                             <span class="form-text text-danger small"
-                                                *ngIf="projectName.invalid && (projectName.dirty || projectName.touched)">
+                                                *ngIf="projectName.invalid && (projectName.dirty || projectName.touched) || showError">
                                                 <span class="form-text text-danger small"
                                                     *ngIf="projectName.errors?.['required']">
                                                     Project name is required.
@@ -68,7 +68,7 @@
                                                 [(ngModel)]="addProject.amount" #amount="ngModel" minlength="2"
                                                 maxlength="60" placeholder="Amount" required>
                                             <span class="form-text text-danger small"
-                                                *ngIf="amount.invalid && (amount.dirty || amount.touched)">
+                                                *ngIf="amount.invalid && (amount.dirty || amount.touched) || showError">
                                                 <span class="form-text text-danger small"
                                                     *ngIf="amount.errors?.['required']">
                                                     Amount is required.
@@ -96,7 +96,7 @@
                                                 minlength="5" maxlength="60" placeholder="Contract Duration" required
                                                 pattern="^[0-9]+( [a-zA-Z]+)?$">
                                             <span class="form-text text-danger small"
-                                                *ngIf="contractDuration.invalid && (contractDuration.dirty || contractDuration.touched)">
+                                                *ngIf="contractDuration.invalid && (contractDuration.dirty || contractDuration.touched) || showError">
                                                 <span class="form-text text-danger small"
                                                     *ngIf="contractDuration.errors?.['required']">
                                                     Contract duration is required.
@@ -178,7 +178,7 @@
                                                 [(ngModel)]="addProject.projectPercentage" #projectPercentage="ngModel"
                                                 placeholder="Project Percentage" required>
                                             <span class="form-text text-danger small"
-                                                *ngIf="projectPercentage.invalid && (projectPercentage.dirty || projectPercentage.touched)">
+                                                *ngIf="projectPercentage.invalid && (projectPercentage.dirty || projectPercentage.touched) || showError">
                                                 <span class="form-text text-danger small"
                                                     *ngIf="projectPercentage.errors?.['required']">
                                                     Project Percentage is required.
@@ -198,7 +198,7 @@
                                                 pattern="^[0-9]*$" name="totalHours" [(ngModel)]="addProject.totalHours"
                                                 #totalHours="ngModel" placeholder="Total Hours" required>
                                             <span class="form-text text-danger small"
-                                                *ngIf="totalHours.invalid && (totalHours.dirty || totalHours.touched)">
+                                                *ngIf="totalHours.invalid && (totalHours.dirty || totalHours.touched) || showError">
                                                 <span class="form-text text-danger small"
                                                     *ngIf="totalHours.errors?.['required']">
                                                     Total Hours is required.
@@ -219,7 +219,7 @@
                                                 [(ngModel)]="addProject.monthlyCharge" #monthlyCharge="ngModel"
                                                 placeholder="Monthly Charge" required>
                                             <span class="form-text text-danger small"
-                                                *ngIf="monthlyCharge.invalid && (monthlyCharge.dirty || monthlyCharge.touched)">
+                                                *ngIf="monthlyCharge.invalid && (monthlyCharge.dirty || monthlyCharge.touched) || showError">
                                                 <span class="form-text text-danger small"
                                                     *ngIf="monthlyCharge.errors?.['required']">
                                                     Monthly Charge is required.
@@ -242,7 +242,7 @@
                                                 [(ngModel)]="addProject.numberOfResource" #numberOfResource="ngModel"
                                                 placeholder="numberOfResource" required>
                                             <span class="form-text text-danger small"
-                                                *ngIf="numberOfResource.invalid && (numberOfResource.dirty || numberOfResource.touched)">
+                                                *ngIf="numberOfResource.invalid && (numberOfResource.dirty || numberOfResource.touched) || showError">
                                                 <span class="form-text text-danger small"
                                                     *ngIf="numberOfResource.errors?.['required']">
                                                     Number Of Resource is required.
@@ -279,7 +279,7 @@
                                                             #milestoneName="ngModel" minlength="2" maxlength="60"
                                                             placeholder="Milestone name" required>
                                                         <span class="form-text text-danger small"
-                                                            *ngIf="milestoneName.invalid && (milestoneName.dirty || milestoneName.touched)">
+                                                            *ngIf="milestoneName.invalid && (milestoneName.dirty || milestoneName.touched) || showError">
                                                             <span class="form-text text-danger small"
                                                                 *ngIf="milestoneName.errors?.['required']">
                                                                 Milestone name is required.
@@ -311,7 +311,7 @@
                                                                 [(ngModel)]="addProject.title" #title="ngModel"
                                                                 placeholder="Title" required>
                                                             <span class="form-text text-danger small"
-                                                                *ngIf="title.invalid && (title.dirty || title.touched)">
+                                                                *ngIf="title.invalid && (title.dirty || title.touched) || showError">
                                                                 <span class="form-text text-danger small"
                                                                     *ngIf="title.errors?.['required']">
                                                                     Title is required.
@@ -343,7 +343,7 @@
                                                                 #monthlyprice="ngModel" placeholder="Monthly Price"
                                                                 required>
                                                             <span class="form-text text-danger small"
-                                                                *ngIf="monthlyprice.invalid && (monthlyprice.dirty || monthlyprice.touched)">
+                                                                *ngIf="monthlyprice.invalid && (monthlyprice.dirty || monthlyprice.touched) || showError">
                                                                 <span class="form-text text-danger small"
                                                                     *ngIf="monthlyprice.errors?.['required']">
                                                                     Monthly Price is required.
@@ -376,7 +376,7 @@
                                                                 #hourlyprice="ngModel" placeholder="Hourly Price"
                                                                 required>
                                                             <span class="form-text text-danger small"
-                                                                *ngIf="hourlyprice.invalid && (hourlyprice.dirty || hourlyprice.touched)">
+                                                                *ngIf="hourlyprice.invalid && (hourlyprice.dirty || hourlyprice.touched) || showError">
                                                                 <span class="form-text text-danger small"
                                                                     *ngIf="hourlyprice.errors?.['required']">
                                                                     Hourly Price is required.
@@ -407,7 +407,7 @@
                                                                 [(ngModel)]="addProject.technology"
                                                                 #technology="ngModel" placeholder="Technology" required>
                                                             <span class="form-text text-danger small"
-                                                                *ngIf="technology.invalid && (technology.dirty || technology.touched)">
+                                                                *ngIf="technology.invalid && (technology.dirty || technology.touched) || showError">
                                                                 <span class="form-text text-danger small"
                                                                     *ngIf="technology.errors?.['required']">
                                                                     Technology is required.
@@ -438,7 +438,7 @@
                                                                 [(ngModel)]="addProject.experience"
                                                                 #experience="ngModel" placeholder="Experience" required>
                                                             <span class="form-text text-danger small"
-                                                                *ngIf="experience.invalid && (experience.dirty || experience.touched)">
+                                                                *ngIf="experience.invalid && (experience.dirty || experience.touched) || showError">
                                                                 <span class="form-text text-danger small"
                                                                     *ngIf="experience.errors?.['required']">
                                                                     Experience is required.
@@ -469,7 +469,7 @@
                                                                 [(ngModel)]="addProject.duration" #duration="ngModel"
                                                                 placeholder="Duration" required>
                                                             <span class="form-text text-danger small"
-                                                                *ngIf="duration.invalid && (duration.dirty || duration.touched)">
+                                                                *ngIf="duration.invalid && (duration.dirty || duration.touched) || showError">
                                                                 <span class="form-text text-danger small"
                                                                     *ngIf="duration.errors?.['required']">
                                                                     Duration is required.
@@ -499,7 +499,7 @@
                                                                 placeholder="month"
                                                                 class="form-control ng-untouched ng-pristine ng-invalid" />
                                                             <span class="form-text text-danger small"
-                                                                *ngIf="month.invalid && (month.dirty || month.touched)">
+                                                                *ngIf="month.invalid && (month.dirty || month.touched) || showError">
                                                                 <span class="form-text text-danger small"
                                                                     *ngIf="month.errors?.['required']">
                                                                     month is required.
@@ -529,7 +529,7 @@
                                                                 #totalAmount="ngModel" placeholder="Total Amount"
                                                                 class="form-control ng-untouched ng-pristine ng-invalid" />
                                                             <span class="form-text text-danger small"
-                                                                *ngIf="totalAmount.invalid && (totalAmount.dirty || totalAmount.touched)">
+                                                                *ngIf="totalAmount.invalid && (totalAmount.dirty || totalAmount.touched) || showError">
                                                                 <span class="form-text text-danger small"
                                                                     *ngIf="totalAmount.errors?.['required']">
                                                                     Total Amount is required.
@@ -559,7 +559,7 @@
                                                                 placeholder="Milestone Amount"
                                                                 class="form-control ng-untouched ng-pristine ng-invalid" />
                                                             <span class="form-text text-danger small"
-                                                                *ngIf="milestoneAmount.invalid && (milestoneAmount.dirty || milestoneAmount.touched)">
+                                                                *ngIf="milestoneAmount.invalid && (milestoneAmount.dirty || milestoneAmount.touched) || showError">
                                                                 <span class="form-text text-danger small"
                                                                     *ngIf="milestoneAmount.errors?.['required']">
                                                                     Milestone Amount is required.
@@ -589,7 +589,7 @@
                                                                 placeholder="Time Line"
                                                                 class="form-control ng-untouched ng-pristine ng-invalid" />
                                                             <span class="form-text text-danger small"
-                                                                *ngIf="timeline.invalid && (timeline.dirty || timeline.touched)">
+                                                                *ngIf="timeline.invalid && (timeline.dirty || timeline.touched) || showError">
                                                                 <span class="form-text text-danger small"
                                                                     *ngIf="timeline.errors?.['required']">
                                                                     Time Line is required.
@@ -637,7 +637,7 @@
                                                                 #projectPercentage="ngModel"
                                                                 placeholder="Project Percentage" required>
                                                             <span class="form-text text-danger small"
-                                                                *ngIf="projectPercentage.invalid && (projectPercentage.dirty || projectPercentage.touched)">
+                                                                *ngIf="projectPercentage.invalid && (projectPercentage.dirty || projectPercentage.touched) || showError">
                                                                 <span class="form-text text-danger small"
                                                                     *ngIf="projectPercentage.errors?.['required']">
                                                                     Project Percentage is required.
@@ -661,7 +661,7 @@
                                                                 #milestoneNumber="ngModel"
                                                                 placeholder="Milestone Number" required>
                                                             <span class="form-text text-danger small"
-                                                                *ngIf="milestoneNumber.invalid && (milestoneNumber.dirty || milestoneNumber.touched)">
+                                                                *ngIf="milestoneNumber.invalid && (milestoneNumber.dirty || milestoneNumber.touched) || showError">
                                                                 <span class="form-text text-danger small"
                                                                     *ngIf="milestoneNumber.errors?.['required']">
                                                                     Milestone Number is required.
@@ -684,7 +684,7 @@
                                                                 placeholder="month"
                                                                 class="form-control ng-untouched ng-pristine ng-invalid" />
                                                             <span class="form-text text-danger small"
-                                                                *ngIf="month.invalid && (month.dirty || month.touched)">
+                                                                *ngIf="month.invalid && (month.dirty || month.touched) || showError">
                                                                 <span class="form-text text-danger small"
                                                                     *ngIf="month.errors?.['required']">
                                                                     month is required.
@@ -713,7 +713,7 @@
                                                                 [(ngModel)]="addProject.discount" #discount="ngModel"
                                                                 placeholder="Discount" required>
                                                             <span class="form-text text-danger small"
-                                                                *ngIf="discount.invalid && (discount.dirty || discount.touched)">
+                                                                *ngIf="discount.invalid && (discount.dirty || discount.touched) || showError">
                                                                 <span class="form-text text-danger small"
                                                                     *ngIf="discount.errors?.['required']">
                                                                     discount is required.
@@ -736,7 +736,7 @@
                                                                 #decidedHours="ngModel" placeholder="Decided Hours"
                                                                 required>
                                                             <span class="form-text text-danger small"
-                                                                *ngIf="decidedHours.invalid && (decidedHours.dirty || decidedHours.touched)">
+                                                                *ngIf="decidedHours.invalid && (decidedHours.dirty || decidedHours.touched) || showError">
                                                                 <span class="form-text text-danger small"
                                                                     *ngIf="decidedHours.errors?.['required']">
                                                                     Decided Hours is required.
@@ -759,7 +759,7 @@
                                                                 #investedHours="ngModel" placeholder="Invested Hours"
                                                                 required>
                                                             <span class="form-text text-danger small"
-                                                                *ngIf="investedHours.invalid && (investedHours.dirty || investedHours.touched)">
+                                                                *ngIf="investedHours.invalid && (investedHours.dirty || investedHours.touched) || showError">
                                                                 <span class="form-text text-danger small"
                                                                     *ngIf="investedHours.errors?.['required']">
                                                                     Invested Hours is required.
@@ -782,7 +782,7 @@
                                                                 #payableAmount="ngModel" placeholder="Payable Amount"
                                                                 required>
                                                             <span class="form-text text-danger small"
-                                                                *ngIf="payableAmount.invalid && (payableAmount.dirty || payableAmount.touched)">
+                                                                *ngIf="payableAmount.invalid && (payableAmount.dirty || payableAmount.touched) || showError">
                                                                 <span class="form-text text-danger small"
                                                                     *ngIf="payableAmount.errors?.['required']">
                                                                     Payable Amount is required.

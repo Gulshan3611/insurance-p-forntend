@@ -27,7 +27,7 @@ export class AddProjectComponent implements OnInit {
   slectedProjectType = 'RESOUCEONHOURLY';
   milestone: any;
 
-  dateOptions: FlatpickrOptions = {
+  deliveryDate: FlatpickrOptions = {
     // locale: locale, // date-fns locale,
     format: 'LLLL do yyyy', // date format to display in input
     formatTitle: 'LLLL yyyy',
@@ -40,9 +40,10 @@ export class AddProjectComponent implements OnInit {
     scrollBarColor: '#dfe3e9', // in case you customize you theme, here you define scroll bar color
     minDate: this.currentDate,
     onChange: (selectedDates: any) => {
-      this.addProject.date = selectedDates.toString();
+      this.addProject.deliveryDate = selectedDates.toString();
     },
   };
+
   milestones: any[] = [{
     title: '',
     month: '',
@@ -59,13 +60,29 @@ export class AddProjectComponent implements OnInit {
     duration: '',
     milestoneAmount: '',
     timeline: '',
-    deliveryDate: '',
+    deliveryDate:  '',
     projectPercentage: '',
     milestoneNumber: '',
   }];
   milestoneAdded = false;
   showDeleteButton = false;
 
+  deliveryDate2: FlatpickrOptions = {
+    // locale: locale, // date-fns locale,
+    format: 'LLLL do yyyy', // date format to display in input
+    formatTitle: 'LLLL yyyy',
+    formatDays: 'EEEEE',
+    // mode: 'range',
+    firstCalendarDay: 0, // 0 - Sunday, 1 - Monday
+    position: 'bottom',
+    inputClass: '', // custom input CSS class to be applied
+    calendarClass: 'datepicker-default', // custom datepicker calendar CSS class to be applied
+    scrollBarColor: '#dfe3e9', // in case you customize you theme, here you define scroll bar color
+    minDate: this.currentDate,
+    onChange: (selectedDates: any) => {
+      this.milestones[0].deliveryDate = selectedDates.toString();
+    },
+  };
 
   constructor(
     private _projectService: ProjectService,
@@ -149,15 +166,15 @@ export class AddProjectComponent implements OnInit {
     }
     if (this.slectedProjectType == "FIXED") {
       this.milestone = {
-        totalAmount: '',
+        // totalAmount: '',
         milestoneName: '',
-        title: '',
-        month: '',
+        // title: '',
+        // month: '',
         milestoneAmount: '',
         timeline: '',
         deliveryDate: '',
         projectPercentage: '',
-        milestoneNumber: '',
+        // milestoneNumber: '',
       };
     }
     this.milestones.push(this.milestone);
@@ -196,15 +213,28 @@ export class AddProjectComponent implements OnInit {
       }
       return newObj;
     });
+  
+    
+    // if (totalAmount <= this.addProject?.amount) {
+    //   console.log("loading milestone");
+    // } else {
+    //   this._toastrService.info("milestone amount should be equal to project amount "+this.addProject?.amount);
+    //   return
+    // }
+    
+    // console.log(`Total milestones: ${totalMilestones}`);
 
     let requestData = {
-      vendorId: "6427d0641d0a8742b02c7d3a",
+      vendorId: this.addProject?.vendorId,
       projectType: this.addProject?.projectType,
       projectName: this.addProject?.projectName,
       totalHours: this.addProject?.totalHours,
       monthlyCharge: this.addProject?.monthlyCharge,
       currency: this.addProject?.currency,
       contractDuration: this.addProject?.contractDuration,
+      amount: this.addProject?.amount,
+      timeline: this.addProject?.timeline,
+      deliveryDate: this.addProject?.deliveryDate,
       projectMonthly:
         filteredData
 
