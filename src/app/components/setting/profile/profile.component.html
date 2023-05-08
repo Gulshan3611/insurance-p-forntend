@@ -70,8 +70,9 @@
                                                         maxlength="80" required>
 
                                                     <div *ngIf="name.invalid && showError" class="form-text text-danger small">
-                                                        <small *ngIf="['name.errors?.required']">Name is required </small>
-                                                        <small hidden="['!name.errors?.minlength']"> Please enter name between 2 and
+                                                        <small *ngIf=" profile.name.length == 0 && ['name.errors?.required']">Name is required </small>
+                                                        <small *ngIf=" !profile.name.length == 0 && profile.name.length <=2"> Please enter Name
+                                                            between 2 and
                                                             80.</small>
                                                         <small hidden="!name.errors?.pattern"> Please enter valid name.</small>
                                                     </div>
