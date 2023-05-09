@@ -42,7 +42,7 @@
         <div class="col-12 col-sm-6">
             <div class="form-group">
                 <label for="account-name">Company Name</label>
-                <input class="form-control" type="text" pattern="[a-zA-Z/-_ ]*" name="companyName"
+                <input class="form-control" type="text" pattern="[a-zA-Z ]*" name="companyName"
                     [(ngModel)]="profile.companyName" #companyName="ngModel" minlength="3" maxlength="50" required>
 
                 <span class="form-text text-danger small"
@@ -556,7 +556,7 @@
             <div class="form-group">
                 <label for="account-name">City</label>
                 <input class="form-control" type="text" name="city" [(ngModel)]="profile.city" #city="ngModel"
-                    minlength="3" maxlength="15" pattern="[a-zA-Z/-_ ]*" required>
+                    minlength="3" maxlength="15" pattern="[a-zA-Z ]*" required>
 
                 <div *ngIf="city.invalid && showError" class="form-text text-danger small">
                     <small *ngIf="city.errors?.['required']">City is required </small>

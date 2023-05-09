@@ -21,64 +21,28 @@ export class ProjectService {
 
     // get Project Lists
     getProjectLists(request: any): Observable<any> {
-        return this.http.get(`${this.apiUrl}/project?page=` + request.page + '&limit=' + request.limit + '&searchBy=' + request.searchBy, request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
-            if (error.status === 401) {
-                console.log('Unauthorized Access');
-            }
-            return throwError(error);
-        })
-        );
+        return this.http.get(`${this.apiUrl}/project?page=` + request.page + '&limit=' + request.limit + '&searchBy=' + request.searchBy, request).pipe(map(this.extractData));
     }
     // add project 
     addProject(request: any): Observable<any> {
-        return this.http.post(`${this.apiUrl}/project`, request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
-            if (error.status === 401) {
-                console.log('Unauthorized Access');
-            }
-            return throwError(error);
-        })
-        );
+        return this.http.post(`${this.apiUrl}/project`, request).pipe(map(this.extractData));
     }
     // delete project 
     deleteProject(request: any): Observable<any> {
-        return this.http.delete(`${this.apiUrl}/project/` + request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
-            if (error.status === 401) {
-                console.log('Unauthorized Access');
-            }
-            return throwError(error);
-        })
-        );
+        return this.http.delete(`${this.apiUrl}/project/` + request).pipe(map(this.extractData));
     }
-    // delete project 
+    // Activate / Deactivate project 
     activateDeactivateProjects(request: any): Observable<any> {
-        return this.http.post(`${this.apiUrl}/project/activateDeactivateProjects`, request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
-            if (error.status === 401) {
-                console.log('Unauthorized Access');
-            }
-            return throwError(error);
-        })
-        );
+        return this.http.post(`${this.apiUrl}/project/activateDeactivateProjects`, request).pipe(map(this.extractData));
     }
 
     // get project details
     projectDetails(request: any): Observable<any> {
-        return this.http.get(`${this.apiUrl}/project/` + request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
-            if (error.status === 401) {
-                console.log('Unauthorized Access');
-            }
-            return throwError(error);
-        })
-        );
+        return this.http.get(`${this.apiUrl}/project/` + request).pipe(map(this.extractData));
     }
 
     // update project details
     updateProjectDetails(request: any, id: any): Observable<any> {
-        return this.http.patch(`${this.apiUrl}/project/` + id, request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
-            if (error.status === 401) {
-                console.log('Unauthorized Access');
-            }
-            return throwError(error);
-        })
-        );
+        return this.http.patch(`${this.apiUrl}/project/` + id, request).pipe(map(this.extractData));
     }
 }

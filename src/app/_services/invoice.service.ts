@@ -21,86 +21,38 @@ export class InvoiceService {
 
     // get Project Lists
     getProjectLists(request: any): Observable<any> {
-        return this.http.get(`${this.apiUrl}/project?vendorId=` + request.vendorId, request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
-            if (error.status === 401) {
-                console.log('Unauthorized Access');
-            }
-            return throwError(error);
-        })
-        );
+        return this.http.get(`${this.apiUrl}/project?vendorId=` + request.vendorId, request).pipe(map(this.extractData));
     }
 
     getProjectDetail(request: any): Observable<any> {
-        return this.http.get(`${this.apiUrl}/project/` + request, request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
-            if (error.status === 401) {
-                console.log('Unauthorized Access');
-            }
-            return throwError(error);
-        })
-        );
+        return this.http.get(`${this.apiUrl}/project/` + request, request).pipe(map(this.extractData));
     }
     
     // get Role Lists
     getVendorLists(): Observable<any> {
-        return this.http.get(`${this.apiUrl}/vendor`).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
-            if (error.status === 401) {
-                console.log('Unauthorized Access');
-            }
-            return throwError(error);
-        })
-        );
+        return this.http.get(`${this.apiUrl}/vendor`).pipe(map(this.extractData));
     }
 
     // get Invoice Lists
     getInvoiceList(request: any): Observable<any> {
-        return this.http.get(`${this.apiUrl}/invoice?page=` + request.page + '&limit=' + request.limit + '&searchBy=' + request.searchBy, request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
-            if (error.status === 401) {
-                console.log('Unauthorized Access');
-            }
-            return throwError(error);
-        })
-        );
+        return this.http.get(`${this.apiUrl}/invoice?page=` + request.page + '&limit=' + request.limit + '&searchBy=' + request.searchBy, request).pipe(map(this.extractData));
     }
     // add Invoice 
     addInvoice(request: any): Observable<any> {
-        return this.http.post(`${this.apiUrl}/invoice`, request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
-            if (error.status === 401) {
-                console.log('Unauthorized Access');
-            }
-            return throwError(error);
-        })
-        );
+        return this.http.post(`${this.apiUrl}/invoice`, request).pipe(map(this.extractData));
     }
     // delete Invoice 
     deleteInvoice(request: any): Observable<any> {
-        return this.http.delete(`${this.apiUrl}/invoice/` + request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
-            if (error.status === 401) {
-                console.log('Unauthorized Access');
-            }
-            return throwError(error);
-        })
-        );
+        return this.http.delete(`${this.apiUrl}/invoice/` + request).pipe(map(this.extractData));
     } 
 
     // get Invoice details
     invoiceDetails(request: any): Observable<any> {
-        return this.http.get(`${this.apiUrl}/invoice/` + request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
-            if (error.status === 401) {
-                console.log('Unauthorized Access');
-            }
-            return throwError(error);
-        })
-        );
+        return this.http.get(`${this.apiUrl}/invoice/` + request).pipe(map(this.extractData));
     }
 
     // update Invoice details
     updateInvoiceDetails(request: any, id: any): Observable<any> {
-        return this.http.patch(`${this.apiUrl}/invoice/` + id, request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
-            if (error.status === 401) {
-                console.log('Unauthorized Access');
-            }
-            return throwError(error);
-        })
-        );
+        return this.http.patch(`${this.apiUrl}/invoice/` + id, request).pipe(map(this.extractData));
     }
 }

@@ -32,54 +32,24 @@ export class GstService {
     }
     // add gst 
     addGst(request: any): Observable<any> {
-        return this.http.post(`${this.apiUrl}/gst`, request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
-            if (error.status === 401) {
-                console.log('Unauthorized Access');
-            }
-            return throwError(error);
-        })
-        );
+        return this.http.post(`${this.apiUrl}/gst`, request).pipe(map(this.extractData));
     }
     // delete gst 
     deleteGst(request: any): Observable<any> {
-        return this.http.delete(`${this.apiUrl}/gst/` + request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
-            if (error.status === 401) {
-                console.log('Unauthorized Access');
-            }
-            return throwError(error);
-        })
-        );
+        return this.http.delete(`${this.apiUrl}/gst/` + request).pipe(map(this.extractData));
     }
     // delete gst 
     activateDeactivateGst(request: any): Observable<any> {
-        return this.http.post(`${this.apiUrl}/gst/activateDeactivateGsts`, request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
-            if (error.status === 401) {
-                console.log('Unauthorized Access');
-            }
-            return throwError(error);
-        })
-        );
+        return this.http.post(`${this.apiUrl}/gst/activateDeactivateGsts`, request).pipe(map(this.extractData));
     }
 
     // get gst details
     gstDetails(request: any): Observable<any> {
-        return this.http.get(`${this.apiUrl}/gst/` + request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
-            if (error.status === 401) {
-                console.log('Unauthorized Access');
-            }
-            return throwError(error);
-        })
-        );
+        return this.http.get(`${this.apiUrl}/gst/` + request).pipe(map(this.extractData));
     }
 
     // update gst details
     updateGstDetails(request: any, id: any): Observable<any> {
-        return this.http.patch(`${this.apiUrl}/gst/` + id, request).pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
-            if (error.status === 401) {
-                console.log('Unauthorized Access');
-            }
-            return throwError(error);
-        })
-        );
+        return this.http.patch(`${this.apiUrl}/gst/` + id, request).pipe(map(this.extractData));
     }
 }
