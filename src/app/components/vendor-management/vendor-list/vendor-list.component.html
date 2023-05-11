@@ -20,6 +20,8 @@
                                     <th>S.No</th>
                                     <th>Vendor Name</th>
                                     <th>Vendor Type</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
                                     <!-- <th>Country</th> -->
                                     <th>Currency </th>
                                     <th>Address</th>
@@ -32,6 +34,8 @@
                                     <td>{{(page-1)*10+i+1}}</td>
                                     <td>{{item?.name}}</td>
                                     <th> {{ item?.vendorType == 0 ? 'Individual' : 'Company' }}</th>
+                                    <th> {{ item?.email  }}</th>
+                                    <th> {{ item?.phone  }}</th>
                                     <!-- <td> {{item?.country}}</td> -->
                                     <td> {{item?.currency}}</td>
                                     <td>{{item?.address}}, {{item?.city}}, {{item?.state}}, {{item?.country}}, {{item?.zipcode}}  </td>

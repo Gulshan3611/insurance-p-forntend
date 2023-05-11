@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SidebarService, AuthService } from "../../_services";
+import { SidebarService, AuthService, StaffService } from "../../_services";
 import { ActivatedRoute, Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
 
 @Component({
@@ -13,13 +13,15 @@ export class SidebarComponent implements OnInit {
   url: any;
   currentRoute: string;
   profile: any;
-
+  staffId: any;
+  staffDetail: any = {};
 
   constructor(
     public _sidebarService: SidebarService,
     private route: ActivatedRoute,
     private router: Router,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private _staffService: StaffService
   ) {
 
     this.currentRoute = "";
@@ -30,6 +32,21 @@ export class SidebarComponent implements OnInit {
         this.url = event.url;
       }
     });
+
+    var detail = this._authService.getAdminData()
+    this.staffId = detail.id
+
+    this._staffService.staffMember(this.staffId).subscribe((res) => {
+      if (res.code == 200) {
+        if (res['data']) {
+          this.staffDetail = res['data'];
+          console.log('-----------------',this.staffDetail )
+          localStorage.setItem('go_d_r_a', JSON.stringify(res['data']))
+        }
+      }
+    }, (err) => {
+      console.log('Error while Login', err);
+    })
   }
 
   ngOnInit(): void {

@@ -56,6 +56,7 @@ export class AuthService {
             }
         }
     }
+
     checkAccess(moduleId: any, type: any) {
         var data = this.getAdminData().role;
         var loginDetails = this.getAdminData();
@@ -70,8 +71,7 @@ export class AuthService {
             return true;
         }
     }
-
-
+   
     adminLogout() {
         localStorage.removeItem('go_d_r_a_t');
         localStorage.removeItem('go_d_r_a');

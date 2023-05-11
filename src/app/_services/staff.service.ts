@@ -46,4 +46,9 @@ export class StaffService {
     updateStaffDetails(request: any, id: any): Observable<any> {
         return this.http.patch(`${this.apiUrl}/auth/subadmin/` +id, request).pipe(map(this.extractData));
     }
+
+    // Get staff details
+    staffMember(request: any): Observable<any> {
+        return this.http.get(`${this.apiUrl}/auth/subadmin/` + request).pipe(map(this.extractData));
+    }
 }

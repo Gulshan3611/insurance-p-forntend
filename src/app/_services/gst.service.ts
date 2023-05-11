@@ -21,14 +21,7 @@ export class GstService {
 
     // get gst Lists
     getGstList(request: any): Observable<any> {
-        return this.http.get(`${this.apiUrl}/gst?page=` + request.page + '&limit=' + request.limit + '&searchBy=' + request.searchBy, request)
-            .pipe(map(this.extractData), catchError((error: HttpErrorResponse) => {
-                if (error.status === 401) {
-                    console.log('Unauthorized Access');
-                }
-                return throwError(error);
-            })
-        );
+        return this.http.get(`${this.apiUrl}/gst?page=` + request.page + '&limit=' + request.limit + '&searchBy=' + request.searchBy, request).pipe(map(this.extractData));
     }
     // add gst 
     addGst(request: any): Observable<any> {

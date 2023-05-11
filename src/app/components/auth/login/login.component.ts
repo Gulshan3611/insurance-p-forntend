@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
       // navigate to dashboard
       this._router.navigate(['/role-management/list']);
     }
-  }
+  } 
 
   onSubmit(invalid: any): void {
     // this.router.navigate(['/login']);
@@ -64,24 +64,39 @@ export class LoginComponent implements OnInit {
           var loginDetails = this._authService.getAdminData();
           if (data && loginDetails.type != 'superadmin') {
             for (let i = 0; i < data.resource.length; i++) {
-              const resource = data.resource[i];
-              if (resource.moduleId && Array.isArray(resource.permissions) && resource.permissions.includes('list')) {
-                const moduleRoutesMap = {
-                  1: '/role-management/list',
-                  2: '/staff-management/list',
-                  3: '/vendor-management/list',
-                  4: '/project-management/list',
-                  5: '/invoice-management/list',
-                  6: '/gst/list',
-                  7: '/resource-management/list'
-                };
+              if (data.resource[i].moduleId) {
+                data.resource[i].permissions ? true : false
+                // console.log('data-----===>>122==', data.resource[i].moduleId, data.resource[i].permissions)
 
-                const redirectPath = moduleRoutesMap[resource.moduleId] || '/no-permission';
-                this._router.navigate([redirectPath]);
+                if( data.resource[i].moduleId == 1 && (data.resource[i].permissions[0] == 'selectedAll' || data.resource[i].permissions[0] == 'list')) {
+                  console.log('1')
+                  return this._router.navigate(['/role-management/list']);
+                }
+                else if( data.resource[i].moduleId == 2 && (data.resource[i].permissions[0] == 'selectedAll' || data.resource[i].permissions[0] == 'list')) {
+                  return this._router.navigate(['/staff-management/list']);
+                }
+                else if( data.resource[i].moduleId == 3 && (data.resource[i].permissions[0] == 'selectedAll' || data.resource[i].permissions[0] == 'list')) {
+                  return this._router.navigate(['/vendor-management/list']);
+                }
+                else if( data.resource[i].moduleId == 4 && (data.resource[i].permissions[0] == 'selectedAll' || data.resource[i].permissions[0] == 'list')) {
+                  return this._router.navigate(['/project-management/list']);
+                }
+                else if( data.resource[i].moduleId == 5 && (data.resource[i].permissions[0] == 'selectedAll' || data.resource[i].permissions[0] == 'list')) {
+                  return this._router.navigate(['/invoice-management/list']);
+                }
+                else if( data.resource[i].moduleId == 6 && (data.resource[i].permissions[0] == 'selectedAll' || data.resource[i].permissions[0] == 'list')) {
+                  return this._router.navigate(['/gst/list']);
+                }
+                else if( data.resource[i].moduleId == 7 && (data.resource[i].permissions[0] == 'selectedAll' || data.resource[i].permissions[0] == 'list')) {
+                  return this._router.navigate(['/resource-management/list']);
+                }
+                else {
+                  this._router.navigate(['/no-permission']);
+                }
               }
             }
           } else {
-            this._router.navigate(['/role-management/list']);
+            return true;
           }
         }
         this.spinner.hide()
@@ -99,10 +114,10 @@ export class LoginComponent implements OnInit {
       this._toastr.error(err?.error?.message)
     });
   }
-  /**
-* Toggle Password Text Type 
-*/
-  togglePasswordTextType() {
-    this.passwordTextType = !this.passwordTextType;
-  }
+   /**
+ * Toggle Password Text Type 
+ */
+    togglePasswordTextType() {
+      this.passwordTextType = !this.passwordTextType;
+    }
 }
