@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SidebarService, AuthService, StaffService } from "../../_services";
 import { ActivatedRoute, Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sidebar',
@@ -21,6 +22,7 @@ export class SidebarComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private _authService: AuthService,
+    private _toastrService: ToastrService,
     private _staffService: StaffService
   ) {
 
@@ -40,8 +42,14 @@ export class SidebarComponent implements OnInit {
       if (res.code == 200) {
         if (res['data']) {
           this.staffDetail = res['data'];
-          console.log('-----------------',this.staffDetail )
           localStorage.setItem('go_d_r_a', JSON.stringify(res['data']))
+          // alert(this.staffDetail.status)
+
+          if(this.staffDetail.status == 0) {
+            this._toastrService.error('You have been disabled, please contact the administrator.');
+            this._authService.adminLogout();
+            this.router.navigate(['/auth/login']);
+          }
         }
       }
     }, (err) => {

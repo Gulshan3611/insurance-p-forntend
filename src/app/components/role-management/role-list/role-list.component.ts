@@ -150,7 +150,7 @@ export class RoleListComponent implements OnInit {
             this.apiCalled = true;
             if(objS.code != 401) {
             this.getRoleLists_f()
-            this._toastrService.success(objS.message);
+            this._toastrService.success(objS.data.message);
           } else {
             this._toastrService.error(objS.message);
             this._authService.adminLogout();
