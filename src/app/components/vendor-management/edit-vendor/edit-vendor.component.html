@@ -30,17 +30,17 @@
                                         <div class="form-group">
                                             <label for="exampleInputName1">Company Name</label>
                                             <input type="text" class="form-control" id="exampleInputName1"
-                                                pattern="[a-zA-Z ]*" name="companyName"
+                                                name="companyName"
                                                 [(ngModel)]="addVendor.companyName" #companyName="ngModel" maxlength="100"
                                                 required>
                                             <span class="form-text text-danger small" *ngIf="companyName.invalid && showError">
                                                 <span class="form-text text-danger small"
                                                     *ngIf="companyName.errors?.['required']">Company name is
                                                     required</span>
-                                                <span class="form-text text-danger small"
+                                                <!-- <span class="form-text text-danger small"
                                                     [hidden]="!companyName.errors?.['pattern']">
                                                     Please enter valid company name .
-                                                </span>
+                                                </span> -->
                                             </span>
                                         </div>
                                     </div>
@@ -48,7 +48,7 @@
                                         <div class="form-group">
                                             <label for="exampleInputName1">Vendor Name</label>
                                             <input type="text" class="form-control" id="exampleInputName1"
-                                                pattern="[a-zA-Z ]*" name="name"
+                                                name="name"
                                                 [(ngModel)]="addVendor.name" #name="ngModel" maxlength="100"
                                                 placeholder="Vendor Name"
                                                 required>
@@ -56,10 +56,10 @@
                                                 <span class="form-text text-danger small"
                                                     *ngIf="name.errors?.['required']">Vendor name is
                                                     required</span>
-                                                <span class="form-text text-danger small"
+                                                <!-- <span class="form-text text-danger small"
                                                     [hidden]="!name.errors?.['pattern']">
                                                     Please enter valid vendor name .
-                                                </span>
+                                                </span> -->
                                             </span>
                                         </div>
                                     </div>

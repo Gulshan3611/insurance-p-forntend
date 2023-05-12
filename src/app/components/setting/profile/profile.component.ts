@@ -35,9 +35,10 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.profile = this._authService.getAdminData();
-    // if (this.profile && this.profile.image) {
-    //   this.profile.image = this.mediaUrl + '/media/preview?filename=' + this.profile.image;
-    // }
+    if (this.profile && this.profile.profilePhoto) {
+      this.profile.image = this.mediaUrl + '/media/preview?filename=' + this.profile.profilePhoto;
+    }
+    console.log('------------------', this.profile.image)
   }
 
   handleFileSelect(evt: any) {

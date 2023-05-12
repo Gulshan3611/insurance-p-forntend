@@ -18,6 +18,7 @@ export class EditVendorComponent implements OnInit {
   selectedVendor: any = '';
   selectedCurrency: any = '';
   reviewId: any = '';
+  com: any;
 
   constructor(
     private _projectService: ProjectService,
@@ -41,6 +42,14 @@ export class EditVendorComponent implements OnInit {
 
   selectVendor(event: any) {
     this.selectedVendor = event;
+    if(event == 0) {
+      this.addVendor.companyName = '';
+      // console.log('-----------', this.addVendor.companyName);
+      this.addVendor.companyName = '';
+    } else {
+      this.addVendor.companyName = this.com;
+      // console.log('-----------', this.addVendor.companyName);
+    }
   }
 
   selectCurrency(event: any) {
@@ -86,6 +95,7 @@ export class EditVendorComponent implements OnInit {
           } else {
             this.selectedVendor = '1';
           }
+          this.com = this.addVendor.companyName
         }
       } else {
         this.toastr.error(res.message);

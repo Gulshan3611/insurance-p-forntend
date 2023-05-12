@@ -71,14 +71,65 @@ export class AddResourceComponent implements OnInit {
     this.selectedCurrency = event;
   }
 
-  onSubmit(valid: any): void {
+  // onSubmit(valid: any): void {
+  //   this.showError = true;
+  //   this.submitted = true;
+  //   console.log('checking---', valid, this.addResource)
+  //   if (valid) {
+  //     this.loading = true;
+  //     // console.log("hhhhhhhhhh",this.addResource)
+  //     this._resourceService.addResource(this.addResource).subscribe(objS => {
+  //       console.log('print response====', objS)
+  //       this.loading = this.showError = false; 89
+  //       if (objS.code == 200) {
+  //         // this._authService.setDataAdmin(objS.data);
+  //         this.spinner.hide();
+  //         this._toastrService.success(objS.message);
+  //         // this._header.checkFunction(true);
+  //         this._router.navigate(['/resource-management/list']);
+  //       } else if (objS.code == 401) {
+  //         this._toastrService.error(objS.message);
+  //         this._authService.adminLogout();
+  //         this._router.navigate(['/auth/login']);
+  //       }
+  //       else {
+  //         this._toastrService.error(objS.message);
+  //         this.spinner.hide();
+  //       }
+  //     }, (err) => {
+  //       this.loading = this.showError = false;
+  //       console.log('err', err)
+  //     });
+  //   }
+  // }
+
+  onSubmit(valid: any) {
+    // console.log('checking---', valid, this.profile)
     this.showError = true;
     this.submitted = true;
-    console.log('checking---', valid, this.addResource)
     if (valid) {
       this.loading = true;
-      // console.log("hhhhhhhhhh",this.addResource)
-      this._resourceService.addResource(this.addResource).subscribe(objS => {
+      this.spinner.show();
+      // call api
+      this.addResource.email = this.addResource.email.toLocaleLowerCase();
+      const formdata = new FormData();
+      if (this.addResource.profilePhoto) {
+        formdata.append('profilePhoto', this.addResource.profilePhoto);
+      } 
+      
+      // formdata.append('companyName', this.addResource.companyName.replace( /\s\s+/g, ' ' ));
+      formdata.append('name', this.addResource.name);
+      formdata.append('technology', this.addResource.technology);
+      formdata.append('phone', this.addResource.phone);
+      formdata.append('email', this.addResource.email);
+      formdata.append('designation', this.addResource.designation);
+      formdata.append('address', this.addResource.address);
+      formdata.append('country', this.addResource.country);
+      formdata.append('state', this.addResource.state);
+      formdata.append('city', this.addResource.city);
+      formdata.append('gender', this.addResource.gender);
+
+      this._resourceService.addResource(formdata).subscribe(objS => {
         console.log('print response====', objS)
         this.loading = this.showError = false; 89
         if (objS.code == 200) {

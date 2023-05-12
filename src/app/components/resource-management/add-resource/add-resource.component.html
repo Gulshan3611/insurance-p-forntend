@@ -63,8 +63,9 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label> Technology</label>
+                                            <!-- pattern="[a-zA-Z0-9/!@#$%^&*()_-+= ]*"  -->
                                             <input type="text" class="form-control" id="exampleInputName1"
-                                                pattern="[a-zA-Z0-9/!@#$%^&*()_-+= ]*" name="technology"
+                                                name="technology"
                                                 [(ngModel)]="addResource.technology" #technology="ngModel" maxlength="50"
                                                 minlength="2" placeholder="Technology" required>
                                             <span class="form-text text-danger small"
@@ -81,10 +82,10 @@
                                                     *ngIf="technology.errors?.['maxlength']">
                                                     Technology cannot be more than 60 characters long.
                                                 </span>
-                                                <span class="form-text text-danger small"
+                                                <!-- <span class="form-text text-danger small"
                                                     *ngIf="technology.errors?.['pattern']">
                                                     Please enter a valid Technology
-                                                </span>
+                                                </span> -->
                                             </span>
                                         </div>
                                     </div>
@@ -136,7 +137,7 @@
                                         <div class="form-group">
                                             <label> Designation</label>
                                             <input type="text" class="form-control" id="exampleInputName1"
-                                                pattern="[a-zA-Z0-9/!@#$%^&*()_-+= ]*" name="designation"
+                                                name="designation"
                                                 [(ngModel)]="addResource.designation" #designation="ngModel"
                                                 maxlength="50" minlength="2" placeholder="Designation" required>
                                             <span class="form-text text-danger small"
@@ -153,10 +154,10 @@
                                                     *ngIf="designation.errors?.['maxlength']">
                                                     Designation cannot be more than 60 characters long.
                                                 </span>
-                                                <span class="form-text text-danger small"
+                                                <!-- <span class="form-text text-danger small"
                                                     *ngIf="designation.errors?.['pattern']">
                                                     Please enter a valid Designation
-                                                </span>
+                                                </span> -->
                                             </span>
                                         </div>
                                     </div>

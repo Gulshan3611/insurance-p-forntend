@@ -126,38 +126,90 @@ export class EditResourceComponent implements OnInit {
 
   }
 
-  onSubmit(valid: any): void {
+  
+  onSubmit(valid: any) {
+    // console.log('checking---', valid, this.profile)
     this.showError = true;
     this.submitted = true;
-    // console.log('checking---', valid, this.resource)
     if (valid) {
       this.loading = true;
       this.spinner.show();
+      // call api
+      this.addResource.email = this.addResource.email.toLocaleLowerCase();
+      const formdata = new FormData();
+      if (this.addResource.profilePhoto) {
+        formdata.append('profilePhoto', this.addResource.profilePhoto);
+      } 
+      
+      // formdata.append('companyName', this.addResource.companyName.replace( /\s\s+/g, ' ' ));
+      formdata.append('name', this.addResource.name);
+      formdata.append('technology', this.addResource.technology);
+      formdata.append('phone', this.addResource.phone);
+      formdata.append('email', this.addResource.email);
+      formdata.append('designation', this.addResource.designation);
+      formdata.append('address', this.addResource.address);
+      formdata.append('country', this.addResource.country);
+      formdata.append('state', this.addResource.state);
+      formdata.append('city', this.addResource.city);
+      formdata.append('gender', this.addResource.gender);
 
-      this._resourceService.updateResourceDetails(this.addResource, this.resourceId).subscribe(objS => {
-        this.loading = this.showError = false;
+      this._resourceService.updateResourceDetails(formdata, this.resourceId).subscribe(objS => {
+        // console.log('print response====', objS)
+        this.loading = this.showError = false; 89
         if (objS.code == 200) {
-          this._toastrService.success(objS.message);
+          // this._authService.setDataAdmin(objS.data);
           this.spinner.hide();
+          this._toastrService.success(objS.message);
+          // this._header.checkFunction(true);
           this.router.navigate(['/resource-management/list']);
-          this.loading = false;
-          this.getResourceDetailFromApi(this.resourceId);
         } else if (objS.code == 401) {
           this._toastrService.error(objS.message);
           this._authService.adminLogout();
           this.router.navigate(['/auth/login']);
-        } else {
+        }
+        else {
           this._toastrService.error(objS.message);
-          this.loading = false;
           this.spinner.hide();
         }
       }, (err) => {
         this.loading = this.showError = false;
         console.log('err', err)
       });
-
     }
   }
+
+  // onSubmit(valid: any): void {
+  //   this.showError = true;
+  //   this.submitted = true;
+  //   // console.log('checking---', valid, this.resource)
+  //   if (valid) {
+  //     this.loading = true;
+  //     this.spinner.show();
+
+  //     this._resourceService.updateResourceDetails(this.addResource, this.resourceId).subscribe(objS => {
+  //       this.loading = this.showError = false;
+  //       if (objS.code == 200) {
+  //         this._toastrService.success(objS.message);
+  //         this.spinner.hide();
+  //         this.router.navigate(['/resource-management/list']);
+  //         this.loading = false;
+  //         this.getResourceDetailFromApi(this.resourceId);
+  //       } else if (objS.code == 401) {
+  //         this._toastrService.error(objS.message);
+  //         this._authService.adminLogout();
+  //         this.router.navigate(['/auth/login']);
+  //       } else {
+  //         this._toastrService.error(objS.message);
+  //         this.loading = false;
+  //         this.spinner.hide();
+  //       }
+  //     }, (err) => {
+  //       this.loading = this.showError = false;
+  //       console.log('err', err)
+  //     });
+
+  //   }
+  // }
 
   // selectAllList(index: any) {
   //   this.resource[index].list = this.resource[index].selectedAll;
