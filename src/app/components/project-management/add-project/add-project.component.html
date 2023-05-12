@@ -83,7 +83,8 @@
                                         <div class="form-group">
                                             <label>Amount</label>
                                             <input type="text" class="form-control" pattern="^[0-9]*$" name="amount"
-                                                [(ngModel)]="addProject.amount" #amount="ngModel" minlength="2"
+                                                [(ngModel)]="addProject.amount" #amount="ngModel" minlength="1"
+                                                (input)="onInput($event)" (keypress)="onKeyPress($event)"
                                                 maxlength="60" placeholder="Amount" required>
                                             <span class="form-text text-danger small"
                                                 *ngIf="amount.invalid && (amount.dirty || amount.touched) || showError">
@@ -93,7 +94,7 @@
                                                 </span>
                                                 <span class="form-text text-danger small"
                                                     *ngIf="amount.errors?.['minlength']">
-                                                    Amount must be at least 2 characters long.
+                                                    Amount must be at least 1 characters long.
                                                 </span>
                                                 <span class="form-text text-danger small"
                                                     *ngIf="amount.errors?.['maxlength']">
@@ -108,10 +109,11 @@
                                     </div>
                                     <div class="col-md-4" *ngIf="addProject.projectType !== 'FIXED'">
                                         <div class="form-group">
-                                            <label>Contract Duration (in months)</label>
+                                            <label>Contract Duration </label>
                                             <input type="text" class="form-control" name="contractDuration"
                                                 [(ngModel)]="addProject.contractDuration" #contractDuration="ngModel"
-                                                minlength="5" maxlength="60" placeholder="Contract Duration" required
+                                                 maxlength="20" placeholder="Contract Duration" required
+                                                (input)="onInput($event)" (keypress)="onKeyPress($event)"
                                                 pattern="^[0-9]+( [a-zA-Z]+)?$">
                                             <span class="form-text text-danger small"
                                                 *ngIf="contractDuration.invalid && (contractDuration.dirty || contractDuration.touched) || showError">
@@ -119,10 +121,10 @@
                                                     *ngIf="contractDuration.errors?.['required']">
                                                     Contract duration is required.
                                                 </span>
-                                                <span class="form-text text-danger small"
+                                                <!-- <span class="form-text text-danger small"
                                                     *ngIf="contractDuration.errors?.['minlength']">
                                                     Contract duration must be at least 5 characters long.
-                                                </span>
+                                                </span> -->
                                                 <span class="form-text text-danger small"
                                                     *ngIf="contractDuration.errors?.['maxlength']">
                                                     Contract duration cannot be more than 60 characters long.
@@ -212,8 +214,9 @@
                                     <div class="col-md-4" *ngIf="addProject.projectType == 'PROJECTONMONTHLY'">
                                         <div class="form-group">
                                             <label> Total Hours </label>
-                                            <input class="form-control" type="text" maxlength="6" min="0" max="3"
+                                            <input class="form-control" type="text" maxlength="6" 
                                                 pattern="^[0-9]*$" name="totalHours" [(ngModel)]="addProject.totalHours"
+                                                (input)="onInput($event)" (keypress)="onKeyPress($event)"
                                                 #totalHours="ngModel" placeholder="Total Hours" required>
                                             <span class="form-text text-danger small"
                                                 *ngIf="totalHours.invalid && (totalHours.dirty || totalHours.touched) || showError">
@@ -233,6 +236,7 @@
                                         <div class="form-group">
                                             <label> Monthly Charge </label>
                                             <input class="form-control" type="text" maxlength="6" min="0" max="3"
+                                            (input)="onInput($event)" (keypress)="onKeyPress($event)"
                                                 pattern="^[0-9]*$" name="monthlyCharge"
                                                 [(ngModel)]="addProject.monthlyCharge" #monthlyCharge="ngModel"
                                                 placeholder="Monthly Charge" required>
@@ -255,7 +259,8 @@
                                         *ngIf="addProject.projectType == 'RESOURCEONMONTHLY' || addProject.projectType == 'RESOUCEONHOURLY'">
                                         <div class="form-group">
                                             <label> Number Of Resource </label>
-                                            <input class="form-control" type="text" maxlength="6" min="0" max="3"
+                                            <input class="form-control" type="text" maxlength="6" 
+                                            (input)="onInput($event)" (keypress)="onKeyPress($event)"
                                                 pattern="^[0-9]*$" name="numberOfResource"
                                                 [(ngModel)]="addProject.numberOfResource" #numberOfResource="ngModel"
                                                 placeholder="numberOfResource" required>
@@ -283,7 +288,7 @@
                                     </div> -->
                                     <div class="form-group row">
                                         <div class="col-md-12 ml-1">
-                                            <h4 class="card-title">Milestone</h4>
+                                            <h4 class="card-title">{{addProject.projectType == 'RESOURCEONMONTHLY' || addProject.projectType == 'RESOUCEONHOURLY' ? "Resource" : "Milestone" }}</h4>
                                         </div>
                                         <div class="col-md-12 ml-1 pr-3">
                                             <div *ngFor="let milestone of milestones; let i = index"
@@ -351,6 +356,23 @@
                                                             </span>
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-4" *ngIf="addProject.projectType !== 'FIXED' && addProject.projectType !== 'PROJECTONMONTHLY'">
+                                                        <div class="form-group">
+                                                            <label>Select Resource</label>
+                                                            <ng-select name="projectType" [(ngModel)]="addProject.resourceId"
+                                                                #resourceId="ngModel" placeholder="Select Resource" required>
+                                                                <ng-container *ngFor="let resource of resourceList">
+                                                                    <ng-option [value]="resource.id">{{ resource.name }}</ng-option>
+                                                                </ng-container>
+                                                            </ng-select>
+                
+                                                            <span class="form-text text-danger small"
+                                                                *ngIf="resourceId.invalid && showError">
+                                                                <span class="form-text text-danger small"
+                                                                    *ngIf="resourceId.errors?.['required']">resource is required</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
                                                     <div class="col-md-4"
                                                         *ngIf="addProject.projectType == 'RESOURCEONMONTHLY'">
                                                         <div class="form-group">
@@ -358,6 +380,7 @@
                                                             <input
                                                                 class="form-control ng-untouched ng-pristine ng-invalid"
                                                                 type="text" minlength="3" maxlength="60"
+                                                                (input)="onInput($event)" (keypress)="onKeyPress($event)"
                                                                 pattern="^[0-9]*$" name="monthlyprice{{i}}"
                                                                 [(ngModel)]="milestones[i].monthlyprice"
                                                                 #monthlyprice="ngModel" placeholder="Monthly Price"
@@ -391,6 +414,7 @@
                                                             <input
                                                                 class="form-control ng-untouched ng-pristine ng-invalid"
                                                                 type="text" minlength="2" maxlength="60"
+                                                                (input)="onInput($event)" (keypress)="onKeyPress($event)"
                                                                 pattern="^[0-9]*$" name="hourlyprice{{i}}"
                                                                 [(ngModel)]="milestones[i].hourlyprice"
                                                                 #hourlyprice="ngModel" placeholder="Hourly Price"
@@ -481,10 +505,11 @@
                                                     <div class="col-md-4"
                                                         *ngIf="addProject.projectType == 'RESOURCEONMONTHLY' || addProject.projectType == 'RESOUCEONHOURLY'">
                                                         <div class="form-group">
-                                                            <label>Duration (in months)</label>
+                                                            <label>Duration </label>
                                                             <input
                                                                 class="form-control ng-untouched ng-pristine ng-invalid"
-                                                                type="text" minlength="3" maxlength="60"
+                                                                type="text"  maxlength="60"
+                                                                (input)="onInput($event)" (keypress)="onKeyPress($event)"
                                                                 pattern="[a-zA-Z0-9 ]*" name="duration{{i}}"
                                                                 [(ngModel)]="milestones[i].duration" #duration="ngModel"
                                                                 placeholder="Duration" required>
@@ -494,10 +519,10 @@
                                                                     *ngIf="duration.errors?.['required']">
                                                                     Duration is required.
                                                                 </span>
-                                                                <span class="form-text text-danger small"
+                                                                <!-- <span class="form-text text-danger small"
                                                                     *ngIf="duration.errors?.['minlength']">
                                                                     Duration must be at least 3 characters long.
-                                                                </span>
+                                                                </span> -->
                                                                 <span class="form-text text-danger small"
                                                                     *ngIf="duration.errors?.['maxlength']">
                                                                     Duration cannot be more than 60 characters long.
@@ -546,8 +571,12 @@
                                                             <input type="text" pattern="[a-zA-Z0-9 ]*" minlength="2"
                                                                 maxlength="60" placeholder="Total Amount" required
                                                                 name="totalAmount{{i}}"
+                                                                (input)="onInput($event)"
+                                                                (keypress)="onKeyPress($event)"
+                                                                (change)="handleChange($event,i)"
                                                                 [(ngModel)]="milestones[i].totalAmount"
                                                                 #totalAmount="ngModel" placeholder="Total Amount"
+                                                               
                                                                 class="form-control ng-untouched ng-pristine ng-invalid" />
                                                             <span class="form-text text-danger small"
                                                                 *ngIf="totalAmount.invalid && (totalAmount.dirty || totalAmount.touched) || showError">
@@ -578,6 +607,7 @@
                                                                 [(ngModel)]="milestones[i].milestoneAmount"
                                                                 #milestoneAmount="ngModel"
                                                                 placeholder="Milestone Amount"
+                                                                (input)="onInput($event)" (keypress)="onKeyPress($event)"
                                                                 class="form-control ng-untouched ng-pristine ng-invalid" />
                                                             <span class="form-text text-danger small"
                                                                 *ngIf="milestoneAmount.invalid && (milestoneAmount.dirty || milestoneAmount.touched) || showError">
@@ -608,6 +638,7 @@
                                                                 maxlength="20" required name="timeline{{i}}"
                                                                 [(ngModel)]="milestones[i].timeline" #timeline="ngModel"
                                                                 placeholder="Time Line"
+                                                                (input)="onInput($event)" (keypress)="onKeyPress($event)"
                                                                 class="form-control ng-untouched ng-pristine ng-invalid" />
                                                             <span class="form-text text-danger small"
                                                                 *ngIf="timeline.invalid && (timeline.dirty || timeline.touched) || showError">
@@ -634,16 +665,16 @@
                                                         <div class="form-group">
                                                             <label> Delivery Date</label>
                                                             <ng2-flatpickr [config]="deliveryDate2"
-                                                                name="deliveryDate{{i}}"
-                                                                [(ngModel)]="milestones[i].deliveryDate"
-                                                                #deliveryDate="ngModel" placeholder="Delivery Date"
+                                                                name="deliveryDate2{{i}}"
+                                                                [(ngModel)]="milestones[i].deliveryDate2"
+                                                                #deliveryDate2="ngModel" placeholder="Delivery Date"
                                                                 required>
                                                             </ng2-flatpickr>
                                                             <span class="form-text text-danger small"
-                                                                *ngIf="deliveryDate.invalid && showError">
+                                                                *ngIf="deliveryDate2.invalid && (deliveryDate2.dirty || deliveryDate2.touched) || showError">
                                                                 <span class="form-text text-danger small"
-                                                                    *ngIf="deliveryDate.errors?.['required']">Delivery
-                                                                    date2 is
+                                                                    *ngIf="deliveryDate2.errors?.['required']">Delivery
+                                                                    date is
                                                                     required</span>
                                                             </span>
                                                         </div>
@@ -672,7 +703,7 @@
 
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-4" *ngIf="addProject.projectType !== 'FIXED' ">
+                                                    <!-- <div class="col-md-4" *ngIf="addProject.projectType !== 'FIXED' && addProject.projectType !== 'RESOURCEONMONTHLY' ">
                                                         <div class="form-group">
                                                             <label> Milestone Number </label>
                                                             <input class="form-control" type="number" maxlength="3"
@@ -695,7 +726,7 @@
                                                             </span>
 
                                                         </div>
-                                                    </div>
+                                                    </div> -->
                                                     <!-- <div class="col-md-4"
                                                         *ngIf="addProject.projectType !== 'RESOURCEONMONTHLY' && addProject.projectType !== 'RESOUCEONHOURLY' && addProject.projectType !== 'PROJECTONMONTHLY' && addProject.projectType !== 'FIXED'">
                                                         <div class="form-group">
@@ -733,6 +764,9 @@
                                                             <input class="form-control" type="text" maxlength="6"
                                                                 min="0" max="3" pattern="^[0-9]*$" name="discount{{i}}"
                                                                 [(ngModel)]="milestones[i].discount" #discount="ngModel"
+                                                                (input)="onInput($event)"
+                                                                (change)="handleChange($event,i)"
+                                                                 (keypress)="onKeyPress($event)"
                                                                 placeholder="Discount" required>
                                                             <span class="form-text text-danger small"
                                                                 *ngIf="discount.invalid && (discount.dirty || discount.touched) || showError">
@@ -754,6 +788,7 @@
                                                             <label> Decided Hours </label>
                                                             <input class="form-control" type="text" maxlength="6"
                                                                 min="0" max="3" pattern="^[0-9]*$"
+                                                                (input)="onInput($event)" (keypress)="onKeyPress($event)"
                                                                 name="decidedHours{{i}}"
                                                                 [(ngModel)]="milestones[i].decidedHours"
                                                                 #decidedHours="ngModel" placeholder="Decided Hours"
@@ -772,12 +807,13 @@
 
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-4"
+                                                    <!-- <div class="col-md-4"
                                                         *ngIf="addProject.projectType == 'PROJECTONMONTHLY'&& addProject.projectType !== 'RESOURCEONMONTHLY' && addProject.projectType !== 'RESOUCEONHOURLY'">
                                                         <div class="form-group">
                                                             <label> Invested Hours </label>
                                                             <input class="form-control" type="text" maxlength="6"
                                                                 min="0" max="3" pattern="^[0-9]*$"
+                                                                (input)="onInput($event)" (keypress)="onKeyPress($event)"
                                                                 name="investedHours{{i}}"
                                                                 [(ngModel)]="milestones[i].investedHours"
                                                                 #investedHours="ngModel" placeholder="Invested Hours"
@@ -795,16 +831,18 @@
                                                             </span>
 
                                                         </div>
-                                                    </div>
+                                                    </div> -->
                                                     <div class="col-md-4"
                                                         *ngIf="addProject.projectType == 'PROJECTONMONTHLY' && addProject.projectType !== 'RESOURCEONMONTHLY' && addProject.projectType !== 'RESOUCEONHOURLY'">
                                                         <div class="form-group">
                                                             <label> Payable Amount </label>
                                                             <input class="form-control" type="text" maxlength="6"
                                                                 min="0" max="3" pattern="^[0-9]*$"
+                                                                
                                                                 name="payableAmount{{i}}"
                                                                 [(ngModel)]="milestones[i].payableAmount"
                                                                 #payableAmount="ngModel" placeholder="Payable Amount"
+                                                                disabled
                                                                 required>
                                                             <span class="form-text text-danger small"
                                                                 *ngIf="payableAmount.invalid && (payableAmount.dirty || payableAmount.touched) || showError">

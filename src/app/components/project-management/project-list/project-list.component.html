@@ -18,7 +18,7 @@
                                     <th>Project Name</th>
                                     <th>Project Type</th>
                                     <th>Delivery Date</th>
-                                    <th>Project Percentage</th>
+                                    <!-- <th>Project Percentage</th> -->
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
@@ -28,8 +28,8 @@
                                     <td>{{(page-1)*10+i+1}}</td>
                                     <td>{{item?.projectName}}</td>
                                     <td> {{item?.projectType}} </td>
-                                    <td> Feb 1, 2023</td>
-                                    <td> 50% </td>
+                                    <td> {{item?.deliveryDate.slice(0,10)}}</td>
+                                    <!-- <td> 50% </td> -->
                                     <td>
                                         <label class="badge badge-success">Active</label>
                                         <!-- <label *ngIf="item?.status==0" class="badge badge-danger">Inactive</label> -->
