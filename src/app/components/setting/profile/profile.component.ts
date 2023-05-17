@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, NgZone, Output, EventEmitter 
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
-import { AdminService, AuthService, updateHeaderService } from "../../../_services";
+import { AdminService, AuthService, updateHeaderService, StaffService } from "../../../_services";
 import { environment } from '../../../../environments/environment';
 import { NgxSpinnerService } from "ngx-spinner";
 
@@ -22,6 +22,9 @@ export class ProfileComponent implements OnInit {
   public passwordTextTypeOld = false;
   public passwordTextTypeNew = false;
   public passwordTextTypeRetype = false;
+  staffId: any;
+  staffDetail: any;
+  UserType: any;
 
   constructor(
     private _toastrService: ToastrService,
@@ -30,15 +33,19 @@ export class ProfileComponent implements OnInit {
     private _authService: AuthService,
     private _adminService:AdminService,
     private _header: updateHeaderService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private _staffService: StaffService
   ) { }
 
   ngOnInit(): void {
     this.profile = this._authService.getAdminData();
     if (this.profile && this.profile.profilePhoto) {
       this.profile.image = this.mediaUrl + '/media/preview?filename=' + this.profile.profilePhoto;
+      this.UserType = this.profile.type 
     }
-    console.log('------------------', this.profile.image)
+
+    
+    // console.log('------------------', this.profile.image)
   }
 
   handleFileSelect(evt: any) {
@@ -70,9 +77,9 @@ export class ProfileComponent implements OnInit {
   onSubmit(valid: any) {
     this.showError = true;
     this.submitted = true;
-    console.log("this.showError",this.showError);
+    // console.log("this.showError",this.showError);
     
-    console.log('checking---', valid, this.profile)
+    // console.log('checking---', valid, this.profile)
     if (valid) {
       this.loading = true;
       this.spinner.show();
@@ -92,11 +99,19 @@ export class ProfileComponent implements OnInit {
         console.log('print response====', objS)
         this.loading = this.showError = false;
         if (objS.code == 200) {
-          this._authService.setDataAdmin(objS.data);
-          this.spinner.hide();
-          this.router.navigate(['/setting/profile']);
-          this._toastrService.success(objS.message);
-          this._header.checkFunction(true);
+
+          if(this.UserType == 'superadmin') {
+            this._authService.setDataAdmin(objS.data);
+            this.spinner.hide();
+            this._toastrService.success(objS.message);
+            this._header.checkFunction(true);
+            // this. getUserDetail()
+          } else {
+            this._toastrService.success(objS.message);
+            this. getUserDetail()
+            this.spinner.hide();
+          }
+          
         } else if (objS.code == 401) {
           this._toastrService.error(objS.message);
           this._authService.adminLogout();
@@ -139,6 +154,25 @@ export class ProfileComponent implements OnInit {
         // this._toastrService.error('Confirm password should be same as new password');
       }
     }
+  }
+
+  getUserDetail(){
+    var detail = this._authService.getAdminData()
+    this.staffId = detail.id
+
+    this._staffService.staffMember(this.staffId).subscribe((res) => {
+      if (res.code == 200) {
+        if (res['data']) {
+          this.staffDetail = res['data'];
+          localStorage.setItem('go_d_r_a', JSON.stringify(res['data']))
+
+          this._header.checkFunction(true);
+          console.log('------------------', this.staffDetail)
+        }
+      }
+    }, (err) => {
+      console.log('Error while Login', err);
+    })
   }
 
   /**

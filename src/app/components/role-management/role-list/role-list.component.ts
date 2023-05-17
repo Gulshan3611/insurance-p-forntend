@@ -68,7 +68,7 @@ export class RoleListComponent implements OnInit {
         this.apiCalled = true;
         this.roleList = objS.data
         this.roleListLength = objS.data.docs;
-      } else if(objS.code == 401) {
+      } else if (objS.code == 401) {
         this._toastrService.error(objS.message);
         this._authService.adminLogout();
         this.router.navigate(['/auth/login']);
@@ -87,6 +87,16 @@ export class RoleListComponent implements OnInit {
   }
 
   deleteRole_f(request: any) {
+    var currentUserData = this._authService.getAdminData().role;
+    console.log('call=====', currentUserData, request)
+    if (request?.id == currentUserData.id) {
+      return Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'You can not change this role. Please connect with super admin',
+      })
+    }
+    
     Swal.fire({
       title: 'Are you sure?',
       text: "Do you want to delete this role?",
@@ -100,14 +110,14 @@ export class RoleListComponent implements OnInit {
         console.log(request.id);
         this._roleService.deleteRole(request.id).subscribe(objS => {
           this.apiCalled = true;
-          if(objS.code != 401) {
-          this.getRoleLists_f()
-          this._toastrService.success(objS.message);
-        } else {
-          this._toastrService.error(objS.message);
-          this._authService.adminLogout();
-          this.router.navigate(['/auth/login']);
-        }
+          if (objS.code != 401) {
+            this.getRoleLists_f()
+            this._toastrService.success(objS.message);
+          } else {
+            this._toastrService.error(objS.message);
+            this._authService.adminLogout();
+            this.router.navigate(['/auth/login']);
+          }
         }, (err) => {
           console.log(err);
         })
@@ -117,6 +127,15 @@ export class RoleListComponent implements OnInit {
   }
 
   activateDeactivateRoles_f(request: any, status: string) {
+    var currentUserData = this._authService.getAdminData().role;
+    console.log('call=====', currentUserData, request)
+    if (request?.id == currentUserData.id) {
+      return Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'You can not change this role. Please connect with super admin',
+      })
+    }
     const requestData =
     {
       status: status,
@@ -126,7 +145,7 @@ export class RoleListComponent implements OnInit {
     if (status == 'deactive') {
       msg = 'Do you want to deactive this role ?';
     } else {
-      msg = 'Do you want to active this awards?';
+      msg = 'Do you want to active this role?';
     }
     Swal.fire({
       title: 'Are you sure?',
@@ -148,20 +167,37 @@ export class RoleListComponent implements OnInit {
           console.log(request);
           this._roleService.activateDeactivateRoles(requestData).subscribe(objS => {
             this.apiCalled = true;
-            if(objS.code != 401) {
-            this.getRoleLists_f()
-            this._toastrService.success(objS.data.message);
-          } else {
-            this._toastrService.error(objS.message);
-            this._authService.adminLogout();
-            this.router.navigate(['/auth/login']);
-          }
+            if (objS.code != 401) {
+              this.getRoleLists_f()
+              if (objS.data.code == 406) {
+                this._toastrService.success(objS.data.message);
+              } else {
+                this._toastrService.success(objS.message);
+              }
+            } else {
+              this._toastrService.error(objS.message);
+              this._authService.adminLogout();
+              this.router.navigate(['/auth/login']);
+            }
           }, (err) => {
             console.log(err);
           })
         }
       }
     });
+  }
+
+  checkRoutePermission(item: any) {
+    var currentUserData = this._authService.getAdminData().role;
+    if (item?.id == currentUserData.id) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'You can not change this role. Please connect with super admin',
+      })
+    } else {
+      this.router.navigate([`/role-management/edit/` + item?.id])
+    }
   }
 
 }

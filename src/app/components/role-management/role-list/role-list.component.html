@@ -40,8 +40,8 @@
                                                     *ngIf="checkpermission(1,'view')" >
                                                     <i class="feather icon-eye mr-50"></i><span>View</span>
                                                 </a>
-                                                <a ngbDropdownItem routerLink="/role-management/edit/{{item.id}}"
-                                                    routerLinkActive="router-link-active" *ngIf="checkpermission(1,'edit')" >
+                                                <a ngbDropdownItem (click)="checkRoutePermission(item)"
+                                                    *ngIf="checkpermission(1,'edit')" >
                                                     <i class="feather icon-edit mr-50"></i><span>Edit</span>
                                                 </a>
 

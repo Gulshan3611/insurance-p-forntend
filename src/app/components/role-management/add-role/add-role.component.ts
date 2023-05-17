@@ -69,7 +69,7 @@ export class AddRoleComponent implements OnInit {
       view: false,
       delete: false,
     }, {
-      moduleName: "Gst Management",
+      moduleName: "GST Management",
       moduleId: "6",
       selectedAll: false,
       list: false,

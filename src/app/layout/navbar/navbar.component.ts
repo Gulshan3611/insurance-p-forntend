@@ -35,20 +35,20 @@ export class NavbarComponent implements OnInit {
     this.refreshToken = localStorage.getItem('go_d_r_a_t');
     // console.log(this.profile);
     
-    // this._header.$isCalledService
-    // .subscribe((data: any) => {
-    //   console.log('print top nav bar--', data)
-    //   if (data) {
-    //     this.userType = localStorage.getItem('userType');
-    //     this.profile = this._authService.getAdminData();
-    //     this.myForm = this.profile
-    //     this.profilePhoto = this.mediaUrl + '/media/preview?filename=' + this.profile.image;
-    //   }
-    // })
-    // this.userType = localStorage.getItem('userType');
-    // this.profile = this._authService.getAdminData();
-    // this.myForm = this.profile
-    // this.profilePhoto = this.mediaUrl + '/media/preview?filename=' + this.profile.image;
+    this._header.$isCalledService
+    .subscribe((data: any) => {
+      // console.log('print top nav bar--', data)
+      if (data) {
+        this.userType = localStorage.getItem('userType');
+        this.profile = this._authService.getAdminData();
+        this.myForm = this.profile
+        this.profilePhoto = this.mediaUrl + '/media/preview?filename=' + this.profile.profilePhoto;
+      }
+    })
+    this.userType = localStorage.getItem('userType');
+    this.profile = this._authService.getAdminData();
+    this.myForm = this.profile
+    this.profilePhoto = this.mediaUrl + '/media/preview?filename=' + this.profile.profilePhoto;
   }
 
   // logout(data: any) {

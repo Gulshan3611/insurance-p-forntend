@@ -27,7 +27,7 @@
                                                 </button>
                                                 <input type="file" #profilePhoto id="account-upload"
                                                     (change)="handleFileSelect($event)" hidden accept="image/*" />
-                                                <p>profile Photo <small>(Allowed JPG or PNG)</small></p>
+                                                <p>Profile Photo <small>(Allowed JPG or PNG)</small></p>
                                             </div>
                                         </div>
                                     </div>
@@ -116,7 +116,7 @@
                                             <input type="text" class="form-control" id="exampleInputName1"
                                                 pattern="[a-zA-Z0-9]+[a-zA-Z0-9._]+@[a-zA-Z]+\.[a-zzA-Z.]{2,5}$"
                                                 maxlength="50" name="email" [(ngModel)]="addResource.email"
-                                                #email="ngModel" maxlength="50" placeholder="email" required>
+                                                #email="ngModel" maxlength="50" placeholder="Email" required>
                                             <span class="form-text text-danger small"
                                                 *ngIf="email.invalid && (email.dirty || email.touched) || showError">
                                                 <span class="form-text text-danger small"

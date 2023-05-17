@@ -25,7 +25,6 @@ export class SidebarComponent implements OnInit {
     private _toastrService: ToastrService,
     private _staffService: StaffService
   ) {
-
     this.currentRoute = "";
     this.router.events.subscribe((event: Event) => {
 
