@@ -96,7 +96,7 @@ export class ProfileComponent implements OnInit {
       let id = this.profile.id
 
       this._adminService.updateUserInfo(id,formdata).subscribe(objS => {
-        console.log('print response====', objS)
+        // console.log('print response====', objS)
         this.loading = this.showError = false;
         if (objS.code == 200) {
 
@@ -109,6 +109,7 @@ export class ProfileComponent implements OnInit {
           } else {
             this._toastrService.success(objS.message);
             this. getUserDetail()
+            this._header.checkFunction(true);
             this.spinner.hide();
           }
           

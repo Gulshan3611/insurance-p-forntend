@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core'
 import { VendorService, RoleService, AuthService } from '../../../_services';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Country, State, City } from 'country-state-city';
 
 @Component({
   selector: 'app-view-vendor',
@@ -25,6 +26,14 @@ export class ViewVendorComponent implements OnInit {
   // };
   addVendor :any ;
   reviewId: any = '';
+
+  @ViewChild('country') country: ElementRef
+  @ViewChild('city') city: ElementRef
+  countries = Country.getAllCountries();
+  states = null;
+
+  selectedCountry;
+  selectedState;
   
   constructor(
     private _vendorService:VendorService,

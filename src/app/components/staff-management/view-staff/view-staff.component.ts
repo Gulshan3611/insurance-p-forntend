@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core'
 import { StaffService, RoleService, AuthService } from '../../../_services';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Country, State, City } from 'country-state-city';
 
 @Component({
   selector: 'app-view-staff',
@@ -24,6 +25,14 @@ export class ViewStaffComponent implements OnInit {
     type: "admin"
   };
   reviewId: any = '';
+  
+  @ViewChild('country') country: ElementRef
+  @ViewChild('city') city: ElementRef
+  countries = Country.getAllCountries();
+  states = null;
+
+  selectedCountry;
+  selectedState;
   
   constructor(
     private _staffService: StaffService,

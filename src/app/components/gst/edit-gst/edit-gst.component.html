@@ -15,7 +15,7 @@
                                         <div class="form-group">
                                             <label>Industry Name*</label>
                                             <input type="text" class="form-control"
-                                                pattern="[a-zA-Z0-9/!@#$%^*()_+= ]*" name="industry"
+                                                name="industry"
                                                 [(ngModel)]="gstForm.industry" #industry="ngModel" minlength="2"
                                                 maxlength="60" required>
                                             <span class="form-text text-danger small" *ngIf="industry.invalid && showError">
@@ -26,10 +26,10 @@
                                                     [hidden]="!industry.errors?.['minlength']">
                                                     Please enter industry name between 2 and 60.
                                                 </span>
-                                                <span class="form-text text-danger small"
+                                                <!-- <span class="form-text text-danger small"
                                                     [hidden]="!industry.errors?.['pattern']">
                                                     Please enter valid industry name.
-                                                </span>
+                                                </span> -->
                                             </span>
                                         </div>
                                     </div>

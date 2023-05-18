@@ -3,7 +3,7 @@ import { ProjectService, VendorService, AuthService } from '../../../_services';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
-
+import { Country, State, City } from 'country-state-city';
 
 @Component({
   selector: 'app-add-vendor',
@@ -19,6 +19,14 @@ export class AddVendorComponent implements OnInit {
   addVendor: any = {};
   selectedVendor: any = '';
   selectedCurrency: any = '';
+
+  @ViewChild('country') country: ElementRef
+  @ViewChild('city') city: ElementRef
+  countries = Country.getAllCountries();
+  states = null;
+
+  selectedCountry;
+  selectedState;
 
   constructor(
     private _projectService: ProjectService,
@@ -76,6 +84,12 @@ export class AddVendorComponent implements OnInit {
         console.log('err', err)
       });
     }
+  }
+
+  onCountryChange(event): void {
+    this.addVendor.state = null
+    this.states = State.getStatesOfCountry(event);
+    this.selectedCountry = event;
   }
 
 }

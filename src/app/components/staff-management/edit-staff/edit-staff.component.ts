@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core'
 import { StaffService, RoleService, AuthService } from '../../../_services';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Country, State, City } from 'country-state-city';
 // import { MapsAPILoader } from '@agm/core';
 
 @Component({
@@ -34,6 +35,17 @@ export class EditStaffComponent implements OnInit {
   roleList: any = [];
   page: any = 1;
   limit: any = 10;
+
+
+  @ViewChild('country') country: ElementRef
+  @ViewChild('city') city: ElementRef
+  countries = Country.getAllCountries();
+  states = null;
+
+  selectedCountry;
+  selectedState;
+
+
   constructor(
     private _staffService: StaffService,
     private toastr: ToastrService,
@@ -162,18 +174,17 @@ export class EditStaffComponent implements OnInit {
 
   getRoleLists_f() {
     this.apiCalled = false;
-    this._roleService.getRoleLists({
+    this._roleService.getRoleListsWithoutPag({
       page: this.page,
       limit: this.limit,
       searchBy: '',
     }).subscribe(objS => {
-      console.log('print response====', objS)
+      // console.log('print response====', objS)
       this.loading = this.showError = false;
       if (objS.code == 200) {
         this.apiCalled = true;
         this.roleList = objS.data
-        console.log("this.roleList", this.roleList);
-
+        // console.log("this.roleList", this.roleList);
       } else if (objS.code == 401) {
         this.toastr.error(objS.message);
         this._authService.adminLogout();
@@ -202,6 +213,12 @@ export class EditStaffComponent implements OnInit {
     }, (err) => {
       console.log('Error while Login', err);
     })
+  }
+
+  onCountryChange(event): void {
+    this.staffForm.state = null
+    this.states = State.getStatesOfCountry(event);
+    this.selectedCountry = event;
   }
 
 }

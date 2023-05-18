@@ -69,7 +69,7 @@ export class StaffListComponent implements OnInit {
       if (objS.code == 200) {
         this.apiCalled = true;
         this.staffList = objS.data
-        console.log('print response====', this.staffList)
+        // console.log('print response====', this.staffList)
         this.staffListLength = objS.data.docs;
       } else if (objS.code == 401) {
         this._toastrService.error(objS.message);
@@ -87,12 +87,26 @@ export class StaffListComponent implements OnInit {
       console.log('err', err)
     });
   }
+  
   refreshList(page: any, search: any) {
     this.page = page ? page : 1;
     this.getStaffLists_f()
   }
 
   deleteStaff_f(request: any) {
+    var userType = this._authService.getAdminData().type;
+    var currentUserData = this._authService.getAdminData();
+
+    if (userType != 'superadmin') {
+      if (request?.id == currentUserData.id) {
+        return Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'You can not delete your details. Please connect with super admin',
+        })
+      }
+    }
+
     Swal.fire({
       title: 'Are you sure?',
       text: "Do you want to delete this Staff?",
@@ -121,27 +135,23 @@ export class StaffListComponent implements OnInit {
     })
 
   }
-  // activateDeactivatestaff_f(request: any, status: string) {
-
-  //   const requestData =
-  //   {
-  //     status: status,
-  //     ids: [request.id]
-  //   }
-  //   if (request) {
-  //     console.log(request);
-  //     this._staffService.activateDeactivateStaff(requestData).subscribe(objS => {
-  //       this.apiCalled = true;
-  //       this.getStaffLists_f()
-  //       this._toastrService.success(objS.message);
-  //     }, (err) => {
-  //       console.log(err);
-  //     })
-  //   }
-  // }
-
 
   activateDeactivatestaff_f(request: any, status: string) {
+
+    var userType = this._authService.getAdminData().type;
+    var currentUserData = this._authService.getAdminData();
+
+    if (userType != 'superadmin') {
+      if (request?.id == currentUserData.id) {
+        return Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'You can not change your status. Please connect with super admin',
+        })
+      }
+    }
+
+    
     const requestData =
     {
       status: status,
@@ -173,14 +183,14 @@ export class StaffListComponent implements OnInit {
           console.log(request);
           this._staffService.activateDeactivateStaff(requestData).subscribe(objS => {
             this.apiCalled = true;
-            if(objS.code != 401) {
-            this.getStaffLists_f()
-            this._toastrService.success(objS.message);
-          } else {
-            this._toastrService.error(objS.message);
-            this._authService.adminLogout();
-            this.router.navigate(['/auth/login']);
-          } 
+            if (objS.code != 401) {
+              this.getStaffLists_f()
+              this._toastrService.success(objS.message);
+            } else {
+              this._toastrService.error(objS.message);
+              this._authService.adminLogout();
+              this.router.navigate(['/auth/login']);
+            }
           }, (err) => {
             console.log(err);
           })
@@ -189,4 +199,24 @@ export class StaffListComponent implements OnInit {
     });
   }
 
+
+  checkRoutePermission(item: any) {
+    var userType = this._authService.getAdminData().type;
+    var currentUserData = this._authService.getAdminData();
+
+    if (userType == 'superadmin') {
+      this.router.navigate([`/staff-management/edit/` + item?.id])
+    } else {
+      if (item?.id == currentUserData.id) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'You can not edit your details. Please connect with super admin',
+        })
+      } else {
+        this.router.navigate([`/staff-management/edit/` + item?.id])
+      }
+    }
+
+  }
 }

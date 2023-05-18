@@ -22,6 +22,10 @@ export class RoleService {
     getRoleLists(request: any): Observable<any> {
         return this.http.get(`${this.apiUrl}/roles?page=` + request.page + '&limit=' + request.limit + '&searchBy=' +request.searchBy,request).pipe(map(this.extractData));
     }
+    // get Role Lists without pagination
+    getRoleListsWithoutPag(request: any): Observable<any> {
+        return this.http.get(`${this.apiUrl}/roles?page=1&limit=100`).pipe(map(this.extractData));
+    }
     // get Role details
     roleDetails(request: any): Observable<any> {
         return this.http.get(`${this.apiUrl}/roles/` + request).pipe(map(this.extractData));

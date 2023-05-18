@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { ResourceService, AuthService } from '../../../_services';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
+import { Country, State, City } from 'country-state-city';
+
 
 
 @Component({
@@ -23,6 +25,13 @@ export class EditResourceComponent implements OnInit {
   addResource: any = {};
   resourceId: any = '';
 
+  @ViewChild('country') country: ElementRef
+  @ViewChild('city') city: ElementRef
+  countries = Country.getAllCountries();
+  states = null;
+
+  selectedCountry;
+  selectedState;
 
   resource: any = [
     // {
@@ -125,7 +134,6 @@ export class EditResourceComponent implements OnInit {
     }
 
   }
-
   
   onSubmit(valid: any) {
     // console.log('checking---', valid, this.profile)
@@ -177,76 +185,10 @@ export class EditResourceComponent implements OnInit {
       });
     }
   }
-
-  // onSubmit(valid: any): void {
-  //   this.showError = true;
-  //   this.submitted = true;
-  //   // console.log('checking---', valid, this.resource)
-  //   if (valid) {
-  //     this.loading = true;
-  //     this.spinner.show();
-
-  //     this._resourceService.updateResourceDetails(this.addResource, this.resourceId).subscribe(objS => {
-  //       this.loading = this.showError = false;
-  //       if (objS.code == 200) {
-  //         this._toastrService.success(objS.message);
-  //         this.spinner.hide();
-  //         this.router.navigate(['/resource-management/list']);
-  //         this.loading = false;
-  //         this.getResourceDetailFromApi(this.resourceId);
-  //       } else if (objS.code == 401) {
-  //         this._toastrService.error(objS.message);
-  //         this._authService.adminLogout();
-  //         this.router.navigate(['/auth/login']);
-  //       } else {
-  //         this._toastrService.error(objS.message);
-  //         this.loading = false;
-  //         this.spinner.hide();
-  //       }
-  //     }, (err) => {
-  //       this.loading = this.showError = false;
-  //       console.log('err', err)
-  //     });
-
-  //   }
-  // }
-
-  // selectAllList(index: any) {
-  //   this.resource[index].list = this.resource[index].selectedAll;
-  //   this.resource[index].add = this.resource[index].selectedAll;
-  //   this.resource[index].edit = this.resource[index].selectedAll;
-  //   this.resource[index].delete = this.resource[index].selectedAll;
-  //   this.resource[index].view = this.resource[index].selectedAll;
-  // }
-
-  // checkIfAllValues(index: any) {
-  //   if (this.resource[index].list && this.resource[index].add && this.resource[index].edit && this.resource[index].delete && this.resource[index].view) {
-  //     this.resource[index].selectedAll = true;
-  //   } else {
-  //     this.resource[index].selectedAll = false;
-  //   }
-  // }
-
-  // roleDetails_f(id: any) {
-  //   this._roleService.roleDetails(this.resourceId).subscribe((res) => {
-  //     if (res['data']) {
-  //       this.roleForm = res['data'];
-  //       this.resource = res['data'].resource.map(item => ({
-  //         moduleName: item.moduleName,
-  //         moduleId: item.moduleId,
-  //         selectedAll: item.permissions.includes("selectedAll"),
-  //         list: item.permissions.includes("list"),
-  //         add: item.permissions.includes("add"),
-  //         edit: item.permissions.includes("edit"),
-  //         view: item.permissions.includes("view"),
-  //         delete: item.permissions.includes("delete")
-  //       }));
-  //       console.log("get",this.resource);
-  //       console.log("5555",res['data']);
-
-  //     }
-  //   }, (err) => {
-  //     console.log('Error while Login', err);
-  //   })
-  // }
+  
+  onCountryChange(event): void {
+    this.addResource.state = null
+    this.states = State.getStatesOfCountry(event);
+    this.selectedCountry = event;
+  }
 }

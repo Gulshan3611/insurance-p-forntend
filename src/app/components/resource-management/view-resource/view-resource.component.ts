@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { ResourceService, AuthService } from '../../../_services';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
+import { Country, State, City } from 'country-state-city';
 
 
 @Component({
@@ -22,6 +23,14 @@ export class ViewResourceComponent implements OnInit {
   roleForm: any = {};
   addResource: any = {};
   resourceId: any = '';
+
+  @ViewChild('country') country: ElementRef
+  @ViewChild('city') city: ElementRef
+  countries = Country.getAllCountries();
+  states = null;
+
+  selectedCountry;
+  selectedState;
 
   constructor(
     private _resourceService: ResourceService,

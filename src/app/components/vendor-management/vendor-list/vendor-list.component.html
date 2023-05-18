@@ -5,7 +5,7 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <input type="text" (keyup)="onKeyUp($event)" class="form-control d-inline-block col-md-4 mr-2"
-                        id="exampleInputEmail1" placeholder="Search by vendor name">
+                        id="exampleInputEmail1" placeholder="Search">
                         
                         <!-- <input type="text" class="form-control d-inline-block col-md-4 mr-2" placeholder="Search"
                             [(ngModel)]="searchForm.search" [ngModelOptions]="{standalone: true}"
@@ -77,7 +77,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr *ngIf="vendorList.length==0 || !vendorList && apiCalled">
+                                <tr *ngIf="vendorList?.docs.length==0 || !vendorList?.docs && apiCalled">
                                     <td class="noData text-center" colspan="10">No Records found</td>
                                 </tr>
                             </tbody>

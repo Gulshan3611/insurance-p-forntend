@@ -115,7 +115,7 @@ export class GstListComponent implements OnInit {
   deleteGst(request: any) {
     Swal.fire({
       title: 'Are you sure?',
-      text: "Do you want to delete this Gst?",
+      text: "Do you want to delete this GST?",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -150,9 +150,9 @@ export class GstListComponent implements OnInit {
     }
     var msg = '';
     if (status == 'deactive') {
-      msg = 'Do you want to deactive this Gst ?';
+      msg = 'Do you want to deactive this GST ?';
     } else {
-      msg = 'Do you want to active this Gst?';
+      msg = 'Do you want to active this GST?';
     }
     Swal.fire({
       title: 'Are you sure?',

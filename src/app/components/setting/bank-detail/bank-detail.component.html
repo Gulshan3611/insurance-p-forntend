@@ -74,7 +74,7 @@
         <div class="col-12 col-sm-6">
             <div class="form-group">
                 <label for="account-name">Beneficiary Name</label>
-                <input class="form-control" type="text" pattern="[a-zA-Z0-9/-_ ]*" name="beneficiaryName"
+                <input class="form-control" type="text" pattern="[a-zA-Z0-9/-_ ]*" name="beneficiaryName" maxlength="100"
                     [(ngModel)]="bank.beneficiaryName" #beneficiaryName="ngModel" required>
 
                 <div *ngIf="beneficiaryName.invalid && showError" class="form-text text-danger small">

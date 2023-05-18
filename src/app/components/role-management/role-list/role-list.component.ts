@@ -87,16 +87,20 @@ export class RoleListComponent implements OnInit {
   }
 
   deleteRole_f(request: any) {
+    var userType = this._authService.getAdminData().type;
     var currentUserData = this._authService.getAdminData().role;
-    console.log('call=====', currentUserData, request)
-    if (request?.id == currentUserData.id) {
-      return Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'You can not change this role. Please connect with super admin',
-      })
+
+    if (userType != 'superadmin') {
+      if (request?.id == currentUserData.id) {
+        return Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'You can not change this role. Please connect with super admin',
+        })
+      }
     }
-    
+
+
     Swal.fire({
       title: 'Are you sure?',
       text: "Do you want to delete this role?",
@@ -127,15 +131,20 @@ export class RoleListComponent implements OnInit {
   }
 
   activateDeactivateRoles_f(request: any, status: string) {
+    var userType = this._authService.getAdminData().type;
     var currentUserData = this._authService.getAdminData().role;
-    console.log('call=====', currentUserData, request)
-    if (request?.id == currentUserData.id) {
-      return Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'You can not change this role. Please connect with super admin',
-      })
+
+    if (userType != 'superadmin') {
+      if (request?.id == currentUserData.id) {
+        return Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'You can not change this role. Please connect with super admin',
+        })
+      }
     }
+
+
     const requestData =
     {
       status: status,
@@ -185,19 +194,28 @@ export class RoleListComponent implements OnInit {
         }
       }
     });
+
+
   }
 
   checkRoutePermission(item: any) {
+    var userType = this._authService.getAdminData().type;
     var currentUserData = this._authService.getAdminData().role;
-    if (item?.id == currentUserData.id) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'You can not change this role. Please connect with super admin',
-      })
-    } else {
+
+    if (userType == 'superadmin') {
       this.router.navigate([`/role-management/edit/` + item?.id])
+    } else {
+      if (item?.id == currentUserData.id) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'You can not change this role. Please connect with super admin',
+        })
+      } else {
+        this.router.navigate([`/role-management/edit/` + item?.id])
+      }
     }
+
   }
 
 }

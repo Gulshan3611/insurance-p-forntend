@@ -15,7 +15,7 @@
                                 <label for="exampleInputName1" class="col-sm-2 col-form-label">Name</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" id="exampleInputName1"
-                                        placeholder="Enter Name" pattern="[a-zA-Z0-9 ]*" name="name"
+                                        placeholder="Enter Name" name="name"
                                         [(ngModel)]="roleForm.name" #name="ngModel"
                                         [ngClass]="{ 'is-invalid': f.submitted && name.invalid && showError }"
                                         minlength="2" maxlength="60" required>
@@ -28,10 +28,10 @@
                                             *ngIf="name.errors?.['minlength']">
                                             Please enter name between 2 and 60.
                                         </span>
-                                        <span class="validation_error form-text text-danger"
+                                        <!-- <span class="validation_error form-text text-danger"
                                             *ngIf="name.errors?.['pattern']">
                                             Please enter valid name.
-                                        </span>
+                                        </span> -->
                                     </span>
                                 </div>
                             </div>

@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { AdminService, AuthService, updateHeaderService } from "../../../_services";
 import { environment } from '../../../../environments/environment';
 import { NgxSpinnerService } from "ngx-spinner";
+import { Country, State, City } from 'country-state-city';
 
 @Component({
   selector: 'app-company-detail',
@@ -24,6 +25,14 @@ export class CompanyDetailComponent implements OnInit {
   public passwordTextTypeOld = false;
   public passwordTextTypeNew = false;
   public passwordTextTypeRetype = false;
+
+  @ViewChild('country') country: ElementRef
+  @ViewChild('city') city: ElementRef
+  countries = Country.getAllCountries();
+  states = null;
+
+  selectedCountry;
+  selectedState;
 
   constructor(
     private _toastrService: ToastrService,
@@ -175,4 +184,9 @@ export class CompanyDetailComponent implements OnInit {
    
     }
   } 
+  onCountryChange(event): void {
+    this.profile.state = null
+    this.states = State.getStatesOfCountry(event);
+    this.selectedCountry = event;
+  }
 }

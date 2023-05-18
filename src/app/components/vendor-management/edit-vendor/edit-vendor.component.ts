@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core'
 import { ProjectService, VendorService, AuthService } from '../../../_services';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Country, State, City } from 'country-state-city';
 
 @Component({
   selector: 'app-edit-vendor',
@@ -19,6 +20,14 @@ export class EditVendorComponent implements OnInit {
   selectedCurrency: any = '';
   reviewId: any = '';
   com: any;
+
+  @ViewChild('country') country: ElementRef
+  @ViewChild('city') city: ElementRef
+  countries = Country.getAllCountries();
+  states = null;
+
+  selectedCountry;
+  selectedState;
 
   constructor(
     private _projectService: ProjectService,
@@ -105,6 +114,12 @@ export class EditVendorComponent implements OnInit {
     }, (err) => {
       console.log('Error while Login', err);
     })
+  }
+
+  onCountryChange(event): void {
+    this.addVendor.state = null
+    this.states = State.getStatesOfCountry(event);
+    this.selectedCountry = event;
   }
 
 }
